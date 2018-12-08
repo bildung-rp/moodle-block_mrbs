@@ -1,4 +1,5 @@
 <?php
+
 //
 // Capability definitions for the links block.
 //
@@ -34,9 +35,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-
     'block/mrbs:viewmrbs' => array(
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
@@ -47,9 +46,7 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
-
     'block/mrbs:editmrbs' => array(
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
@@ -59,18 +56,14 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
-
     'block/mrbs:administermrbs' => array(
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'manager' => CAP_ALLOW
         )
     ),
-
     'block/mrbs:viewalltt' => array(
-
         'captype' => 'view',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
@@ -80,54 +73,45 @@ $capabilities = array(
             'manager' => CAP_ALLOW
         )
     ),
-
     'block/mrbs:forcebook' => array(
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'manager' => CAP_ALLOW
         )
     ),
-
     'block/mrbs:doublebook' => array(
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
             'manager' => CAP_ALLOW
         )
     ),
-
     // Limits users to only creating 'unconfirmed' bookings
     // (unless they are the room administrator)
     'block/mrbs:editmrbsunconfirmed' => array(
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array()
     ),
-
     'block/mrbs:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
+            'user' => CAP_ALLOW
         ),
+        'clonepermissionsfrom' => 'moodle/my:manageblocks'
     ),
-
     'block/mrbs:addinstance' => array(
         'riskbitmask' => RISK_SPAM | RISK_XSS,
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
         'archetypes' => array(
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
         ),
-
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
     ),
-
     'block/mrbs:ignoremaxadvancedays' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,

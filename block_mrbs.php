@@ -31,9 +31,9 @@ class block_mrbs extends block_base {
     }
 
     function get_content() {
-        global $CFG, $OUTPUT;
+        global $USER, $CFG, $OUTPUT;
 
-        if ($this->content !== null) {
+        if ($this->content !== NULL) {
             return $this->content;
         }
 
@@ -45,27 +45,28 @@ class block_mrbs extends block_base {
             if (isset($CFG->block_mrbs_serverpath)) {
                 $serverpath = $CFG->block_mrbs_serverpath;
             } else {
-                $serverpath = $CFG->wwwroot.'/blocks/mrbs/web';
+                $serverpath = $CFG->wwwroot . '/blocks/mrbs/web';
             }
             $go = get_string('accessmrbs', 'block_mrbs');
-            $icon = '<img src="'.$OUTPUT->pix_url('web', 'block_mrbs').'" height="16" width="16" alt="" />';
+            $icon = '<img src="' . $OUTPUT->image_url('web', 'block_mrbs') . '" height="16" width="16" alt="" />';
             $target = '';
             if ($cfg_mrbs->newwindow) {
                 $target = ' target="_blank" ';
             }
             $this->content = new stdClass();
-            $this->content->text = '<a href="'.$serverpath.'/index.php" '.$target.'>'.$icon.' &nbsp;'.$go.'</a>';
+            $this->content->text = '<a href="' . $serverpath . '/index.php" ' . $target . '>' . $icon . ' &nbsp;' . $go . '</a>';
             $this->content->footer = '';
             return $this->content;
         }
 
-        return null;
+        return NULL;
     }
 
     function cron() {
-        global $CFG;
-        include($CFG->dirroot.'/blocks/mrbs/import.php');
+        global $CFG, $DB;
+        include($CFG->dirroot . '/blocks/mrbs/import.php');
 
         return true;
     }
+
 }

@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 /** mrbsCheckFree()
  *
@@ -67,21 +67,20 @@ function mrbsCheckFree($room_id, $starttime, $endtime, $ignore, $repignore) {
 
         if ($enable_periods) {
             $p_num = $starts['minutes'];
-            $startstr = userdate($entry->start_time, '%A %d %B %Y, ').$periods[$p_num];
-        } else {
+            $startstr = userdate($entry->start_time, '%A %d %B %Y, ') . $periods[$p_num];
+        } else
             $startstr = userdate($entry->start_time, '%A %d %B %Y %H:%M:%S');
-        }
 
         $viewurl = new moodle_url('/blocks/mrbs/web/view_entry.php', array('id' => $entry->id));
         $dayurl = new moodle_url('/blocks/mrbs/web/day.php', $param_ymd);
         $weekurl = new moodle_url('/blocks/mrbs/web/week.php', array_merge($param_ymd, array('room' => $room_id)));
         $monthurl = new moodle_url('/blocks/mrbs/web/month.php', array_merge($param_ym, array('room' => $room_id)));
 
-        $err .= "<LI><A HREF=\"".$viewurl."\">$entry->name</A>"
-            ." ( ".$startstr.") "
-            ."(<A HREF=\"".$dayurl."\">".get_string('viewday', 'block_mrbs')."</a>"
-            ." | <A HREF=\"".$weekurl."\">".get_string('viewweek', 'block_mrbs')."</a>"
-            ." | <A HREF=\"".$monthurl."\">".get_string('viewmonth', 'block_mrbs')."</a>)";
+        $err .= "<LI><A HREF=\"" . $viewurl . "\">$entry->name</A>"
+                . " ( " . $startstr . ") "
+                . "(<A HREF=\"" . $dayurl . "\">" . get_string('viewday', 'block_mrbs') . "</a>"
+                . " | <A HREF=\"" . $weekurl . "\">" . get_string('viewweek', 'block_mrbs') . "</a>"
+                . " | <A HREF=\"" . $monthurl . "\">" . get_string('viewmonth', 'block_mrbs') . "</a>)";
     }
 
     return $err;
@@ -105,9 +104,8 @@ function mrbsDelEntry($user, $id, $series, $all, $roomadminoverride = false) {
     global $DB;
 
     $repeat_id = $DB->get_field('block_mrbs_entry', 'repeat_id', array('id' => $id));
-    if ($repeat_id < 0) {
+    if ($repeat_id < 0)
         return 0;
-    }
 
     if ($series) {
         $params = array('repeat_id' => $repeat_id);
@@ -118,13 +116,11 @@ function mrbsDelEntry($user, $id, $series, $all, $roomadminoverride = false) {
     $removed = 0;
     $entries = $DB->get_records('block_mrbs_entry', $params);
     foreach ($entries as $entry) {
-        if (!$roomadminoverride && !getWritable($entry->create_by, $user)) {
+        if (!$roomadminoverride && !getWritable($entry->create_by, $user))
             continue;
-        }
 
-        if ($series && $entry->entry_type == 2 && !$all) {
+        if ($series && $entry->entry_type == 2 && !$all)
             continue;
-        }
 
         $DB->delete_records('block_mrbs_entry', array('id' => $entry->id));
 
@@ -157,8 +153,7 @@ function mrbsDelEntry($user, $id, $series, $all, $roomadminoverride = false) {
  *   0        - An error occured while inserting the entry
  *   non-zero - The entry's ID
  */
-function mrbsCreateSingleEntry($starttime, $endtime, $entry_type, $repeat_id, $room_id,
-                               $owner, $name, $type, $description, $oldid = 0, $roomchange = false) {
+function mrbsCreateSingleEntry($starttime, $endtime, $entry_type, $repeat_id, $room_id, $owner, $name, $type, $description, $oldid = 0, $roomchange = false) {
     global $DB;
 
     $add = new stdClass;
@@ -209,8 +204,7 @@ function mrbsCreateSingleEntry($starttime, $endtime, $entry_type, $repeat_id, $r
  *   0        - An error occured while inserting the entry
  *   non-zero - The entry's ID
  */
-function mrbsCreateRepeatEntry($starttime, $endtime, $rep_type, $rep_enddate, $rep_opt,
-                               $room_id, $owner, $name, $type, $description, $rep_num_weeks, $oldrepeatid = 0) {
+function mrbsCreateRepeatEntry($starttime, $endtime, $rep_type, $rep_enddate, $rep_opt, $room_id, $owner, $name, $type, $description, $rep_num_weeks, $oldrepeatid = 0) {
     global $DB;
 
     $add = new stdClass;
@@ -261,23 +255,23 @@ function mrbsCreateRepeatEntry($starttime, $endtime, $rep_type, $rep_enddate, $r
  * If we want a 5th week repeat type, only 5th weeks have to be booked. We need
  * also a new "monthly repeat, corresponding day, last week of the month" type.
  *
- * @param    integer $time timestamp of the day from which we want to find
+ * @param    integer     $time           timestamp of the day from which we want to find
  *                                       the same day of the week in next month, same
  *                                       week number
  * @return   integer     $days_jump      number of days to step forward to find the next occurence (28 or 35)
- * @var      integer $days_in_month number of days in month
- * @var      integer $day day of the month (01 to 31)
- * @var      integer $weeknumber week number for each occurence ($time)
- * @var      boolean $temp1 first step to compute $days_jump
- * @var      integer $next_month intermediate next month number (1 to 12)
- * @global   integer $_initial_weeknumber used only for 5th weeks repeat type
+ * @var      integer     $days_in_month  number of days in month
+ * @var      integer     $day            day of the month (01 to 31)
+ * @var      integer     $weeknumber     week number for each occurence ($time)
+ * @var      boolean     $temp1          first step to compute $days_jump
+ * @var      integer     $next_month     intermediate next month number (1 to 12)
+ * @global   integer     $_initial_weeknumber    used only for 5th weeks repeat type
  */
 function same_day_next_month($time) {
     global $_initial_weeknumber;
 
     $days_in_month = date("t", $time);
     $day = date("d", $time);
-    $weeknumber = (int)(($day - 1) / 7) + 1;
+    $weeknumber = (int) (($day - 1) / 7) + 1;
     $temp1 = ($day + 7 * (5 - $weeknumber) <= $days_in_month);
 
     // keep month number > 12 for the test purpose in line beginning with "days_jump = 28 +..."
@@ -318,7 +312,7 @@ function mrbsGetRepeatEntryList($time, $enddate, $rep_type, $rep_opt, $max_ittr,
     $year = date("Y", $time);
 
     global $_initial_weeknumber;
-    $_initial_weeknumber = (int)(($day - 1) / 7) + 1;
+    $_initial_weeknumber = (int) (($day - 1) / 7) + 1;
     $week_num = 0;
     $start_day = date('w', mktime($hour, $min, $sec, $month, $day, $year));
     $cur_day = $start_day;
@@ -326,9 +320,8 @@ function mrbsGetRepeatEntryList($time, $enddate, $rep_type, $rep_opt, $max_ittr,
     $entrys = "";
     for ($i = 0; $i < $max_ittr; $i++) {
         $time = mktime($hour, $min, $sec, $month, $day, $year);
-        if ($time > $enddate) {
+        if ($time > $enddate)
             break;
-        }
 
         $entrys[$i] = $time;
 
@@ -342,9 +335,8 @@ function mrbsGetRepeatEntryList($time, $enddate, $rep_type, $rep_opt, $max_ittr,
             case 2:
                 $j = $cur_day = date("w", $entrys[$i]);
                 // Skip over days of the week which are not enabled:
-                while (($j = ($j + 1) % 7) != $cur_day && !$rep_opt[$j]) {
+                while (($j = ($j + 1) % 7) != $cur_day && !$rep_opt[$j])
                     $day += 1;
-                }
 
                 $day += 1;
                 break;
@@ -376,8 +368,7 @@ function mrbsGetRepeatEntryList($time, $enddate, $rep_type, $rep_opt, $max_ittr,
                     }
 
                     if (($week_num % $rep_num_weeks == 0) &&
-                        ($rep_opt[$cur_day] == 1)
-                    ) {
+                            ($rep_opt[$cur_day] == 1)) {
                         break;
                     }
                 }
@@ -412,8 +403,7 @@ function mrbsGetRepeatEntryList($time, $enddate, $rep_type, $rep_opt, $max_ittr,
  *   0        - An error occured while inserting the entry
  *   non-zero - The entry's ID
  */
-function mrbsCreateRepeatingEntrys($starttime, $endtime, $rep_type, $rep_enddate, $rep_opt,
-                                   $room_id, $owner, $name, $type, $description, $rep_num_weeks, $roomchange = false, $oldid = 0) {
+function mrbsCreateRepeatingEntrys($starttime, $endtime, $rep_type, $rep_enddate, $rep_opt, $room_id, $owner, $name, $type, $description, $rep_num_weeks, $roomchange = false, $oldid = 0) {
     global $max_rep_entrys, $DB;
 
     $ret = new stdClass;
@@ -424,9 +414,8 @@ function mrbsCreateRepeatingEntrys($starttime, $endtime, $rep_type, $rep_enddate
     $ret->lasttime = null;
     $reps = mrbsGetRepeatEntryList($starttime, $rep_enddate, $rep_type, $rep_opt, $max_rep_entrys, $rep_num_weeks);
     $ret->requested = count($reps);
-    if ($ret->requested > $max_rep_entrys) {
+    if ($ret->requested > $max_rep_entrys)
         return $ret;
-    }
 
     $repeatid = 0;
     if ($oldid) {
@@ -474,8 +463,7 @@ function mrbsCreateRepeatingEntrys($starttime, $endtime, $rep_type, $rep_enddate
                 $updateid = 0;
             }
 
-            mrbsCreateSingleEntry($reps[$i], $reps[$i] + $diff, 1, $ret->id,
-                                  $room_id, $owner, $name, $type, $description, $updateid, $roomchange);
+            mrbsCreateSingleEntry($reps[$i], $reps[$i] + $diff, 1, $ret->id, $room_id, $owner, $name, $type, $description, $updateid, $roomchange);
             $ret->lasttime = $reps[$i];
 
             $ret->created++;
@@ -499,6 +487,7 @@ function mrbsCreateRepeatingEntrys($starttime, $endtime, $rep_type, $rep_enddate
  *    nothing = The ID does not exist
  *    array   = The bookings info
  */
+
 function mrbsGetEntryInfo($id) {
     global $DB;
     return $DB->get_record('block_mrbs_entry', array('id' => $id));

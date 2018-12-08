@@ -15,11 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php'); //for Moodle integration
-global $PAGE, $DB;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
 include "config.inc.php";
 include "functions.php";
-require_once('mrbs_auth.php');
+require_once "mrbs_auth.php";
 
 require_login();
 $day = optional_param('day', 0, PARAM_INT);
@@ -31,7 +30,7 @@ $type = required_param('type', PARAM_ALPHA);
 $confirm = optional_param('confirm', 0, PARAM_BOOL);
 
 //If we dont know the right date then make it up
-if (($day == 0) or ($month == 0) or ($year == 0)) {
+if (($day == 0) or ( $month == 0) or ( $year == 0)) {
     $day = date("d");
     $month = date("m");
     $year = date("Y");
@@ -56,7 +55,9 @@ if (!getAuthorised(2)) {
     showAccessDenied($day, $month, $year, $area);
     exit();
 }
-require_sesskey();
+if (!confirm_sesskey()) {
+    error('Invalid sesskey');
+}
 
 $adminurl = new moodle_url('/blocks/mrbs/web/admin.php');
 
@@ -84,21 +85,21 @@ if ($type == "room") {
 
         $bookings = $DB->get_records('block_mrbs_entry', array('room_id' => $room));
         if (!empty($bookings)) {
-            echo get_string('deletefollowing', 'block_mrbs').":<ul>";
+            echo get_string('deletefollowing', 'block_mrbs') . ":<ul>";
 
             foreach ($bookings as $booking) {
-                echo '<li>'.s($booking->name).' (';
-                echo time_date_string($booking->start_time)." -> ";
-                echo time_date_string($booking->end_time).")</li>";
+                echo '<li>' . s($booking->name) . ' (';
+                echo time_date_string($booking->start_time) . " -> ";
+                echo time_date_string($booking->end_time) . ")</li>";
             }
 
             echo "</ul>";
         }
 
         echo "<center>";
-        echo "<H1>".get_string('sure', 'block_mrbs')."</h1>";
-        echo '<H1><a href="'.$thisurl->out(true, array('confirm' => 'Y', 'sesskey' => sesskey())).'">'.get_string('yes')."</a>";
-        echo '&nbsp;&nbsp;&nbsp; <a href="'.$adminurl.'">'.get_string('no')."</a></h1>";
+        echo "<H1>" . get_string('sure', 'block_mrbs') . "</h1>";
+        echo '<H1><a href="' . $thisurl->out(true, array('confirm' => 'Y', 'sesskey' => sesskey())) . '">' . get_string('yes') . "</a>";
+        echo '&nbsp;&nbsp;&nbsp; <a href="' . $adminurl . '">' . get_string('no') . "</a></h1>";
         echo "</center>";
         include "trailer.php";
     }
@@ -118,8 +119,8 @@ if ($type == "area") {
         // There are rooms left in the area
         print_header_mrbs($day, $month, $year, $area);
 
-        echo '<br/><p>'.get_string('delarea', 'block_mrbs').'</p>';
-        echo '<a href="'.$adminurl.'">'.get_string('backadmin', 'block_mrbs')."</a>";
+        echo '<br/><p>' . get_string('delarea', 'block_mrbs') . '</p>';
+        echo '<a href="' . $adminurl . '">' . get_string('backadmin', 'block_mrbs') . "</a>";
         include "trailer.php";
     }
 }

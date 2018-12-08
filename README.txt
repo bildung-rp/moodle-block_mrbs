@@ -1,3 +1,5 @@
+﻿== Fork by https://github.com/arborrow/moodle-block_mrbs (Version 1.3.0) ==
+
 This is the Moodle 2.0 version of this block, it will not work in Moodle 1.9 (or below) - please download earlier versions from here: http://moodle.org/mod/data/view.php?d=13&rid=734
 
 * MRBS Block - Bugs, Feature Requests, and Improvements *

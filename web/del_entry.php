@@ -15,11 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
-global $PAGE, $DB, $USER;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 include "config.inc.php";
 include "functions.php";
-require_once('mrbs_auth.php');
+require_once "mrbs_auth.php";
 include "mrbs_sql.php";
 
 $id = required_param('id', PARAM_INT);
@@ -28,7 +27,9 @@ $series = optional_param('series', 0, PARAM_INT);
 $PAGE->set_url('/blocks/mrbs/web/del_entry.php', array('id' => $id));
 require_login();
 
-require_sesskey();
+if (!confirm_sesskey()) {
+    error('Invalid sesskey');
+}
 
 if (getAuthorised(1) && ($info = mrbsGetEntryInfo($id))) {
     $day = userdate($info->start_time, "%d");
@@ -41,6 +42,7 @@ if (getAuthorised(1) && ($info = mrbsGetEntryInfo($id))) {
     }
     $roomadmin = false;
     $context = context_system::instance();
+    
     if (has_capability('block/mrbs:editmrbsunconfirmed', $context, null, false)) {
         $adminemail = $DB->get_field('block_mrbs_room', 'room_admin_email', array('id' => $info->room_id));
         if ($adminemail == $USER->email) {
@@ -52,9 +54,7 @@ if (getAuthorised(1) && ($info = mrbsGetEntryInfo($id))) {
     if ($result) {
         // Send a mail to the Administrator
         (MAIL_ADMIN_ON_DELETE) ? $result = notifyAdminOnDelete($mail_previous) : '';
-        $desturl = new moodle_url('/blocks/mrbs/web/day.php', array(
-            'day' => $day, 'month' => $month, 'year' => $year, 'area' => $area
-        ));
+        $desturl = new moodle_url('/blocks/mrbs/web/day.php', array('day' => $day, 'month' => $month, 'year' => $year, 'area' => $area));
         redirect($desturl);
         exit();
     }

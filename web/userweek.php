@@ -14,14 +14,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 // mrbs/week.php - Week-at-a-time view
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
-global $PAGE, $USER, $DB, $OUTPUT;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 include "config.inc.php";
 include "functions.php";
-require_once('mrbs_auth.php');
+require_once "mrbs_auth.php";
 include "mincals.php";
 
 $day = optional_param('day', 0, PARAM_INT);
@@ -42,16 +40,14 @@ if ($num_of_days == 0) {
 }
 
 // If we don't know the right date then use today:
-if (($day == 0) or ($month == 0) or ($year == 0)) //I think we should separate these out and handle each variable independently -ab
-{
+if (($day == 0) or ( $month == 0) or ( $year == 0)) { //I think we should separate these out and handle each variable independently -ab
     $day = date("d");
     $month = date("m");
     $year = date("Y");
 } else {
-    // Make the date valid if day is more then number of days in month:
-    while (!checkdate(intval($month), intval($day), intval($year))) {
+// Make the date valid if day is more then number of days in month:
+    while (!checkdate(intval($month), intval($day), intval($year)))
         $day--;
-    }
 }
 
 $format = "Gi";
@@ -62,7 +58,6 @@ if ($enable_periods) {
     $morningstarts_minutes = 0;
     $eveningends = 12;
     $eveningends_minutes = count($periods) - 1;
-
 }
 
 // Set the date back to the previous $weekstarts day (Sunday, if 0):
@@ -74,9 +69,7 @@ if (($weekday = (date("w", $time) - $weekstarts + 7) % 7) > 0) {
     $year = date("Y", $time);
 }
 
-$baseurl = new moodle_url('/blocks/mrbs/web/userweek.php', array(
-    'day' => $day, 'month' => $month, 'year' => $year
-)); // Used as the basis for URLs throughout this file
+$baseurl = new moodle_url('/blocks/mrbs/web/userweek.php', array('day' => $day, 'month' => $month, 'year' => $year)); // Used as the basis for URLs throughout this file
 $thisurl = new moodle_url($baseurl);
 if ($area > 0) {
     $thisurl->param('area', $area);
@@ -102,7 +95,11 @@ require_login();
 // print the page header
 print_user_header_mrbs($day, $month, $year, $area);
 
-$context = context_system::instance();
+if ($CFG->version < 2011120100) {
+    $context = get_context_instance(CONTEXT_SYSTEM);
+} else {
+    $context = context_system::instance();
+}
 
 if (!$user || !has_capability('block/mrbs:viewalltt', $context)) {
     $user = $USER->id;
@@ -117,7 +114,7 @@ for ($j = 0; $j <= ($num_of_days - 1); $j++) {
     // -1 => no change
     //  0 => entering DST
     //  1 => leaving DST
-    $dst_change[$j] = is_dst($month, $day + $j, $year);
+    //$dst_change[$j] = is_dst($month, $day + $j, $year);
     $am7[$j] = mktime($morningstarts, $morningstarts_minutes, 0, $month, $day + $j, $year);
     $pm7[$j] = mktime($eveningends, $eveningends_minutes, 0, $month, $day + $j, $year);
 }
@@ -132,8 +129,10 @@ if ($pview != 1) {
     echo "</tr></table>\n";
 }
 
+
+
 // Show area and room:
-echo '<h2 align=center>'.get_string('ttfor', 'block_mrbs').$TTUSER->firstname.' '.$TTUSER->lastname.'</h2>';
+echo '<h2 align=center>' . get_string('ttfor', 'block_mrbs') . $TTUSER->firstname . ' ' . $TTUSER->lastname . '</h2>';
 
 //y? are year, month and day of the previous week.
 //t? are year, month and day of the next week.
@@ -155,11 +154,11 @@ if ($pview != 1) {
     $weekbefore = new moodle_url($thisweekurl, array('year' => $yy, 'month' => $ym, 'day' => $yd));
     $weekafter = new moodle_url($thisweekurl, array('year' => $ty, 'month' => $tm, 'day' => $td));
     echo "<table width=\"100%\"><tr><td>
-      <a href=\"".$weekbefore."\">
-      &lt;&lt; ".get_string('weekbefore', 'block_mrbs')."</a></td>
-      <td align=center><a href=\"".$thisweekurl."\">".get_string('gotothisweek', 'block_mrbs')."</a></td>
-      <td align=right><a href=\"".$weekafter."\">
-      ".get_string('weekafter', 'block_mrbs')."&gt;&gt;</a></td></tr></table>";
+      <a href=\"" . $weekbefore . "\">
+      &lt;&lt; " . get_string('weekbefore', 'block_mrbs') . "</a></td>
+      <td align=center><a href=\"" . $thisweekurl . "\">" . get_string('gotothisweek', 'block_mrbs') . "</a></td>
+      <td align=right><a href=\"" . $weekafter . "\">
+      " . get_string('weekafter', 'block_mrbs') . "&gt;&gt;</a></td></tr></table>";
 }
 
 //Get all appointments for this week in the room that we care about
@@ -185,15 +184,14 @@ for ($j = 0; $j <= ($num_of_days - 1); $j++) {
     // Note: weekday here is relative to the $weekstarts configuration variable.
     // If 0, then weekday=0 means Sunday. If 1, weekday=0 means Monday.
 
-    if ($debug_flag) {
+    if ($debug_flag)
         echo "<br>DEBUG: query=$sql\n";
-    }
     $entries = $DB->get_records_sql($sql, $params);
     foreach ($entries as $entry) {
         if ($debug_flag) {
             echo "<br>DEBUG: result $i, id $entry->id, starts $entry->start_time, ends $entry->end_time\n";
         }
-        $entry->name = $entry->entryname.' Rm:'.$entry->roomname;
+        $entry->name = $entry->entryname . ' Rm:' . $entry->roomname;
 
         // $d is a map of the screen that will be displayed
         // It looks like:
@@ -201,7 +199,6 @@ for ($j = 0; $j <= ($num_of_days - 1); $j++) {
         //                  [color]
         //                  [data]
         // where Day is in the range 0 to $num_of_days.
-
         // Fill in the map for this meeting. Start at the meeting start time,
         // or the day start time, whichever is later. End one slot before the
         // meeting end time (since the next slot is for meetings which start then),
@@ -222,7 +219,7 @@ for ($j = 0; $j <= ($num_of_days - 1); $j++) {
                 $d[$j][date($format, $t)]["long_descr"] = "";
                 $d[$j][date($format, $t)]["double_booked"] = false;
             } else {
-                $d[$j][date($format, $t)]["id"] .= ','.$entry->id;
+                $d[$j][date($format, $t)]["id"] .= ',' . $entry->id;
                 $d[$j][date($format, $t)]["data"] .= "\n";
                 $d[$j][date($format, $t)]["long_descr"] .= ",";
                 $d[$j][date($format, $t)]["double_booked"] = true;
@@ -241,58 +238,55 @@ for ($j = 0; $j <= ($num_of_days - 1); $j++) {
     }
 }
 
+
+
 // Include the active cell content management routines.
 // Must be included before the beginnning of the main table.
-if ($javascript_cursor) // If authorized in config.inc.php, include the javascript cursor management.
-{
+if ($javascript_cursor) { // If authorized in config.inc.php, include the javascript cursor management.
     echo "<SCRIPT language=\"JavaScript\">InitActiveCell("
-        .($show_plus_link ? "true" : "false").", "
-        ."true, "
-        .((false != $times_right_side) ? "true" : "false").", "
-        ."\"$highlight_method\", "
-        ."\"".get_string('click_to_reserve', 'block_mrbs')."\""
-        .");</SCRIPT>\n";
+    . ($show_plus_link ? "true" : "false") . ", "
+    . "true, "
+    . ((FALSE != $times_right_side) ? "true" : "false") . ", "
+    . "\"$highlight_method\", "
+    . "\"" . get_string('click_to_reserve', 'block_mrbs') . "\""
+    . ");</SCRIPT>\n";
 }
 
 //This is where we start displaying stuff
 echo "<table cellspacing=0 border=1 width=\"100%\">";
 
 // The header row contains the weekday names and short dates.
-echo "<tr><th width=\"1%\"><br>".($enable_periods ? get_string('period', 'block_mrbs') : get_string('time'))."</th>";
-if (empty($dateformat)) {
+echo "<tr><th width=\"1%\"><br>" . ($enable_periods ? get_string('period', 'block_mrbs') : get_string('time')) . "</th>";
+if (empty($dateformat))
     $dformat = "%a<br>%b %d";
-} else {
+else
     $dformat = "%a<br>%d %b";
-}
 for ($j = 0; $j <= ($num_of_days - 1); $j++) {
     $t = mktime(12, 0, 0, $month, $day + $j, $year);
-    $dayurl = new moodle_url('/blocks/mrbs/web/day.php',
-                             array(
-                                 'year' => userdate($t, "%Y"), 'month' => userdate($t, "%m"),
-                                 'day' => userdate($t, "%d"), 'area' => $area
-                             ));
-    echo '<th width="14%"><a href="'.$dayurl.'" title="'.get_string('viewday', 'block_mrbs').'">';
-    echo userdate($t, $dformat)."</a></th>\n";
+    $dayurl = new moodle_url('/blocks/mrbs/web/day.php', array('year' => userdate($t, "%Y"), 'month' => userdate($t, "%m"),
+        'day' => userdate($t, "%d"), 'area' => $area));
+    echo '<th width="14%"><a href="' . $dayurl . '" title="' . get_string('viewday', 'block_mrbs') . '">';
+    echo userdate($t, $dformat) . "</a></th>\n";
 }
 // next line to display times on right side
-if (false != $times_right_side) {
+if (FALSE != $times_right_side) {
     echo "<th width=\"1%\"><br>"
-        .($enable_periods ? get_string('period', 'block_mrbs') : get_string('time'))
-        ."</th>";
+    . ( $enable_periods ? get_string('period', 'block_mrbs') : get_string('time') )
+    . "</th>";
 }
 
 echo "</tr>\n";
 
+
 // This is the main bit of the display. Outer loop is for the time slots,
 // inner loop is for days of the week.
-
 // URL for highlighting a time. Don't use REQUEST_URI or you will get
 // the timetohighlight parameter duplicated each time you click.
 $hiliteurl = new moodle_url($baseurl, array('area' => $area, 'room' => $room));
 
 // if the first day of the week to be displayed contains as DST change then
 // move to the next day to get the hours in the day.
-($dst_change[0] != -1) ? $j = 1 : $j = 0;
+//( $dst_change[0] != -1 ) ? $j = 1 : $j = 0;
 
 $row_class = "even_row";
 $starttime = mktime($morningstarts, $morningstarts_minutes, 0, $month, $day + $j, $year);
@@ -307,19 +301,18 @@ for ($t = $starttime; $t <= $endtime; $t += $resolution) {
     tdcell("red");
     if ($enable_periods) {
         $time_t_stripped = preg_replace("/^0/", "", $time_t);
-        echo '<a href="'.$hiliteurl.'"  title="'.get_string('highlight_line', 'block_mrbs').'">';
-        echo $periods[$time_t_stripped]."</a></td>";
+        echo '<a href="' . $hiliteurl . '"  title="' . get_string('highlight_line', 'block_mrbs') . '">';
+        echo $periods[$time_t_stripped] . "</a></td>";
     } else {
-        echo '<a href="'.$hilite_url.'" title="'.get_string('highlight_line', 'block_mrbs').'">';
-        echo userdate($t, hour_min_format())."</a></td>";
+        echo '<a href="' . $hilite_url . '" title="' . get_string('highlight_line', 'block_mrbs') . '">';
+        echo userdate($t, hour_min_format()) . "</a></td>";
     }
 
     // Color to use for empty cells: white, unless highlighting this row:
-    if ($timetohighlight == $time_t) {
+    if ($timetohighlight == $time_t)
         $empty_color = "red";
-    } else {
+    else
         $empty_color = "white";
-    }
 
     // See note above: weekday==0 is day $weekstarts, not necessarily Sunday.
     for ($thisday = 0; $thisday <= ($num_of_days - 1); $thisday++) {
@@ -341,9 +334,8 @@ for ($t = $starttime; $t <= $endtime; $t += $resolution) {
             $descr = htmlspecialchars($d[$thisday][$time_t]["data"]);
             $long_descr = htmlspecialchars($d[$thisday][$time_t]["long_descr"]);
             $double_booked = $d[$thisday][$time_t]["double_booked"];
-            if ($double_booked) {
+            if ($double_booked)
                 $color = 'DoubleBooked';
-            }
         } else {
             unset($id);
         }
@@ -392,17 +384,13 @@ for ($t = $starttime; $t <= $endtime; $t += $resolution) {
         if (isset($descrs)) {
             for ($i = 0; $i < count($descrs); $i++) {
                 //if it is booked then show
-                if ($i > 0) {
-                    echo '<br>';
-                }
-                $viewentry = new moodle_url('/blocks/mrbs/web/view_entry.php',
-                                            array(
-                                                'id' => $ids[$i], 'area' => $area, 'day' => $wday,
-                                                'month' => $wmonth, 'year' => $wyear
-                                            ));
-                echo ' <a href="'.$viewentry.'" title="'.$long_descr.'">'.$descrs[$i].'</a>';
+                if ($i > 0)
+                    echo'<br>';
+                $viewentry = new moodle_url('/blocks/mrbs/web/view_entry.php', array('id' => $ids[$i], 'area' => $area, 'day' => $wday,
+                    'month' => $wmonth, 'year' => $wyear));
+                echo ' <a href="' . $viewentry . '" title="' . $long_descr . '">' . $descrs[$i] . '</a>';
             }
-        } else {
+        }else {
             echo "&nbsp;&nbsp;";
         }
 
@@ -413,16 +401,16 @@ for ($t = $starttime; $t <= $endtime; $t += $resolution) {
     }
 
     // next lines to display times on right side
-    if (false != $times_right_side) {
+    if (FALSE != $times_right_side) {
         if ($enable_periods) {
             tdcell("red");
             $time_t_stripped = preg_replace("/^0/", "", $time_t);
-            echo '<a href="'.$hiliteurl.'" title="'.get_string('highlight_line', 'block_mrbs').'">';
-            echo $periods[$time_t_stripped]."</a></td>";
+            echo '<a href="' . $hiliteurl . '" title="' . get_string('highlight_line', 'block_mrbs') . '">';
+            echo $periods[$time_t_stripped] . "</a></td>";
         } else {
             tdcell("red");
-            echo '<a href="'.$hiliteurl.'" title="'.get_string('highlight_line', 'block_mrbs').'">';
-            echo userdate($t, hour_min_format())."</a></td>";
+            echo '<a href="' . $hiliteurl . '" title="' . get_string('highlight_line', 'block_mrbs') . '">';
+            echo userdate($t, hour_min_format()) . "</a></td>";
         }
     }
 

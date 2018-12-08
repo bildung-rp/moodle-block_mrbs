@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of the MRBS block for Moodle
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -14,9 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-$plugin->version = 2016101700;
+$plugin->version = 2018121200;
 $plugin->requires = 2014051200; // Moodle 2.7+
 $plugin->cron = 300;
 $plugin->component = 'block_mrbs';
 $plugin->maturity = MATURITY_STABLE;
-$plugin->release = '2.x (Build: 2016101700)';
+$plugin->release = '1.4.0 (Build: 2018121200)';

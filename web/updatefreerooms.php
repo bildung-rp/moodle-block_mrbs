@@ -15,11 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php'); //for Moodle integration
-global $USER, $DB;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
 include "config.inc.php";
 include "functions.php";
-require_once('mrbs_auth.php');
+require_once "mrbs_auth.php";
 
 require_login();
 $day = optional_param('day', 0, PARAM_INT);
@@ -77,6 +76,7 @@ switch ($dur_units) {
 
 // Units are now in "$dur_units" numbers of seconds
 
+
 if (isset($all_day) && ($all_day == "yes")) {
     if ($enable_periods) {
         $starttime = mktime(12, 0, 0, $month, $day, $year);
@@ -102,12 +102,12 @@ if (isset($all_day) && ($all_day == "yes")) {
     // Round up the duration to the next whole resolution unit.
     // If they asked for 0 minutes, push that up to 1 resolution unit.
     $diff = $endtime - $starttime;
-    if (($tmp = $diff % $resolution) != 0 || $diff == 0) {
+    if (($tmp = $diff % $resolution) != 0 || $diff == 0)
         $endtime += $resolution - $tmp;
-    }
 
     $endtime += cross_dst($starttime, $endtime);
 }
+
 
 $sql = 'SELECT r.id, r.room_name, r.description, r.capacity, a.area_name, r.area_id, r.booking_users ';
 $sql .= 'FROM {block_mrbs_room} r JOIN {block_mrbs_area} a on r.area_id=a.id WHERE ';
@@ -115,7 +115,7 @@ $sql .= 'FROM {block_mrbs_room} r JOIN {block_mrbs_area} a on r.area_id=a.id WHE
 $params = array();
 
 if (!empty($day)) {
-    $sql .= "(( SELECT COUNT(*) FROM {block_mrbs_entry} e ";
+    $sql.= "(( SELECT COUNT(*) FROM {block_mrbs_entry} e ";
 
     //old booking fully inside new booking
     $sql .= "WHERE ((e.start_time>=:starttime1 AND e.end_time<:endtime1) ";
@@ -126,18 +126,15 @@ if (!empty($day)) {
 
     $sql .= "AND e.room_id = r.id ) < 1 OR r.id= :currentroom) AND ";
 
-    $params = array(
-        'starttime1' => $starttime, 'starttime2' => $starttime, 'starttime3' => $starttime,
+    $params = array('starttime1' => $starttime, 'starttime2' => $starttime, 'starttime3' => $starttime,
         'endtime1' => $endtime, 'endtime2' => $endtime, 'endtime3' => $endtime,
-        'currentroom' => $currentroom
-    );
-
+        'currentroom' => $currentroom);
 }
 
 if ($area == 'IT') {
-    $sql .= 'description LIKE \'Teaching IT%\' ';
+    $sql.='description LIKE \'Teaching IT%\' ';
 } else {
-    $sql .= 'r.area_id=:area ';
+    $sql.='r.area_id=:area ';
     $params['area'] = $area;
 }
 
@@ -145,24 +142,12 @@ $sql .= " ORDER BY room_name";
 
 $rooms = $DB->get_records_sql($sql, $params);
 
+
 if (!empty($rooms)) {
     $list = '';
     foreach ($rooms as $room) {
         if (allowed_to_book($USER, $room)) {
-            $info = array();
-            $desc = trim(s($room->description));
-            if ($desc) {
-                $info[] = $desc;
-            }
-            if ($room->capacity) {
-                $info[] = $room->capacity;
-            }
-            if ($info) {
-                $info = ' ('.implode(', ', $info).')';
-            } else {
-                $info = '';
-            }
-            $list .= $room->id.','.$room->room_name.$info."\n";
+            $list.= $room->id . ',' . $room->room_name . ' (' . $room->description . ' Capacity:' . $room->capacity . ')' . "\n";
         }
     }
     echo $list;

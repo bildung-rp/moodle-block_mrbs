@@ -15,11 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
-global $DB;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 include "config.inc.php";
 include "functions.php";
-require_once('mrbs_auth.php');
+require_once "mrbs_auth.php";
 include "mrbs_sql.php";
 
 require_login();
@@ -37,6 +36,8 @@ $computer = optional_param('computer', false, PARAM_BOOL);
 $hour = optional_param('hour', null, PARAM_INT);
 $minute = optional_param('minute', null, PARAM_INT);
 $ampm = optional_param('ampm', null, PARAM_ALPHA);
+
+
 
 global $tbl_room;
 global $tbl_entry;
@@ -80,6 +81,7 @@ switch ($dur_units) {
 
 // Units are now in "$dur_units" numbers of seconds
 
+
 if (isset($all_day) && ($all_day == "yes")) {
     if ($enable_periods) {
         $starttime = mktime(12, 0, 0, $month, $day, $year);
@@ -105,9 +107,8 @@ if (isset($all_day) && ($all_day == "yes")) {
     // Round up the duration to the next whole resolution unit.
     // If they asked for 0 minutes, push that up to 1 resolution unit.
     $diff = $endtime - $starttime;
-    if (($tmp = $diff % $resolution) != 0 || $diff == 0) {
+    if (($tmp = $diff % $resolution) != 0 || $diff == 0)
         $endtime += $resolution - $tmp;
-    }
 
     $endtime += cross_dst($starttime, $endtime);
 }
@@ -126,16 +127,18 @@ $sql .= "AND e.room_id = r.id ) < 1  AND r.capacity >= ? ";
 
 $params = array($starttime, $endtime, $starttime, $starttime, $endtime, $endtime, $mincap);
 
+
+
 if ($computer) {
-    $sql .= " AND ".$DB->sql_like('r.description', '?', false);
+    $sql.= " AND " . $DB->sql_like('r.description', '?', false);
     $params[] = 'Teaching IT%';
 }
 if ($teaching) {
-    $sql .= " AND ".$DB->sql_like('r.description', '?', false);
+    $sql.= " AND " . $DB->sql_like('r.description', '?', false);
     $params[] = 'Teaching%';
 }
 if ($special) {
-    $sql .= " AND ".$DB->sql_like('r.description', '?', false, false, true);
+    $sql.= " AND " . $DB->sql_like('r.description', '?', false, false, true);
     $params[] = 'Teaching Specialist%';
 }
 
@@ -145,7 +148,7 @@ $rooms = $DB->get_records_sql($sql, $params);
 if (!empty($rooms)) {
     $list = '';
     foreach ($rooms as $room) {
-        $list .= $room->area_name.',<a href="javascript:openURL(\'edit_entry.php?room='.$room->id.'&period='.$period.'&year='.$year.'&month='.$month.'&day='.$day.'&duration='.$diff.'\')">'.$room->room_name.'</a>,'.$room->description.','.$room->capacity."\n";
+        $list.=$room->area_name . ',<a href="javascript:openURL(\'edit_entry.php?room=' . $room->id . '&period=' . $period . '&year=' . $year . '&month=' . $month . '&day=' . $day . '&duration=' . $diff . '\')">' . $room->room_name . '</a>,' . $room->description . ',' . $room->capacity . "\n";
     }
     //remove last \n to prevent blank row in table
     echo substr($list, 0, -1);

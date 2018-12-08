@@ -17,8 +17,8 @@ function RoomSearch() {
 //check for force book- if ticked we should be able to select any room
     "use strict";
     var hasPeriod, dayInput, day, monthInput, month, yearInput, year, periodInput, period, durationInput, duration, dur_unitsInput,
-        dur_units, mincapInput, mincap, teachingInput, teaching, specialInput, special, computerInput, computer, searchstring,
-        hourInput, hour, minuteInput, minute, ampmInput, ampm, i, freeRooms, room, j;
+            dur_units, mincapInput, mincap, teachingInput, teaching, specialInput, special, computerInput, computer, searchstring,
+            hourInput, hour, minuteInput, minute, ampmInput, ampm, i, freeRooms, room, j;
 
     hasPeriod = !!document.getElementsByName('period').length;
 
@@ -42,7 +42,7 @@ function RoomSearch() {
 
         ampmInput = document.getElementsByName('ampm');
         ampm = 'am';
-        for (i = 0; i<ampmInput.length; i++) {
+        for (i = 0; i < ampmInput.length; i++) {
             if (ampmInput[i].checked) {
                 ampm = ampmInput[i].value;
             }
@@ -91,38 +91,35 @@ function RoomSearch() {
     try {
         // Firefox, Opera 8.0+, Safari
         xmlHttp = new XMLHttpRequest();
-    }
-    catch (e) {
+    } catch (e) {
         // Internet Explorer
         try {
             xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
-        }
-        catch (e) {
+        } catch (e) {
             try {
                 xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (e) {
-                window.alert("Your browser does not support AJAX!");
+            } catch (e) {
+                alert("Your browser does not support AJAX!");
             }
         }
     }
 
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4) {
+        if (xmlHttp.readyState == 4) {
             //We've got a list of rooms from the server
             freeRooms = xmlHttp.responseText.split("\n");
             var rooms = document.getElementById('rooms');
 
             //wipe all the old options
-            while (rooms.childNodes.length>=1) {
+            while (rooms.childNodes.length >= 1) {
                 rooms.removeChild(rooms.firstChild);
             }
-            if (xmlHttp.responseText !== '') {
+            if (xmlHttp.responseText != '') {
                 document.getElementById('results').innerHTML = langRoomsFree;
-                for (i = 0; i<freeRooms.length; i++) {
+                for (i = 0; i < freeRooms.length; i++) {
                     room = freeRooms[i].split(",");
                     var newroom = document.createElement('tr');
-                    for (j = 0; j<room.length; j++) {
+                    for (j = 0; j < room.length; j++) {
                         var cell = document.createElement('td');
                         cell.innerHTML = room[j];
                         newroom.appendChild(cell);
@@ -163,12 +160,13 @@ function ChangeOptionDays(formObj, prefix, updatefreerooms, roomsearch) {
     var YearObject = eval("formObj." + prefix + "year");
 
     //wipe current list
-    for (j = DaysObject.options.length; j>=0; j--) {
+    for (j = DaysObject.options.length; j >= 0; j--) {
         DaysObject.options[j] = null;
     }
     var day = DaysObject.selectedIndex + 1;
     var month = MonthObject.selectedIndex;
     var year = YearObject.options[YearObject.selectedIndex].value;
+
 
     var i = new Date();
     i.setDate(1);

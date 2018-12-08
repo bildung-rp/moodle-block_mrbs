@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of the MRBS block for Moodle
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,8 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
-global $PAGE, $DB;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 include "config.inc.php";
 include "functions.php";
 
@@ -30,7 +28,7 @@ $total = optional_param('total', 0, PARAM_INT);
 $search_pos = optional_param('search_pos', 0, PARAM_INT);
 
 //If we dont know the right date then make it up
-if (($day == 0) or ($month == 0) or ($year == 0)) {
+if (($day == 0) or ( $month == 0) or ( $year == 0)) {
     $day = date("d");
     $month = date("m");
     $year = date("Y");
@@ -57,12 +55,12 @@ require_login();
 print_header_mrbs($day, $month, $year, $area);
 
 if ($advanced) {
-    echo "<H3>".get_string('advanced_search', 'block_mrbs')."</H3>";
+    echo "<H3>" . get_string('advanced_search', 'block_mrbs') . "</H3>";
     echo "<FORM METHOD=GET ACTION=\"search.php\">";
-    echo get_string('search_for', 'block_mrbs')." <INPUT TYPE=TEXT SIZE=25 NAME=\"search_str\"><br>";
-    echo get_string('from')." ";
+    echo get_string('search_for', 'block_mrbs') . " <INPUT TYPE=TEXT SIZE=25 NAME=\"search_str\"><br>";
+    echo get_string('from') . " ";
     genDateSelector("", $day, $month, $year);
-    echo "<br><INPUT TYPE=SUBMIT VALUE=\"".get_string('search')."\">";
+    echo "<br><INPUT TYPE=SUBMIT VALUE=\"" . get_string('search') . "\">";
     include "trailer.php";
     echo "</BODY>";
     echo "</HTML>";
@@ -70,22 +68,23 @@ if ($advanced) {
 }
 
 if (!$search_str) {
-    echo "<H3>".get_string('invalid_search', 'block_mrbs')."</H3>";
+    echo "<H3>" . get_string('invalid_search', 'block_mrbs') . "</H3>";
     include "trailer.php";
     exit;
 }
 
 // now is used so that we only display entries newer than the current time
-echo "<H3>".get_string('search_results', 'block_mrbs')." \"<font color=\"blue\">".s($search_str)."</font>\"</H3>\n";
+echo "<H3>" . get_string('search_results', 'block_mrbs') . " \"<font color=\"blue\">" . s($search_str) . "</font>\"</H3>\n";
 
 $now = mktime(0, 0, 0, $month, $day, $year);
 
 // This is the main part of the query predicate, used in both queries:
-$sql_pred = "( ".$DB->sql_like("create_by", '?', false)
-    ." OR ".$DB->sql_like("name", '?', false)
-    ." OR ".$DB->sql_like("description", '?', false)
-    .") AND end_time > ?";
+$sql_pred = "( " . $DB->sql_like("create_by", '?', false)
+        . " OR " . $DB->sql_like("name", '?', false)
+        . " OR " . $DB->sql_like("description", '?', false)
+        . ") AND end_time > ?";
 $params = array($search_str, $search_str, $search_str, $now);
+
 
 // The first time the search is called, we get the total
 // number of matches.  This is passed along to subsequent
@@ -96,7 +95,7 @@ if (!$total) {
 }
 
 if ($total <= 0) {
-    echo "<B>".get_string('nothingtodisplay')."</B>\n";
+    echo "<B>" . get_string('nothingtodisplay') . "</B>\n";
     include "trailer.php";
     exit;
 }
@@ -107,8 +106,7 @@ if ($search_pos <= 0) {
     $search_pos = $total - ($total % $search["count"]);
 }
 
-$sql_pred = str_replace(array('create_by', 'name', 'description'),
-                        array('e.create_by', 'e.name', 'e.description'), $sql_pred);
+$sql_pred = str_replace(array('create_by', 'name', 'description'), array('e.create_by', 'e.name', 'e.description'), $sql_pred);
 
 // Now we set up the "real" query using LIMIT to just get the stuff we want.
 $sql = "SELECT e.id, e.create_by, e.name, e.description, e.start_time, r.area_id, r.room_name
@@ -125,15 +123,15 @@ $has_prev = $search_pos > 0;
 $has_next = $search_pos < ($total - $search["count"]);
 
 if ($has_prev || $has_next) {
-    echo "<B>".get_string('records', 'block_mrbs').($search_pos + 1).get_string('through', 'block_mrbs').($search_pos + $num_records).get_string('of', 'block_mrbs').$total."</B><BR>";
+    echo "<B>" . get_string('records', 'block_mrbs') . ($search_pos + 1) . get_string('through', 'block_mrbs') . ($search_pos + $num_records) . get_string('of', 'block_mrbs') . $total . "</B><BR>";
 
     // display a "Previous" button if necessary
     if ($has_prev) {
         $pos = max(0, $search_pos - $search["count"]);
-        echo '<A HREF="'.$thisurl->out(true, array('search_pos', $pos)).'">';
+        echo '<A HREF="' . $thisurl->out(true, array('search_pos', $pos)) . '">';
     }
 
-    echo "<B>".get_string('previous')."</B>";
+    echo "<B>" . get_string('previous') . "</B>";
 
     if ($has_prev) {
         echo "</A>";
@@ -145,18 +143,18 @@ if ($has_prev || $has_next) {
     // display a "Previous" button if necessary
     if ($has_next) {
         $pos = max(0, $search_pos + $search["count"]);
-        echo '<a href="'.$pos->out(true, array('search_pos', $pos)).'">';
+        echo '<a href="' . $pos->out(true, array('search_pos', $pos)) . '">';
     }
 
-    echo "<B>".get_string('next')."</B>";
+    echo "<B>" . get_string('next') . "</B>";
 
     if ($has_next) {
         echo "</A>";
     }
 }
 ?>
-    <P>
-    <TABLE BORDER=2 CELLSPACING=0 CELLPADDING=3>
+<P>
+<TABLE BORDER=2 CELLSPACING=0 CELLPADDING=3>
     <TR>
         <TH><?php echo get_string('entry', 'block_mrbs') ?></TH>
         <TH><?php echo get_string('createdby', 'block_mrbs') ?></TH>
@@ -165,31 +163,29 @@ if ($has_prev || $has_next) {
         <TH><?php echo get_string('description') ?></TH>
         <TH><?php echo get_string('start_date', 'block_mrbs') ?></TH>
     </TR>
-<?php
-foreach ($result as $entry) {
-    $viewurl = new moodle_url('/blocks/mrbs/web/view_entry.php', array('id' => $entry->id));
-    echo "<TR>";
-    echo "<TD><A HREF=\"".$viewurl."\">".get_string('view')."</A></TD>\n";
-    echo "<TD>".s($entry->create_by)."</TD>\n";
-    echo "<TD>".s($entry->name)."</TD>\n";
-    echo "<TD>".s($entry->room_name)."</TD>\n";
-    echo "<TD>".s($entry->description)."</TD>\n";
-    // generate a link to the day.php
-    $link = getdate($entry->start_time);
-    $dayurl = new moodle_url('/blocks/mrbs/web/day.php',
-                             array(
-                                 'day' => $link['mday'], 'month' => $link['mon'], 'year' => $link['year'],
-                                 'area' => $entry->area_id
-                             ));
-    echo "<TD><A HREF=\"".$dayurl."\">";
-    if (empty($enable_periods)) {
-        $link_str = time_date_string($entry->start_time);
-    } else {
-        list(, $link_str) = period_date_string($entry->start_time);
+    <?php
+    foreach ($result as $entry) {
+        $viewurl = new moodle_url('/blocks/mrbs/web/view_entry.php', array('id' => $entry->id));
+        echo "<TR>";
+        echo "<TD><A HREF=\"" . $viewurl . "\">" . get_string('view') . "</A></TD>\n";
+        echo "<TD>" . s($entry->create_by) . "</TD>\n";
+        echo "<TD>" . s($entry->name) . "</TD>\n";
+        echo "<TD>" . s($entry->room_name) . "</TD>\n";
+        echo "<TD>" . s($entry->description) . "</TD>\n";
+        // generate a link to the day.php
+        $link = getdate($entry->start_time);
+        $dayurl = new moodle_url('/blocks/mrbs/web/day.php', array('day' => $link['mday'], 'month' => $link['mon'], 'year' => $link['year'],
+            'area' => $entry->area_id));
+        echo "<TD><A HREF=\"" . $dayurl . "\">";
+        if (empty($enable_periods)) {
+            $link_str = time_date_string($entry->start_time);
+        } else {
+            list(, $link_str) = period_date_string($entry->start_time);
+        }
+        echo "$link_str</A></TD>";
+        echo "</TR>\n";
     }
-    echo "$link_str</A></TD>";
-    echo "</TR>\n";
-}
 
-echo "</TABLE>\n";
-include "trailer.php";
+    echo "</TABLE>\n";
+    include "trailer.php";
+    

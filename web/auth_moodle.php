@@ -40,7 +40,7 @@
  *
  */
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php'); //for Moodle integration
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
 
 function authValidateUser($user, $pass) {
     return 1;
@@ -48,6 +48,7 @@ function authValidateUser($user, $pass) {
 
 function authGetUserLevel($user) {
     // HACK For Moodle 1.7 With Roles Block...
+    global $CFG;
     $context = context_system::instance();
 
     // Set Access leve for users via MRBS block and Moodle 1.7 roles

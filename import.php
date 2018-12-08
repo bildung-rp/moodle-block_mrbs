@@ -23,9 +23,8 @@
  *
  * It is included by the blocks cron() function each time it runs
  */
-
 //TODO:maybe set it up like tutorlink etc so that it can take uploaded files directly?
-require_once(dirname(dirname(dirname(__FILE__))).'/config.php');
+require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
 
 global $DB;
 
@@ -56,9 +55,9 @@ if (!isset($cfg_mrbs->periods) or empty($cfg_mrbs->periods)) {
     }
 }
 $output = '';
-if (!empty($cfg_mrbs->cronfile) && file_exists($cfg_mrbs->cronfile)) {
+if (file_exists($cfg_mrbs->cronfile)) {
     if ($mrbs_sessions = fopen($cfg_mrbs->cronfile, 'r')) {
-        $output .= get_string('startedimport', 'block_mrbs')."\n";
+        $output .= get_string('startedimport', 'block_mrbs') . "\n";
         $now = time();
         $DB->set_field_select('block_mrbs_entry', 'type', 'M', 'type=\'K\' and start_time > ?', array($now)); // Change old imported (type K) records to temporary type M
         while ($array = fgetcsv($mrbs_sessions)) { //import timetable into mrbs
@@ -77,7 +76,7 @@ if (!empty($cfg_mrbs->cronfile) && file_exists($cfg_mrbs->cronfile)) {
             $room = room_id_lookup($csvrow->room_name);
             $weeks = str_split($csvrow->weekpattern);
             foreach ($weeks as $week) {
-                if (($week == 1) and ($date > $now)) {
+                if (($week == 1) and ( $date > $now)) {
                     $start_time = time_to_datetime($date, $csvrow->start_time);
                     $end_time = time_to_datetime($date, $csvrow->end_time);
                     if (!is_timetabled($csvrow->name, $start_time)) { ////only timetable class if it isn't already timetabled elsewhere (class been moved)
@@ -105,15 +104,15 @@ if (!empty($cfg_mrbs->cronfile) && file_exists($cfg_mrbs->cronfile)) {
                         if ($existingclass = $DB->get_record_sql($sql, array(
                             $start_time, $start_time, $end_time,
                             $end_time, $start_time, $end_time, $room
-                        ))
+                                ))
                         ) {
-                            $hr_start_time = date("j F, Y", $start_time).", ".to_hr_time($start_time);
+                            $hr_start_time = date("j F, Y", $start_time) . ", " . to_hr_time($start_time);
                             $a = new stdClass();
-                            $a->oldbooking = $existingclass->description.'('.$existingclass->id.')';
-                            $a->newbooking = $csvrow->description.'('.$newentryid.')';
+                            $a->oldbooking = $existingclass->description . '(' . $existingclass->id . ')';
+                            $a->newbooking = $csvrow->description . '(' . $newentryid . ')';
                             $a->time = $hr_start_time;
                             $a->room = $csvrow->room_name;
-                            $a->admin = $cfg_mrbs->admin.' ('.$cfg_mrbs->admin_email.')';
+                            $a->admin = $cfg_mrbs->admin . ' (' . $cfg_mrbs->admin_email . ')';
                             $output .= get_string('clash', 'block_mrbs', $a);
 
                             $existingteacher = $DB->get_record('user', array('username' => $existingclass->create_by));
@@ -122,14 +121,14 @@ if (!empty($cfg_mrbs->cronfile) && file_exists($cfg_mrbs->cronfile)) {
                             $body = get_string('clashemailbody', 'block_mrbs', $a);
 
                             if (email_to_user($existingteacher, $newteacher, get_string('clashemailsub', 'block_mrbs', $a), $body)) {
-                                $output .= ', '.get_string('clashemailsent', 'block_mrbs').' '.$existingteacher->firstname.' '.$existingteacher->lastname.'<'.$existingteacher->email.'>';
+                                $output .= ', ' . get_string('clashemailsent', 'block_mrbs') . ' ' . $existingteacher->firstname . ' ' . $existingteacher->lastname . '<' . $existingteacher->email . '>';
                             } else {
-                                $output .= get_string('clashemailnotsent', 'block_mrbs').$existingclass->description.'('.$existingclass->id.')';
+                                $output .= get_string('clashemailnotsent', 'block_mrbs') . $existingclass->description . '(' . $existingclass->id . ')';
                             }
                             if (email_to_user($newteacher, $existingteacher, get_string('clashemailsub', 'block_mrbs', $a), $body)) {
-                                $output .= ', '.get_string('clashemailsent', 'block_mrbs').' '.$newteacher->firstname.' '.$newteacher->lastname.'<'.$newteacher->email.'>';
+                                $output .= ', ' . get_string('clashemailsent', 'block_mrbs') . ' ' . $newteacher->firstname . ' ' . $newteacher->lastname . '<' . $newteacher->email . '>';
                             } else {
-                                $output .= get_string('clashemailnotsent', 'block_mrbs').$csvrow->description.'('.$newentryid.')';
+                                $output .= get_string('clashemailnotsent', 'block_mrbs') . $csvrow->description . '(' . $newentryid . ')';
                             }
                             $output .= "\n";
                         }
@@ -152,28 +151,27 @@ if (!empty($cfg_mrbs->cronfile) && file_exists($cfg_mrbs->cronfile)) {
 
         //move the processed file to prevent wasted time re-processing TODO: option for how long to keep these- I've found them useful for debugging but obviously can't keep them for ever
         $date = date('Ymd');
-        if (rename($cfg_mrbs->cronfile, $cfg_mrbs->cronfile.'.'.$date)) {
-            $output .= $cfg_mrbs->cronfile.get_string('movedto', 'block_mrbs').$cfg_mrbs->cronfile.'.'.$date."\n";
+        if (rename($cfg_mrbs->cronfile, $cfg_mrbs->cronfile . '.' . $date)) {
+            $output .= $cfg_mrbs->cronfile . get_string('movedto', 'block_mrbs') . $cfg_mrbs->cronfile . '.' . $date . "\n";
         }
         $script_time_taken = time() - $script_start_time;
         $output .= get_string('finishedimport', 'block_mrbs', $script_time_taken);
 
         echo $output; //will only show up if being run via apache
-
         //email output to admin
         if ($mrbsadmin = $DB->get_record('user', array('email' => $cfg_mrbs->admin_email))) {
             email_to_user($mrbsadmin, $mrbsadmin, get_string('importlog', 'block_mrbs'), $output);
         }
     }
 }
-//==========================================FUNCTIONS==============================================================
 
+//==========================================FUNCTIONS==============================================================
 //looks up the room id from the name
 function room_id_lookup($name) {
     global $DB;
     if (!$room = $DB->get_record('block_mrbs_room', array('room_name' => $name))) {
         $error = "ERROR: failed to return id from database (room $name probably doesn't exist)";
-        echo $error."\n";
+        echo $error . "\n";
         return 'error';
     } else {
         return $room->id;
@@ -196,7 +194,7 @@ function is_timetabled($name, $time) {
         return true;
     } else if ($record = $DB->get_record('block_mrbs_entry', array(
         'name' => $name, 'start_time' => $time, 'type' => 'M'
-    ))
+            ))
     ) {
         $upd = new stdClass;
         $upd->id = $record->id;

@@ -14,10 +14,8 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 // mrbs/month.php - Month-at-a-time view
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php'); //for Moodle integration
-global $PAGE, $OUTPUT, $DB;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
 include "config.inc.php";
 include "functions.php";
 require_once('mrbs_auth.php');
@@ -31,12 +29,10 @@ $debug_flag = optional_param('debug_flag', 0, PARAM_INT);
 
 // 3-value compare: Returns result of compare as "< " "= " or "> ".
 function cmp3($a, $b) {
-    if ($a < $b) {
+    if ($a < $b)
         return "< ";
-    }
-    if ($a == $b) {
+    if ($a == $b)
         return "= ";
-    }
     return "> ";
 }
 
@@ -46,9 +42,7 @@ if (($month == 0) || ($year == 0) || !checkdate(intval($month), 1, intval($year)
 }
 $day = 1;
 
-$baseurl = new moodle_url('/blocks/mrbs/web/month.php', array(
-    'month' => $month, 'year' => $year
-)); // Used as basis for URLs throughout this file
+$baseurl = new moodle_url('/blocks/mrbs/web/month.php', array('month' => $month, 'year' => $year)); // Used as basis for URLs throughout this file
 $thisurl = new moodle_url($baseurl);
 if ($area > 0) {
     $thisurl->param('area', $area);
@@ -95,7 +89,7 @@ for ($j = 1; $j <= $days_in_month; $j++) {
     // -1 => no change
     //  0 => entering DST
     //  1 => leaving DST
-    $dst_change[$j] = is_dst($month, $j, $year);
+    //$dst_change[$j] = is_dst($month, $j, $year);
     if (empty($enable_periods)) {
         $midnight[$j] = mktime(0, 0, 0, $month, $j, $year);
         $midnight_tonight[$j] = mktime(23, 59, 59, $month, $j, $year);
@@ -113,7 +107,7 @@ if ($pview != 1) {
     $this_room_name = "";
 
     // Show all areas
-    echo '<td width="30%"><u>'.get_string('areas', 'block_mrbs').'</u><br>';
+    echo '<td width="30%"><u>' . get_string('areas', 'block_mrbs') . '</u><br>';
 }
 
 // show either a select box or the normal html list
@@ -127,15 +121,15 @@ if ($area_list_format == "select") {
     foreach ($dbareas as $dbarea) {
         if ($pview != 1) {
             $areaurl->param('area', $dbarea->id);
-            echo '<a href="'.$areaurl.'">';
+            echo '<a href="' . $areaurl . '">';
         }
         if ($dbarea->id == $area) {
             $this_area_name = s($dbarea->area_name);
             if ($pview != 1) {
-                echo '<font color="red">'.$this_area_name."</font></a><br>\n";
+                echo '<font color="red">' . $this_area_name . "</font></a><br>\n";
             }
         } else if ($pview != 1) {
-            echo s($dbarea->area_name)."</a><br>\n";
+            echo s($dbarea->area_name) . "</a><br>\n";
         }
     }
 }
@@ -144,8 +138,9 @@ if ($pview != 1) {
     echo "</td>\n";
 
     // Show all rooms in the current area:
-    echo '<td width="30%"><u>'.get_string('rooms', 'block_mrbs')."</u><br>";
+    echo '<td width="30%"><u>' . get_string('rooms', 'block_mrbs') . "</u><br>";
 }
+
 
 // should we show a drop-down for the room list, or not?
 if ($area_list_format == "select") {
@@ -155,14 +150,14 @@ if ($area_list_format == "select") {
     $roomurl = new moodle_url($baseurl, array('area' => $area));
     foreach ($rooms as $dbroom) {
         $roomurl->param('room', $dbroom->id);
-        echo '<a href="'.$roomurl.'">';
+        echo '<a href="' . $roomurl . '">';
         if ($dbroom->id == $room) {
             $this_room_name = s($dbroom->room_name);
             if ($pview != 1) {
-                echo '<font color="red">'.$this_room_name."</font></a><br>\n";
+                echo '<font color="red">' . $this_room_name . "</font></a><br>\n";
             }
         } else if ($pview != 1) {
-            echo s($dbroom->room_name)."</a><br>\n";
+            echo s($dbroom->room_name) . "</a><br>\n";
         }
     }
 }
@@ -183,8 +178,8 @@ if ($room <= 0) {
 }
 
 // Show Month, Year, Area, Room header:
-echo "<h2 align=center>".userdate($month_start, "%B %Y")
-    ." - $this_area_name - $this_room_name</h2>\n";
+echo "<h2 align=center>" . userdate($month_start, "%B %Y")
+ . " - $this_area_name - $this_room_name</h2>\n";
 
 // Show Go to month before and after links
 //y? are year and month of the previous month.
@@ -203,9 +198,9 @@ if ($pview != 1) {
     $monthbefore = new moodle_url($thismonth, array('month' => $ym, 'year' => $yy));
     $monthafter = new moodle_url($thismonth, array('month' => $tm, 'year' => $ty));
     echo '<table width="100%"><tr>';
-    echo '<td><a href="'.$monthbefore.'">&lt;&lt;'.get_string('monthbefore', 'block_mrbs').'</a></td>';
-    echo '<td align=center><a href="'.$thismonth.'">'.get_string('gotothismonth', 'block_mrbs').'</a></td>';
-    echo '<td align=right><a href="'.$monthafter.'">'.get_string('monthafter', 'block_mrbs').'&gt;&gt;</a></td>';
+    echo '<td><a href="' . $monthbefore . '">&lt;&lt;' . get_string('monthbefore', 'block_mrbs') . '</a></td>';
+    echo '<td align=center><a href="' . $thismonth . '">' . get_string('gotothismonth', 'block_mrbs') . '</a></td>';
+    echo '<td align=right><a href="' . $monthafter . '">' . get_string('monthafter', 'block_mrbs') . '&gt;&gt;</a></td>';
     echo '</tr></table>';
 }
 
@@ -224,8 +219,7 @@ for ($day_num = 1; $day_num <= $days_in_month; $day_num++) {
     //  d[monthday]["id"][] = ID of each entry, for linking.
     //  d[monthday]["data"][] = "start-stop" times or "name" of each entry.
 
-    $entries = $DB->get_records_select('block_mrbs_entry', 'room_id = ? AND start_time <= ? AND end_time > ?',
-                                       array($room, $midnight_tonight[$day_num], $midnight[$day_num]), 'start_time');
+    $entries = $DB->get_records_select('block_mrbs_entry', 'room_id = ? AND start_time <= ? AND end_time > ?', array($room, $midnight_tonight[$day_num], $midnight[$day_num]), 'start_time');
 
     foreach ($entries as $entry) {
         if ($debug_flag) {
@@ -244,61 +238,61 @@ for ($day_num = 1; $day_num <= $days_in_month; $day_num++) {
         // will incorrectly line break after a -.
 
         if (empty($enable_periods)) {
-            switch (cmp3($entry->start_time, $midnight[$day_num]).cmp3($entry->end_time, $midnight_tonight[$day_num] + 1)) {
+            switch (cmp3($entry->start_time, $midnight[$day_num]) . cmp3($entry->end_time, $midnight_tonight[$day_num] + 1)) {
                 case "> < ":         // Starts after midnight, ends before midnight
                 case "= < ":         // Starts at midnight, ends before midnight
-                    $d[$day_num]["data"][] = userdate($entry->start_time, hour_min_format())."~".userdate($entry->end_time, hour_min_format());
+                    $d[$day_num]["data"][] = userdate($entry->start_time, hour_min_format()) . "~" . userdate($entry->end_time, hour_min_format());
                     break;
                 case "> = ":         // Starts after midnight, ends at midnight
-                    $d[$day_num]["data"][] = userdate($entry->start_time, hour_min_format())."~24:00";
+                    $d[$day_num]["data"][] = userdate($entry->start_time, hour_min_format()) . "~24:00";
                     break;
                 case "> > ":         // Starts after midnight, continues tomorrow
-                    $d[$day_num]["data"][] = userdate($entry->start_time, hour_min_format())."~====>";
+                    $d[$day_num]["data"][] = userdate($entry->start_time, hour_min_format()) . "~====>";
                     break;
                 case "= = ":         // Starts at midnight, ends at midnight
                     $d[$day_num]["data"][] = $all_day;
                     break;
                 case "= > ":         // Starts at midnight, continues tomorrow
-                    $d[$day_num]["data"][] = $all_day."====>";
+                    $d[$day_num]["data"][] = $all_day . "====>";
                     break;
                 case "< < ":         // Starts before today, ends before midnight
-                    $d[$day_num]["data"][] = "<====~".userdate($entry->end_time, hour_min_format());
+                    $d[$day_num]["data"][] = "<====~" . userdate($entry->end_time, hour_min_format());
                     break;
                 case "< = ":         // Starts before today, ends at midnight
-                    $d[$day_num]["data"][] = "<====".$all_day;
+                    $d[$day_num]["data"][] = "<====" . $all_day;
                     break;
                 case "< > ":         // Starts before today, continues tomorrow
-                    $d[$day_num]["data"][] = "<====".$all_day."====>";
+                    $d[$day_num]["data"][] = "<====" . $all_day . "====>";
                     break;
             }
         } else {
             $start_str = str_replace("&nbsp;", " ", period_time_string($entry->start_time));
             $end_str = str_replace("&nbsp;", " ", period_time_string($entry->end_time, -1));
-            switch (cmp3($entry->start_time, $midnight[$day_num]).cmp3($entry->end_time, $midnight_tonight[$day_num] + 1)) {
+            switch (cmp3($entry->start_time, $midnight[$day_num]) . cmp3($entry->end_time, $midnight_tonight[$day_num] + 1)) {
                 case "> < ":         // Starts after midnight, ends before midnight
                 case "= < ":         // Starts at midnight, ends before midnight
-                    $d[$day_num]["data"][] = $start_str."~".$end_str;
+                    $d[$day_num]["data"][] = $start_str . "~" . $end_str;
                     break;
                 case "> = ":         // Starts after midnight, ends at midnight
-                    $d[$day_num]["data"][] = $start_str."~24:00";
+                    $d[$day_num]["data"][] = $start_str . "~24:00";
                     break;
                 case "> > ":         // Starts after midnight, continues tomorrow
-                    $d[$day_num]["data"][] = $start_str."~====>";
+                    $d[$day_num]["data"][] = $start_str . "~====>";
                     break;
                 case "= = ":         // Starts at midnight, ends at midnight
                     $d[$day_num]["data"][] = $all_day;
                     break;
                 case "= > ":         // Starts at midnight, continues tomorrow
-                    $d[$day_num]["data"][] = $all_day."====>";
+                    $d[$day_num]["data"][] = $all_day . "====>";
                     break;
                 case "< < ":         // Starts before today, ends before midnight
-                    $d[$day_num]["data"][] = "<====~".$end_str;
+                    $d[$day_num]["data"][] = "<====~" . $end_str;
                     break;
                 case "< = ":         // Starts before today, ends at midnight
-                    $d[$day_num]["data"][] = "<====".$all_day;
+                    $d[$day_num]["data"][] = "<====" . $all_day;
                     break;
                 case "< > ":         // Starts before today, continues tomorrow
-                    $d[$day_num]["data"][] = "<====".$all_day."====>";
+                    $d[$day_num]["data"][] = "<====" . $all_day . "====>";
                     break;
             }
         }
@@ -310,10 +304,9 @@ if ($debug_flag) {
         if (isset($d[$i]["id"])) {
             $n = count($d[$i]["id"]);
             echo "Day $i has $n entries:\n";
-            for ($j = 0; $j < $n; $j++) {
-                echo "  ID: ".$d[$i]["id"][$j].
-                    " Data: ".$d[$i]["data"][$j]."\n";
-            }
+            for ($j = 0; $j < $n; $j++)
+                echo "  ID: " . $d[$i]["id"][$j] .
+                " Data: " . $d[$i]["data"][$j] . "\n";
         }
     }
     echo "</pre>\n";
@@ -321,21 +314,20 @@ if ($debug_flag) {
 
 // Include the active cell content management routines.
 // Must be included before the beginnning of the main table.
-if ($javascript_cursor) // If authorized in config.inc.php, include the javascript cursor management.
-{
+if ($javascript_cursor) { // If authorized in config.inc.php, include the javascript cursor management.
     echo "<SCRIPT language=\"JavaScript\">InitActiveCell("
-        .($show_plus_link ? "true" : "false").", "
-        ."false, "
-        ."false, "
-        ."\"$highlight_method\", "
-        ."\"".get_string('click_to_reserve', 'block_mrbs')."\""
-        .");</SCRIPT>\n";
+    . ($show_plus_link ? "true" : "false") . ", "
+    . "false, "
+    . "false, "
+    . "\"$highlight_method\", "
+    . "\"" . get_string('click_to_reserve', 'block_mrbs') . "\""
+    . ");</SCRIPT>\n";
 }
 
 echo "<table border=\"1\" cellspacing=\"0\" width=\"100%\">\n<tr>";
 // Weekday name header row:
 for ($weekcol = 0; $weekcol < 7; $weekcol++) {
-    echo "<th width=\"14%\">".day_name(($weekcol + $weekstarts) % 7)."</th>";
+    echo "<th width=\"14%\">" . day_name(($weekcol + $weekstarts) % 7) . "</th>";
 }
 echo "</tr><tr>\n";
 
@@ -349,13 +341,10 @@ $allowedtobook = allowed_to_book($USER, $roomdata);
 
 // Draw the days of the month:
 for ($cday = 1; $cday <= $days_in_month; $cday++) {
-    if ($weekcol == 0) {
+    if ($weekcol == 0)
         echo "</tr><tr>\n";
-    }
-    $dayurl = new moodle_url('/blocks/mrbs/web/day.php', array(
-        'year' => $year, 'month' => $month, 'day' => $cday, 'area' => $area
-    ));
-    echo "<td valign=top height=100 class=\"month\"><div class=\"monthday\"><a href=\"".$dayurl."\">$cday</a>&nbsp;\n";
+    $dayurl = new moodle_url('/blocks/mrbs/web/day.php', array('year' => $year, 'month' => $month, 'day' => $cday, 'area' => $area));
+    echo "<td valign=top height=100 class=\"month\"><div class=\"monthday\"><a href=\"" . $dayurl . "\">$cday</a>&nbsp;\n";
     echo "</div>";
 
     // Anything to display for this day?
@@ -365,46 +354,40 @@ for ($cday = 1; $cday <= $days_in_month; $cday++) {
         // Show the start/stop times, 2 per line, linked to view_entry.
         // If there are 12 or fewer, show them, else show 11 and "...".
         for ($i = 0; $i < $n; $i++) {
-            if (($i == 11 && $n > 12 && $monthly_view_entries_details != "both") or
-                ($i == 6 && $n > 6 && $monthly_view_entries_details == "both")
-            ) {
+            if (($i == 11 && $n > 12 && $monthly_view_entries_details != "both") or ( $i == 6 && $n > 6 && $monthly_view_entries_details == "both")) {
                 echo " ...\n";
                 break;
             }
-            if (($i > 0 && $i % 2 == 0) or
-                ($monthly_view_entries_details == "both" && $i > 0)
-            ) {
+            if (($i > 0 && $i % 2 == 0) or ( $monthly_view_entries_details == "both" && $i > 0)) {
                 echo "<br>";
             } else {
                 echo " ";
             }
 
-            $viewentry_url = new moodle_url('/blocks/mrbs/web/view_entry.php', array(
-                'id' => $d[$cday]['id'][$i], 'day' => $cday, 'month' => $month, 'year' => $year
-            ));
+            $viewentry_url = new moodle_url('/blocks/mrbs/web/view_entry.php', array('id' => $d[$cday]['id'][$i], 'day' => $cday, 'month' => $month, 'year' => $year));
             switch ($monthly_view_entries_details) {
                 case "description": {
-                    echo "<a href=\"".$viewentry_url."\" title=\""
-                        .s($d[$cday]["data"][$i])."\">"
-                        .s(substr($d[$cday]["shortdescrip"][$i], 0, 17))
-                        ."</a>";
-                    break;
-                }
+                        echo "<a href=\"" . $viewentry_url . "\" title=\""
+                        . s($d[$cday]["data"][$i]) . "\">"
+                        . s(substr($d[$cday]["shortdescrip"][$i], 0, 17))
+                        . "</a>";
+                        break;
+                    }
                 case "slot": {
-                    echo "<a href=\"".$viewentry_url."\" title=\""
-                        .s(substr($d[$cday]["shortdescrip"][$i], 0, 17))."\">"
-                        .s($d[$cday]["data"][$i])."</a>";
-                    break;
-                }
+                        echo "<a href=\"" . $viewentry_url . "\" title=\""
+                        . s(substr($d[$cday]["shortdescrip"][$i], 0, 17)) . "\">"
+                        . s($d[$cday]["data"][$i]) . "</a>";
+                        break;
+                    }
                 case "both": {
-                    echo "<a href=\"".$viewentry_url."\" title=\"\">"
-                        .s($d[$cday]["data"][$i])." "
-                        .s(substr($d[$cday]["shortdescrip"][$i], 0, 6))."</a>";
-                    break;
-                }
+                        echo "<a href=\"" . $viewentry_url . "\" title=\"\">"
+                        . s($d[$cday]["data"][$i]) . " "
+                        . s(substr($d[$cday]["shortdescrip"][$i], 0, 6)) . "</a>";
+                        break;
+                    }
                 default: {
-                    echo "error: unknown parameter";
-                }
+                        echo "error: unknown parameter";
+                    }
             }
         }
         echo "</font>";
@@ -415,26 +398,24 @@ for ($cday = 1; $cday <= $days_in_month; $cday++) {
         if (!$allowedtobook) {
             // No permission to book this room
             $title = get_string('notallowedbook', 'block_mrbs');
-            echo '<img src="'.$OUTPUT->pix_url('toofaradvance', 'block_mrbs').'" width="10" height="10" border="0" alt="'.$title.'" title="'.$title.'" />';
-
+            echo '<img src="' . $OUTPUT->image_url('toofaradvance', 'block_mrbs') . '" width="10" height="10" border="0" alt="' . $title . '" title="' . $title . '" />';
         } else if (!check_max_advance_days($cday, $month, $year)) {
             // Too far in advance to edit
             $title = get_string('toofaradvance', 'block_mrbs', $max_advance_days);
-            echo '<img src="'.$OUTPUT->pix_url('toofaradvance', 'block_mrbs').'" width="10" height="10" border="0" alt="'.$title.'" title="'.$title.'" />';
+            echo '<img src="' . $OUTPUT->image_url('toofaradvance', 'block_mrbs') . '" width="10" height="10" border="0" alt="' . $title . '" title="' . $title . '" />';
         } else {
             if ($javascript_cursor) {
                 echo "<SCRIPT language=\"JavaScript\">\n<!--\n";
                 echo "BeginActiveCell();\n";
                 echo "// -->\n</SCRIPT>";
             }
-            $editurl = new moodle_url('/blocks/mrbs/web/edit_entry.php',
-                                      array('room' => $room, 'area' => $area, 'year' => $year, 'month' => $month, 'day' => $cday));
+            $editurl = new moodle_url('/blocks/mrbs/web/edit_entry.php', array('room' => $room, 'area' => $area, 'year' => $year, 'month' => $month, 'day' => $cday));
             if ($enable_periods) {
-                echo '<a href="'.($editurl->out(true, array('period' => 0))).'">';
+                echo '<a href="' . ($editurl->out(true, array('period' => 0))) . '">';
             } else {
-                echo '<a href="'.($editurl->out(true, array('hour' => $morningstarts, 'minute' => 0))).'">';
+                echo '<a href="' . ($editurl->out(true, array('hour' => $morningstarts, 'minute' => 0))) . '">';
             }
-            echo '<img src="'.$OUTPUT->pix_url('new', 'block_mrbs').'" width="10" height="10" border="0"></a>';
+            echo '<img src="' . $OUTPUT->image_url('new', 'block_mrbs') . '" width="10" height="10" border="0"></a>';
             if ($javascript_cursor) {
                 echo "<SCRIPT language=\"JavaScript\">\n<!--\n";
                 echo "EndActiveCell();\n";
@@ -445,17 +426,15 @@ for ($cday = 1; $cday <= $days_in_month; $cday++) {
         echo '&nbsp;';
     }
     echo "</td>\n";
-    if (++$weekcol == 7) {
+    if (++$weekcol == 7)
         $weekcol = 0;
-    }
 }
 
 // Skip from end of month to end of week:
-if ($weekcol > 0) {
+if ($weekcol > 0)
     for (; $weekcol < 7; $weekcol++) {
         echo "<td bgcolor=\"#cccccc\" height=100>&nbsp;</td>\n";
     }
-}
 echo "</tr></table>\n";
 
 include "trailer.php";

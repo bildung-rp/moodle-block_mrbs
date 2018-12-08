@@ -15,11 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
-global $USER;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
 $messagelang = new stdClass();
-$messagelang->user = $USER->firstname.' '.$USER->lastname;
+$messagelang->user = $USER->firstname . ' ' . $USER->lastname;
 if (empty($description)) {
     $messagelang->description = $name;
 } else {
@@ -35,17 +34,26 @@ $message = "$USER->firstname $USER->lastname requests that you move $description
 $context = context_system::instance();
 
 if (has_capability('block/mrbs:editmrbs', $context) or has_capability('block/mrbs:administermrbs', $context)) {
-    echo '<br><br><a href=# onClick="requestVacate.style.visibility=\'visible\';">'.get_string('requestvacate', 'block_mrbs').'</a>
+    echo'<br><br><a href=# onClick="requestVacate.style.visibility=\'visible\';">' . get_string('requestvacate', 'block_mrbs') . '</a>
         <form id="editing" method="post" action="request_vacate_send.php">
         <div id="request_vacate">
-        <input type="hidden" name="id" value="'.$booking->userid.'" />
-        <input type="hidden" name="sesskey" value="'.sesskey().'" />';
+        <input type="hidden" name="id" value="' . $booking->userid . '" />
+        <input type="hidden" name="sesskey" value="' . sesskey() . '" />';
+//    $usehtmleditor = (can_use_html_editor());
+//    if ($usehtmleditor) {
+//        print_textarea($usehtmleditor, 15, 350, 0, 0, 'message', get_string('requestvacatemessage_html', 'block_mrbs', $messagelang));
+//        echo '<input type="hidden" name="format" value="' . FORMAT_HTML . '" />';
+//    } else {
+//        print_textarea(false, 5, 34, 0, 0, 'message', get_string('requestvacatemessage', 'block_mrbs', $messagelang));
+//        echo '<input type="hidden" name="format" value="' . FORMAT_MOODLE . '" />';
+//    }
+
     print_textarea(true, 15, 350, 0, 0, 'message', get_string('requestvacatemessage_html', 'block_mrbs', $messagelang));
-    echo '<input type="hidden" name="format" value="'.FORMAT_HTML.'" />';
+    echo '<input type="hidden" name="format" value="' . FORMAT_HTML . '" />';
 
     //<textarea name = "message" cols=50 rows=10>'.get_string('requestvacatemessage','block_mrbs',$messagelang).'</textarea>
-    echo '<input type="hidden" name="format" value="'.FORMAT_MOODLE.'" />
-        <br /><input type="submit" value="'.get_string('sendmessage', 'message').'" />
+    echo'<input type="hidden" name="format" value="' . FORMAT_MOODLE . '" />
+        <br /><input type="submit" value="' . get_string('sendmessage', 'message') . '" />
         </div>
         </form>
 

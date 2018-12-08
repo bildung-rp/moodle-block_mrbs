@@ -14,14 +14,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 // This should probably be a class, but you can only have protected
 // class members in PHP 5, so we won't bother
 
-function get_mrbs_version()
-{
-  // MRBS developers, make sure to update this string before each release
-  $mrbs_version = "MRBS 1.2.5";
+function get_mrbs_version() {
+    // MRBS developers, make sure to update this string before each release
+    $mrbs_version = "MRBS 1.3.0 (unofficial!)";
 
-  return $mrbs_version;
+    return $mrbs_version;
 }
+
+?>

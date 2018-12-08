@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -82,8 +83,8 @@ class booking_created extends \core\event\base {
      */
     protected function get_legacy_logdata() {
         global $CFG;
-        return array(SITEID, 'mrbs', 'add booking', $CFG->wwwroot.'blocks/mrbs/web/view_entry.php?id='.$this->objectid,
-                     $this->other['name']);
+        return array(SITEID, 'mrbs', 'add booking', $CFG->wwwroot . 'blocks/mrbs/web/view_entry.php?id=' . $this->objectid,
+            $this->other['name']);
     }
 
     protected function validate_data() {
@@ -94,5 +95,5 @@ class booking_created extends \core\event\base {
             throw new \coding_exception('Must specify the room for the booking as \'other[\'room\']\'');
         }
     }
-}
 
+}
