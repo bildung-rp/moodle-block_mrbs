@@ -15,12 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
-global $DB;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 include "config.inc.php";
 include "functions.php";
-require_once('mrbs_auth.php');
-include "mrbs_sql.php";
+require_once "mrbs_rlp_auth.php";
+include "mrbs_rlp_sql.php";
 
 require_login();
 $day = optional_param('day', 0, PARAM_INT);
@@ -37,6 +36,8 @@ $computer = optional_param('computer', false, PARAM_BOOL);
 $hour = optional_param('hour', null, PARAM_INT);
 $minute = optional_param('minute', null, PARAM_INT);
 $ampm = optional_param('ampm', null, PARAM_ALPHA);
+
+
 
 global $tbl_room;
 global $tbl_entry;
@@ -65,20 +66,26 @@ $units = 1.0;
 switch ($dur_units) {
     case "years":
         $units *= 52;
+        // no break
     case "weeks":
         $units *= 7;
+        // no break
     case "days":
         $units *= 24;
+        // no break
     case "hours":
         $units *= 60;
+        // no break
     case "periods":
     case "minutes":
         $units *= 60;
+        // no break
     case "seconds":
         break;
 }
 
 // Units are now in "$dur_units" numbers of seconds
+
 
 if (isset($all_day) && ($all_day == "yes")) {
     if ($enable_periods) {
@@ -113,7 +120,7 @@ if (isset($all_day) && ($all_day == "yes")) {
 }
 
 $sql = "SELECT r.id, r.room_name, r.description, r.capacity, a.area_name, r.area_id";
-$sql .= " FROM {block_mrbs_room} r JOIN {block_mrbs_area} a on r.area_id=a.id WHERE ( SELECT COUNT(*) FROM {block_mrbs_entry} e ";
+$sql .= " FROM {block_mrbs_rlp_room} r JOIN {block_mrbs_rlp_area} a on r.area_id=a.id WHERE ( SELECT COUNT(*) FROM {block_mrbs_rlp_entry} e ";
 
 //old booking fully inside new booking
 $sql .= "WHERE ((e.start_time>= ? AND e.end_time< ? ) ";
@@ -124,18 +131,20 @@ $sql .= "OR (e.start_time< ? AND e.end_time>= ?)) ";
 
 $sql .= "AND e.room_id = r.id ) < 1  AND r.capacity >= ? ";
 
-$params = array($starttime, $endtime, $starttime, $starttime, $endtime, $endtime, $mincap);
+$params = [$starttime, $endtime, $starttime, $starttime, $endtime, $endtime, $mincap];
+
+
 
 if ($computer) {
-    $sql .= " AND ".$DB->sql_like('r.description', '?', false);
+    $sql .= " AND " . $DB->sql_like('r.description', '?', false);
     $params[] = 'Teaching IT%';
 }
 if ($teaching) {
-    $sql .= " AND ".$DB->sql_like('r.description', '?', false);
+    $sql .= " AND " . $DB->sql_like('r.description', '?', false);
     $params[] = 'Teaching%';
 }
 if ($special) {
-    $sql .= " AND ".$DB->sql_like('r.description', '?', false, false, true);
+    $sql .= " AND " . $DB->sql_like('r.description', '?', false);
     $params[] = 'Teaching Specialist%';
 }
 
@@ -145,7 +154,7 @@ $rooms = $DB->get_records_sql($sql, $params);
 if (!empty($rooms)) {
     $list = '';
     foreach ($rooms as $room) {
-        $list .= $room->area_name.',<a href="javascript:openURL(\'edit_entry.php?room='.$room->id.'&period='.$period.'&year='.$year.'&month='.$month.'&day='.$day.'&duration='.$diff.'\')">'.$room->room_name.'</a>,'.$room->description.','.$room->capacity."\n";
+        $list .= $room->area_name . ',<a href="edit_entry.php?room=' . $room->id . '&period=' . $period . '&year=' . $year . '&month=' . $month . '&day=' . $day . '&duration=' . $diff . '">' . $room->room_name . '</a>,' . $room->description . ',' . $room->capacity . "\n";
     }
     //remove last \n to prevent blank row in table
     echo substr($list, 0, -1);

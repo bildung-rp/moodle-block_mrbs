@@ -1,4 +1,5 @@
 <?php
+
 //
 // Capability definitions for the links block.
 //
@@ -33,108 +34,90 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
-
-    'block/mrbs:viewmrbs' => array(
-
+$capabilities = [
+    'block/mrbs_rlp:viewmrbs_rlp' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'manager' => CAP_ALLOW
-        )
-    ),
-
-    'block/mrbs:editmrbs' => array(
-
+        ]
+    ],
+    'block/mrbs_rlp:editmrbs_rlp' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'manager' => CAP_ALLOW
-        )
-    ),
-
-    'block/mrbs:administermrbs' => array(
-
+        ]
+    ],
+    'block/mrbs_rlp:administermrbs_rlp' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW
-        )
-    ),
-
-    'block/mrbs:viewalltt' => array(
-
+        ]
+    ],
+    'block/mrbs_rlp:viewalltt' => [
         'captype' => 'view',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'manager' => CAP_ALLOW
-        )
-    ),
-
-    'block/mrbs:forcebook' => array(
-
+        ]
+    ],
+    'block/mrbs_rlp:forcebook' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW
-        )
-    ),
-
-    'block/mrbs:doublebook' => array(
-
+        ]
+    ],
+    'block/mrbs_rlp:doublebook' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW
-        )
-    ),
-
+        ]
+    ],
     // Limits users to only creating 'unconfirmed' bookings
     // (unless they are the room administrator)
-    'block/mrbs:editmrbsunconfirmed' => array(
-
+    'block/mrbs_rlp:editmrbs_rlpunconfirmed' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array()
-    ),
-
-    'block/mrbs:myaddinstance' => array(
+        'archetypes' => []
+    ],
+    'block/mrbs_rlp:myaddinstance' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
-        ),
-    ),
-
-    'block/mrbs:addinstance' => array(
+        'archetypes' => [
+            'user' => CAP_ALLOW
+        ],
+        'clonepermissionsfrom' => 'moodle/my:manageblocks'
+    ],
+    'block/mrbs_rlp:addinstance' => [
         'riskbitmask' => RISK_SPAM | RISK_XSS,
-
         'captype' => 'write',
         'contextlevel' => CONTEXT_BLOCK,
-        'archetypes' => array(
+        'archetypes' => [
             'editingteacher' => CAP_ALLOW,
             'manager' => CAP_ALLOW
-        ),
-
+        ],
         'clonepermissionsfrom' => 'moodle/site:manageblocks'
-    ),
-
-    'block/mrbs:ignoremaxadvancedays' => array(
+    ],
+    'block/mrbs_rlp:ignoremaxadvancedays' => [
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
-        'archetypes' => array(
+        'archetypes' => [
             'manager' => CAP_ALLOW
-        ),
-        'clonepermissionsfrom' => 'block/mrbs:administermrbs',
-    ),
-);
-
+        ],
+        'clonepermissionsfrom' => 'block/mrbs_rlp:administermrbs_rlp',
+    ],
+];

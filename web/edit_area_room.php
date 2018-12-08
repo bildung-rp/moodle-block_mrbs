@@ -15,11 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php'); //for Moodle integration
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
 global $PAGE, $DB, $OUTPUT;
 include "config.inc.php";
 include "functions.php";
-require_once('mrbs_auth.php');
+require_once "mrbs_rlp_auth.php";
 
 // Passed in when starting to edit
 $day = optional_param('day', 0, PARAM_INT);
@@ -45,7 +45,6 @@ $area_admin_email = optional_param('area_admin_email', '', PARAM_TEXT);
 $change_area = optional_param('change_area', false, PARAM_TEXT);
 
 // $room_admin_email = optional_param('room_admin_email', 0, PARAM_BOOL); //not sure if this is from config or passed from URL -ab.
-
 //If we dont know the right date then make it up
 if (($day == 0) or ($month == 0) or ($year == 0)) {
     $day = date("d");
@@ -53,9 +52,7 @@ if (($day == 0) or ($month == 0) or ($year == 0)) {
     $year = date("Y");
 }
 
-$thisurl = new moodle_url('/blocks/mrbs/web/edit_area_room.php', array(
-    'day' => $day, 'month' => $month, 'year' => $year, 'sesskey' => sesskey()
-));
+$thisurl = new moodle_url('/blocks/mrbs_rlp/web/edit_area_room.php', ['day' => $day, 'month' => $month, 'year' => $year, 'sesskey' => sesskey()]);
 if ($room) {
     $thisurl->param('room', $room);
 }
@@ -74,20 +71,17 @@ require_sesskey();
 
 // Done changing area or room information?
 if (($change_done)) {
-    if (!empty($room)) // Get the area the room is in
-    {
-        $area = $DB->get_field('block_mrbs_room', 'area_id', array('id' => $room));
+    if (!empty($room)) { // Get the area the room is in
+        $area = $DB->get_field('block_mrbs_rlp_room', 'area_id', ['id' => $room]);
     }
-    $adminurl = new moodle_url('/blocks/mrbs/web/admin.php', array(
-        'day' => $day, 'month' => $month, 'year' => $year, 'area' => $area
-    ));
+    $adminurl = new moodle_url('/blocks/mrbs_rlp/web/admin.php', ['day' => $day, 'month' => $month, 'year' => $year, 'area' => $area]);
     redirect($adminurl);
     exit();
 }
 
-print_header_mrbs($day, $month, $year, isset($area) ? $area : "");
+print_header_mrbs_rlp($day, $month, $year, isset($area) ? $area : "");
 
-echo $OUTPUT->heading(get_string('editroomarea', 'block_mrbs'), 2);
+echo $OUTPUT->heading(get_string('editroomarea', 'block_mrbs_rlp'), 2);
 
 echo '<table>';
 
@@ -100,7 +94,7 @@ if ($room > 0) {
             // does not return TRUE
             if (!get_user_by_email(trim($email))) {
                 $valid_email = false;
-                echo $OUTPUT->box(get_string('no_user_with_email', 'block_mrbs', $email));
+                echo $OUTPUT->box(get_string('no_user_with_email', 'block_mrbs_rlp', $email));
             }
         }
     }
@@ -110,7 +104,7 @@ if ($room > 0) {
         foreach ($booking_emails as $email) {
             if (!get_user_by_email(trim($email))) {
                 $valid_email2 = false;
-                echo $OUTPUT->box(get_string('no_user_with_email', 'block_mrbs', $email));
+                echo $OUTPUT->box(get_string('no_user_with_email', 'block_mrbs_rlp', $email));
             }
         }
     }
@@ -124,29 +118,29 @@ if ($room > 0) {
         $updroom->room_admin_email = $room_admin_email;
         $updroom->booking_users = $booking_users;
 
-        $DB->update_record('block_mrbs_room', $updroom);
+        $DB->update_record('block_mrbs_rlp_room', $updroom);
     }
 
-    $dbroom = $DB->get_record('block_mrbs_room', array('id' => $room), '*', MUST_EXIST);
-    echo '<h3 ALIGN=CENTER>'.get_string('editroom', 'block_mrbs').'</h3>';
-    echo '<form action="'.$thisurl->out_omit_querystring().'" method="post">';
-    echo '<input type="hidden" name="room" value="'.$dbroom->id.'">';
-    echo '<input type="hidden" name="sesskey" value="'.sesskey().'">';
+    $dbroom = $DB->get_record('block_mrbs_rlp_room', ['id' => $room], '*', MUST_EXIST);
+    echo '<h3 ALIGN=CENTER>' . get_string('editroom', 'block_mrbs_rlp') . '</h3>';
+    echo '<form action="' . $thisurl->out_omit_querystring() . '" method="post">';
+    echo '<input type="hidden" name="room" value="' . $dbroom->id . '">';
+    echo '<input type="hidden" name="sesskey" value="' . sesskey() . '">';
     echo '<CENTER><TABLE>';
-    echo '<TR><TD>'.get_string('name').': </TD><TD><input type="text" name="room_name" value="'.s($dbroom->room_name).'" maxlength="255"></TD></TR>';
-    echo '<TR><TD>'.get_string('description').'</TD><TD><input type="text" name="description" value="'.s($dbroom->description).'" maxlength="255"></TD></TR>';
-    echo '<TR><TD>'.get_string('capacity', 'block_mrbs').':   </TD><TD><input type="text" name="capacity" value="'.$dbroom->capacity.'"></TD></TR>';
-    echo '<TR><TD>'.get_string('room_admin_email', 'block_mrbs').': </TD><TD><input type="text" name="room_admin_email" MAXLENGTH=75 value="'.s($dbroom->room_admin_email).'"></TD>';
+    echo '<TR><TD>' . get_string('name') . ': </TD><TD><input type="text" name="room_name" value="' . s($dbroom->room_name) . '" maxlength="255"></TD></TR>';
+    echo '<TR><TD>' . get_string('description') . '</TD><TD><input type="text" name="description" value="' . s($dbroom->description) . '" maxlength="255"></TD></TR>';
+    echo '<TR><TD>' . get_string('capacity', 'block_mrbs_rlp') . ':   </TD><TD><input type="text" name="capacity" value="' . $dbroom->capacity . '"></TD></TR>';
+    echo '<TR><TD>' . get_string('room_admin_email', 'block_mrbs_rlp') . ': </TD><TD><input type="text" name="room_admin_email" maxlength="75" value="' . s($dbroom->room_admin_email) . '"></TD>';
     if (!$valid_email) {
-        echo("<TD>&nbsp;</TD><TD><STRONG>".get_string('emailmustbereal')."<STRONG></TD>");
+        echo("<TD>&nbsp;</TD><TD><STRONG>" . get_string('emailmustbereal') . "<STRONG></TD>");
     }
-    echo '<TR><TD>'.get_string('booking_users', 'block_mrbs').': '.$OUTPUT->help_icon('booking_users', 'block_mrbs').'</TD><TD><textarea name="booking_users" cols="25" rows="3">'.s($dbroom->booking_users).'</textarea></TD>';
+    echo '<TR><TD>' . get_string('booking_users', 'block_mrbs_rlp') . ': ' . $OUTPUT->help_icon('booking_users', 'block_mrbs_rlp') . '</TD><TD><textarea name="booking_users" cols="25" rows="3">' . s($dbroom->booking_users) . '</textarea></TD>';
     if (!$valid_email2) {
-        echo("<TD>&nbsp;</TD><TD><STRONG>".get_string('emailmustbereal')."<STRONG></TD>");
+        echo("<TD>&nbsp;</TD><TD><STRONG>" . get_string('emailmustbereal') . "<STRONG></TD>");
     }
     echo '</TR></TABLE>';
-    echo '<input type="submit" name="change_room" value="'.get_string('savechanges').'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo '<input type="submit" name="change_done" value="'.get_string('backadmin', 'block_mrbs').'">';
+    echo '<input type="submit" name="change_room" value="' . get_string('savechanges') . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    echo '<input type="submit" name="change_done" value="' . get_string('backadmin', 'block_mrbs_rlp') . '">';
     echo '</CENTER></form>';
 }
 
@@ -159,7 +153,7 @@ if ($area) {
         $email = trim($email);
         if (!get_user_by_email($email) && ('' != $area_admin_email)) {
             $valid_email = false;
-            echo $OUTPUT->box(get_string('no_user_with_email', 'block_mrbs', $email));
+            echo $OUTPUT->box(get_string('no_user_with_email', 'block_mrbs_rlp', $email));
         }
     }
 
@@ -168,24 +162,24 @@ if ($area) {
         $updarea->id = $area;
         $updarea->area_name = $area_name;
         $updarea->area_admin_email = $area_admin_email;
-        $DB->update_record('block_mrbs_area', $updarea);
+        $DB->update_record('block_mrbs_rlp_area', $updarea);
     }
 
-    $dbarea = $DB->get_record('block_mrbs_area', array('id' => $area), '*', MUST_EXIST);
+    $dbarea = $DB->get_record('block_mrbs_rlp_area', ['id' => $area], '*', MUST_EXIST);
 
-    echo '<h3 ALIGN=CENTER>'.get_string('editarea', 'block_mrbs').'</h3>';
-    echo '<form action="'.$thisurl->out_omit_querystring().'" method="post">';
-    echo '<input type="hidden" name="area" value="'.$dbarea->id.'">';
-    echo '<input type="hidden" name="sesskey" value="'.sesskey().'">';
+    echo '<h3 ALIGN=CENTER>' . get_string('editarea', 'block_mrbs_rlp') . '</h3>';
+    echo '<form action="' . $thisurl->out_omit_querystring() . '" method="post">';
+    echo '<input type="hidden" name="area" value="' . $dbarea->id . '">';
+    echo '<input type="hidden" name="sesskey" value="' . sesskey() . '">';
     echo '<CENTER><TABLE>';
-    echo '<TR><TD>'.get_string('name').':       </TD><TD><input type="text" name="area_name" value="'.s($dbarea->area_name).'" maxlength="255"></TD></TR>';
-    echo '<TR><TD>'.get_string('area_admin_email', 'block_mrbs').':       </TD><TD><input type="text" name="area_admin_email" maxlength="255" value="'.s($dbarea->area_admin_email).'"></TD>';
+    echo '<TR><TD>' . get_string('name') . ':       </TD><TD><input type="text" name="area_name" value="' . s($dbarea->area_name) . '" maxlength="255"></TD></TR>';
+    echo '<TR><TD>' . get_string('area_admin_email', 'block_mrbs_rlp') . ':       </TD><TD><input type="text" name="area_admin_email" maxlength="255" value="' . s($dbarea->area_admin_email) . '"></TD>';
     if (!$valid_email) {
-        echo "<TD>&nbsp;</TD><TD><STRONG>".get_string('emailmustbereal')."</STRONG></TD>";
+        echo "<TD>&nbsp;</TD><TD><STRONG>" . get_string('emailmustbereal') . "</STRONG></TD>";
     }
     echo '</TR></TABLE>';
-    echo '<input type=submit name="change_area" value="'.get_string('savechanges').'">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo '<input type=submit name="change_done" value="'.get_string('backadmin', 'block_mrbs').'">';
+    echo '<input type=submit name="change_area" value="' . get_string('savechanges') . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+    echo '<input type=submit name="change_done" value="' . get_string('backadmin', 'block_mrbs_rlp') . '">';
     echo '</CENTER></form>';
 }
 echo '</TABLE>';

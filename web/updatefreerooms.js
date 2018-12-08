@@ -20,7 +20,6 @@ function updateFreeRooms() {
     var dur_units = dur_unitsInput[0].options[dur_unitsInput[0].selectedIndex].value;
 
     var areasInput = document.getElementsByName('areas');
-    var area = 0;
     if (areasInput.length) {
         area = areasInput[0].options[areasInput[0].selectedIndex].value;
     }
@@ -38,22 +37,20 @@ function updateFreeRooms() {
         }
     }
 
+
     //have to trial and error to get right browser code
     var xmlHttp;
     try {
         // Firefox, Opera 8.0+, Safari
         xmlHttp = new XMLHttpRequest();
-    }
-    catch (e) {
+    } catch (e) {
         // Internet Explorer
         try {
             xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
-        }
-        catch (e) {
+        } catch (e) {
             try {
                 xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (e) {
+            } catch (e) {
                 window.alert("Your browser does not support AJAX!");
                 return false;
             }
@@ -61,29 +58,29 @@ function updateFreeRooms() {
     }
 
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4) {
+        if (xmlHttp.readyState == 4) {
             //We've got a list of rooms from the server
             var freeRooms = xmlHttp.responseText.split("\n");
             var roomsInput = document.getElementsByName('rooms[]');
             roomsInput = roomsInput[0];
 
             //remember which room is currently selected
-            var currentSelection = [];
+				var currentSelection = [];
             var i;
             var room;
             if (roomsInput.selectedIndex !== -1) {
-                for (i = 0; i<roomsInput.length; i++) {
-                    currentSelection[roomsInput.options[i].value] = roomsInput.options[i].selected;
-                }
+            	for (i = 0; i < roomsInput.length; i++) {
+               	currentSelection[roomsInput.options[i].value] = roomsInput.options[i].selected;
+               }
                 roomsInput.selectedIndex = -1;
             }
             //wipe all the old options
-            for (i = roomsInput.length; i>=0; i--) {
+            for (i = roomsInput.length; i >= 0; i--) {
                 roomsInput[i] = null;
             }
             if (xmlHttp.responseText !== '') {
 
-                for (i = 0; i<freeRooms.length; i++) {
+                for (i = 0; i < freeRooms.length; i++) {
                     if (freeRooms[i].search(/^\s*$/) !== -1) {
                         continue; // Skip empty lines
                     }
@@ -95,7 +92,6 @@ function updateFreeRooms() {
                         roomsInput.options[roomsInput.length - 1].selected = true;
                     }
                 }
-
             }
         }
     };

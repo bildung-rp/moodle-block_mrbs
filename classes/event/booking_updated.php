@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,36 +16,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The block_mrbs booking updated event.
+ * The block_mrbs_rlp booking updated event.
  *
- * @package    block_mrbs
+ * @package    block_mrbs_rlp
  * @copyright  2014 Davo Smith <moodle@davosmith.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace block_mrbs\event;
+namespace block_mrbs_rlp\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The block_mrbs booking updated event.
+ * The block_mrbs_rlp booking updated event.
  *
- * @package    block_mrbs
+ * @package    block_mrbs_rlp
  * @since      Moodle 2.7
  * @copyright  2014 Davo Smith <moodle@davosmith.co.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class booking_updated extends \core\event\base {
+class booking_updated extends \core\event\base
+{
 
     /**
      * Init method.
      *
      * @return void
      */
-    protected function init() {
+    protected function init()
+    {
         $this->data['crud'] = 'u';
         $this->data['edulevel'] = self::LEVEL_OTHER;
-        $this->data['objecttable'] = 'block_mrbs_entry';
+        $this->data['objecttable'] = 'block_mrbs_rlp_entry';
         $this->context = \context_system::instance();
     }
 
@@ -53,8 +56,9 @@ class booking_updated extends \core\event\base {
      *
      * @return string
      */
-    public static function get_name() {
-        return get_string('eventbookingupdated', 'block_mrbs');
+    public static function get_name()
+    {
+        return get_string('eventbookingupdated', 'block_mrbs_rlp');
     }
 
     /**
@@ -62,7 +66,8 @@ class booking_updated extends \core\event\base {
      *
      * @return string
      */
-    public function get_description() {
+    public function get_description()
+    {
         return "The user with id '$this->userid' has updated a booking in '{$this->other['room']}' for '{$this->other['name']}'";
     }
 
@@ -71,8 +76,9 @@ class booking_updated extends \core\event\base {
      *
      * @return \moodle_url
      */
-    public function get_url() {
-        return new \moodle_url('/blocks/mrbs/web/view_entry.php', array('id' => $this->objectid));
+    public function get_url()
+    {
+        return new \moodle_url('/blocks/mrbs_rlp/web/view_entry.php', array('id' => $this->objectid));
     }
 
     /**
@@ -80,13 +86,15 @@ class booking_updated extends \core\event\base {
      *
      * @return array|null
      */
-    protected function get_legacy_logdata() {
+    protected function get_legacy_logdata()
+    {
         global $CFG;
-        return array(SITEID, 'mrbs', 'edit booking', $CFG->wwwroot.'blocks/mrbs/web/view_entry.php?id='.$this->objectid,
-                     $this->other['name']);
+        return array(SITEID, 'mrbs_rlp', 'edit booking', $CFG->wwwroot . 'blocks/mrbs_rlp/web/view_entry.php?id=' . $this->objectid,
+            $this->other['name']);
     }
 
-    protected function validate_data() {
+    protected function validate_data()
+    {
         if (!isset($this->other['name'])) {
             throw new \coding_exception('Must specify the name of the booking as \'other[\'name\']\'');
         }
@@ -95,4 +103,3 @@ class booking_updated extends \core\event\base {
         }
     }
 }
-

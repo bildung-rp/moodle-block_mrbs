@@ -40,28 +40,30 @@
  *
  */
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php'); //for Moodle integration
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
 
-function authValidateUser($user, $pass) {
+function authValidateUser($user, $pass)
+{
     return 1;
 }
 
-function authGetUserLevel($user) {
+function authGetUserLevel($user)
+{
     // HACK For Moodle 1.7 With Roles Block...
     $context = context_system::instance();
 
     // Set Access leve for users via MRBS block and Moodle 1.7 roles
-    if (has_capability('block/mrbs:administermrbs', $context)) {
+    if (has_capability('block/mrbs_rlp:administermrbs_rlp', $context)) {
         return 2;
     }
-    // has_capability('block/mrbs:editmrbs', $context)
-    if (has_capability('block/mrbs:editmrbs', $context)) {
+    // has_capability('block/mrbs_rlp:editmrbs_rlp', $context)
+    if (has_capability('block/mrbs_rlp:editmrbs_rlp', $context)) {
         return 1;
     }
-    if (has_capability('block/mrbs:editmrbsunconfirmed', $context, null, false)) {
+    if (has_capability('block/mrbs_rlp:editmrbs_rlpunconfirmed', $context, null, false)) {
         return 1; // Can book rooms, but only as 'unconfirmed' (unless they are the room admin)
     }
-    if (has_capability('block/mrbs:viewmrbs', $context)) {
+    if (has_capability('block/mrbs_rlp:viewmrbs_rlp', $context)) {
         return 0;
     } else { // Set access level for other users (e.g. people who access url directly)
         return 0;

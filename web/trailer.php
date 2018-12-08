@@ -15,11 +15,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
-global $PAGE, $OUTPUT;
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 if ($pview != 1) {
-
-    echo "<P><HR><B>".get_string('viewday', 'block_mrbs').":</B>\n";
+    echo "<P><HR><B>" . get_string('viewday', 'block_mrbs_rlp') . ":</B>\n";
 
     if (!isset($year)) {
         $year = strftime("%Y");
@@ -34,9 +32,9 @@ if ($pview != 1) {
     }
 
     if (empty($area)) {
-        $params = array();
+        $params = [];
     } else {
-        $params = array('area' => $area);
+        $params = ['area' => $area];
     }
 
     for ($i = -6; $i <= 7; $i++) {
@@ -51,18 +49,16 @@ if ($pview != 1) {
             echo " | ";
         }
         if ($i == 0) {
-            echo '<b>[ ';
+            echo '<b class="active">[ ';
         }
-        $url = new moodle_url('/blocks/mrbs/web/day.php', array_merge(array(
-                                                                          'year' => $cyear, 'month' => $cmonth, 'day' => $cday
-                                                                      ), $params));
-        echo "<a href=\"".$url."\">$str</a>\n";
+        $url = new moodle_url('/blocks/mrbs_rlp/web/day.php', array_merge(['year' => $cyear, 'month' => $cmonth, 'day' => $cday], $params));
+        echo "<a href=\"" . $url . "\">$str</a>\n";
         if ($i == 0) {
             echo ']</b> ';
         }
     }
 
-    echo "<BR><B>".get_string('viewweek', 'block_mrbs').":</B>\n";
+    echo "<BR><B>" . get_string('viewweek', 'block_mrbs_rlp') . ":</B>\n";
 
     if (!empty($room)) {
         if (is_object($room)) {
@@ -93,18 +89,16 @@ if ($pview != 1) {
             $str = userdate($ctime, empty($dateformat) ? "%b %d" : "%d %b");
         }
         if ($i == 0) {
-            echo '<b>[ ';
+            echo '<b class="active">[ ';
         }
-        $url = new moodle_url('/blocks/mrbs/web/week.php', array_merge(array(
-                                                                           'year' => $cyear, 'month' => $cmonth, 'day' => $cday
-                                                                       ), $params));
-        echo "<a href=\"".$url."\">$str</a>\n";
+        $url = new moodle_url('/blocks/mrbs_rlp/web/week.php', array_merge(['year' => $cyear, 'month' => $cmonth, 'day' => $cday], $params));
+        echo "<a href=\"" . $url . "\">$str</a>\n";
         if ($i == 0) {
             echo ']</b> ';
         }
     }
 
-    echo "<BR><B>".get_string('viewmonth', 'block_mrbs').":</B>\n";
+    echo "<BR><B>" . get_string('viewmonth', 'block_mrbs_rlp') . ":</B>\n";
     for ($i = -2; $i <= 6; $i++) {
         $ctime = mktime(0, 0, 0, $month + $i, 1, $year);
         $str = userdate($ctime, "%b %Y");
@@ -115,21 +109,20 @@ if ($pview != 1) {
             echo " | ";
         }
         if ($i == 0) {
-            echo '<b>[ ';
+            echo '<b class="active">[ ';
         }
-        $url = new moodle_url('/blocks/mrbs/web/month.php', array_merge(array('year' => $cyear, 'month' => $cmonth), $params));
-        echo "<a href=\"".$url."\">$str</a>\n";
+        $url = new moodle_url('/blocks/mrbs_rlp/web/month.php', array_merge(['year' => $cyear, 'month' => $cmonth], $params));
+        echo "<a href=\"" . $url . "\">$str</a>\n";
         if ($i == 0) {
             echo ']</b> ';
         }
     }
 
     echo "<HR>";
-    $thisurl = new moodle_url($PAGE->url, array('pview' => 1));
-    echo '<p><center><a href="'.$thisurl.'">'.get_string('ppreview', 'block_mrbs').'</a></center><p>';
-
+    $thisurl = new moodle_url($PAGE->url, ['pview' => 1]);
+    echo '<p><center><a href="' . $thisurl . '">' . get_string('ppreview', 'block_mrbs_rlp') . '</a></center><p>';
 }
 
-echo '</div>';  // Close 'mrbscontainer'
+echo '</div>';  // Close 'mrbs_rlpcontainer'
 
 echo $OUTPUT->footer();

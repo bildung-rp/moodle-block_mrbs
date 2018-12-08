@@ -15,23 +15,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-require_once(dirname(dirname(dirname(dirname(__FILE__)))).'/config.php');
+require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 global $PAGE, $DB, $USER;
 
-$dayurl = new moodle_url('/blocks/mrbs/web/day.php');
+$dayurl = new moodle_url('/blocks/mrbs_rlp/web/day.php');
 $PAGE->set_url($dayurl); // Hopefully will never be needed
 require_login();
 
 $context = context_system::instance();
 
-if (!has_capability('block/mrbs:editmrbs', $context) && !has_capability('block/mrbs:administermrbs', $context)) {
+$PAGE->set_context($context);
+
+if (!has_capability('block/mrbs_rlp:editmrbs_rlp', $context) && !has_capability('block/mrbs_rlp:administermrbs_rlp', $context)) {
     redirect($dayurl);
 }
 
 $touser = required_param('id', PARAM_INT);
 $message = required_param('message', PARAM_TEXT);
 
-$touser = $DB->get_record('user', array('id' => $touser));
+$touser = $DB->get_record('user', ['id' => $touser]);
 
 require_sesskey();
 
