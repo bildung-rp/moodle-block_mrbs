@@ -17,10 +17,19 @@
 // prevent direct access to this script
 defined('MOODLE_INTERNAL') || die();
 
+<<<<<<< HEAD
 $plugin = new stdClass();
 $plugin->version = 2019011701;
 $plugin->requires = 2018051700; // Moodle 3.5+
+=======
+$plugin->version = 2018121200;
+$plugin->requires = 2014051200; // Moodle 2.7+
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 $plugin->cron = 300;
 $plugin->component = 'block_mrbs_rlp';
 $plugin->maturity = MATURITY_STABLE;
+<<<<<<< HEAD
 $plugin->release = '1.4.1 (Build: 2019011000)';
+=======
+$plugin->release = '1.4.0 (Build: 2018121200)';
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4

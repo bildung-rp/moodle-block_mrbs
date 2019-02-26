@@ -16,7 +16,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
+<<<<<<< HEAD
 global $PAGE, $DB, $USER;
+=======
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 
 $dayurl = new moodle_url('/blocks/mrbs_rlp/web/day.php');
 $PAGE->set_url($dayurl); // Hopefully will never be needed
@@ -26,7 +29,11 @@ $context = context_system::instance();
 
 $PAGE->set_context($context);
 
+<<<<<<< HEAD
 if (!has_capability('block/mrbs_rlp:editmrbs_rlp', $context) && !has_capability('block/mrbs_rlp:administermrbs_rlp', $context)) {
+=======
+if (!has_capability('block/mrbs:editmrbs', $context) && !has_capability('block/mrbs:administermrbs', $context)) {
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     redirect($dayurl);
 }
 
@@ -35,7 +42,9 @@ $message = required_param('message', PARAM_TEXT);
 
 $touser = $DB->get_record('user', ['id' => $touser]);
 
-require_sesskey();
+if (!confirm_sesskey()) {
+    print_error('Invalid sesskey');
+}
 
 email_to_user($touser, $USER, 'Request vacate room', $message);
 

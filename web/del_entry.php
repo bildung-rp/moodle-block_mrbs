@@ -16,11 +16,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
+<<<<<<< HEAD
 global $PAGE, $DB, $USER;
 include "config.inc.php";
 include "functions.php";
 require_once "mrbs_rlp_auth.php";
 include "mrbs_rlp_sql.php";
+=======
+include "config.inc.php";
+include "functions.php";
+require_once "mrbs_auth.php";
+include "mrbs_sql.php";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 
 $id = required_param('id', PARAM_INT);
 $series = optional_param('series', 0, PARAM_INT);
@@ -28,7 +35,9 @@ $series = optional_param('series', 0, PARAM_INT);
 $PAGE->set_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id]);
 require_login();
 
-require_sesskey();
+if (!confirm_sesskey()) {
+    error('Invalid sesskey');
+}
 
 if (getAuthorised(1) && ($info = mrbs_rlpGetEntryInfo($id))) {
     $day = userdate($info->start_time, "%d");
@@ -41,9 +50,15 @@ if (getAuthorised(1) && ($info = mrbs_rlpGetEntryInfo($id))) {
     }
     $roomadmin = false;
     $context = context_system::instance();
+<<<<<<< HEAD
 
     if (has_capability('block/mrbs_rlp:editmrbs_rlpunconfirmed', $context, null, false)) {
         $adminemail = $DB->get_field('block_mrbs_rlp_room', 'room_admin_email', ['id' => $info->room_id]);
+=======
+    
+    if (has_capability('block/mrbs:editmrbsunconfirmed', $context, null, false)) {
+        $adminemail = $DB->get_field('block_mrbs_room', 'room_admin_email', array('id' => $info->room_id));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
         if ($adminemail == $USER->email) {
             $roomadmin = true;
         }
@@ -53,7 +68,11 @@ if (getAuthorised(1) && ($info = mrbs_rlpGetEntryInfo($id))) {
     if ($result) {
         // Send a mail to the Administrator
         (MAIL_ADMIN_ON_DELETE) ? $result = notifyAdminOnDelete($mail_previous) : '';
+<<<<<<< HEAD
         $desturl = new moodle_url('/blocks/mrbs_rlp/web/day.php', ['day' => $day, 'month' => $month, 'year' => $year, 'area' => $area]);
+=======
+        $desturl = new moodle_url('/blocks/mrbs/web/day.php', array('day' => $day, 'month' => $month, 'year' => $year, 'area' => $area));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
         redirect($desturl);
         exit();
     }

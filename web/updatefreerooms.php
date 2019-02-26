@@ -18,7 +18,11 @@
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
 include "config.inc.php";
 include "functions.php";
+<<<<<<< HEAD
 require_once "mrbs_rlp_auth.php";
+=======
+require_once "mrbs_auth.php";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 
 require_login();
 $day = optional_param('day', 0, PARAM_INT);
@@ -107,9 +111,8 @@ if (isset($all_day) && ($all_day == "yes")) {
     // Round up the duration to the next whole resolution unit.
     // If they asked for 0 minutes, push that up to 1 resolution unit.
     $diff = $endtime - $starttime;
-    if (($tmp = $diff % $resolution) != 0 || $diff == 0) {
+    if (($tmp = $diff % $resolution) != 0 || $diff == 0)
         $endtime += $resolution - $tmp;
-    }
 
     $endtime += cross_dst($starttime, $endtime);
 }
@@ -121,7 +124,11 @@ $sql .= 'FROM {block_mrbs_rlp_room} r JOIN {block_mrbs_rlp_area} a on r.area_id=
 $params = [];
 
 if (!empty($day)) {
+<<<<<<< HEAD
     $sql .= "(( SELECT COUNT(*) FROM {block_mrbs_rlp_entry} e ";
+=======
+    $sql.= "(( SELECT COUNT(*) FROM {block_mrbs_entry} e ";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 
     //old booking fully inside new booking
     $sql .= "WHERE ((e.start_time>=:starttime1 AND e.end_time<:endtime1) ";
@@ -132,15 +139,21 @@ if (!empty($day)) {
 
     $sql .= "AND e.room_id = r.id ) < 1 OR r.id= :currentroom) AND ";
 
+<<<<<<< HEAD
     $params = ['starttime1' => $starttime, 'starttime2' => $starttime, 'starttime3' => $starttime,
         'endtime1' => $endtime, 'endtime2' => $endtime, 'endtime3' => $endtime,
         'currentroom' => $currentroom];
+=======
+    $params = array('starttime1' => $starttime, 'starttime2' => $starttime, 'starttime3' => $starttime,
+        'endtime1' => $endtime, 'endtime2' => $endtime, 'endtime3' => $endtime,
+        'currentroom' => $currentroom);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 }
 
 if ($area == 'IT') {
-    $sql .= 'description LIKE \'Teaching IT%\' ';
+    $sql.='description LIKE \'Teaching IT%\' ';
 } else {
-    $sql .= 'r.area_id=:area ';
+    $sql.='r.area_id=:area ';
     $params['area'] = $area;
 }
 
@@ -153,6 +166,7 @@ if (!empty($rooms)) {
     $list = '';
     foreach ($rooms as $room) {
         if (allowed_to_book($USER, $room)) {
+<<<<<<< HEAD
             $info = [];
             $desc = trim(s($room->description));
             if ($desc) {
@@ -167,6 +181,9 @@ if (!empty($rooms)) {
                 $info = '';
             }
             $list .= $room->id . ',' . $room->room_name . $info . "\n";
+=======
+            $list.= $room->id . ',' . $room->room_name . ' (' . $room->description . ' Capacity:' . $room->capacity . ')' . "\n";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
         }
     }
     echo $list;

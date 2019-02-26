@@ -13,15 +13,26 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+<<<<<<< HEAD
 function renameifexists(database_manager $dbman, $tablename)
 {
+=======
+
+function renameifexists($dbman, $tablename) {
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     global $DB, $CFG;
     $oldname = $tablename;
+<<<<<<< HEAD
     $newname = $CFG->prefix.$tablename;
     $tbl = $DB->get_records_sql(
         'SELECT table_name FROM information_schema.tables WHERE table_name = ? AND table_schema = ?',
                                 [$oldname, $CFG->dbname]
     );
+=======
+    $newname = $CFG->prefix . $tablename;
+
+    $tbl = $DB->get_records_sql('SELECT table_name FROM information_schema.tables WHERE table_name = ? AND table_schema = ?', array($oldname, $CFG->dbname));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     if (empty($tbl)) {
         // Old table does not exist - nothing to do
         return;
@@ -34,10 +45,10 @@ function renameifexists(database_manager $dbman, $tablename)
             // New table exists, but is empty - drop it, then carry on with the rename below
             $dbman->drop_table($newtbl);
         } else {
-            $oldhasdata = $DB->count_records_sql('SELECT COUNT(*) FROM '.$oldname);
+            $oldhasdata = $DB->count_records_sql('SELECT COUNT(*) FROM ' . $oldname);
             if (!$oldhasdata) {
                 // New table has data, old table does not - just drop the old one
-                $DB->execute('DROP TABLE '.$oldname);
+                $DB->execute('DROP TABLE ' . $oldname);
                 return;
             } else {
                 // Both contain data - display error and halt upgrade
@@ -50,13 +61,13 @@ function renameifexists(database_manager $dbman, $tablename)
     // I would like to use this function, but it is protected
     //$dbman->execute_sql('ALTER TABLE '.$oldname.' RENAME TO '.$newname);
     // Rename the old table to the new table name
-    $DB->execute('ALTER TABLE '.$oldname.' RENAME TO '.$newname);
+    $DB->execute('ALTER TABLE ' . $oldname . ' RENAME TO ' . $newname);
 }
 function block_mrbs_rlp_convert_timestamp($tablename, $fieldname)
 {
     global $DB;
     // Check to see if the field is currently of type 'timestamp'.
-    $fielddef = $DB->get_record_sql("SHOW COLUMNS FROM {".$tablename."} LIKE '".$fieldname."'");
+    $fielddef = $DB->get_record_sql("SHOW COLUMNS FROM {" . $tablename . "} LIKE '" . $fieldname . "'");
     if (!$fielddef) {
         die("$fieldname does not exist in table $tablename");
     }
@@ -73,15 +84,25 @@ function block_mrbs_rlp_convert_timestamp($tablename, $fieldname)
         $dbman->add_field($table, $field);
     }
     // Copy & convert the current date from [fieldname] => [fieldname]_conv
+<<<<<<< HEAD
     $DB->execute('UPDATE {'.$tablename.'} SET '.$tempfield.' = UNIX_TIMESTAMP('.$fieldname.')');
+=======
+    $DB->execute('UPDATE {' . $tablename . '} SET ' . $tempfield . ' = UNIX_TIMESTAMP(' . $fieldname . ')');
+
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     // Rename [fieldname] => [fieldname]_backup + rename [fieldname]_conv => [fieldname]
     $backupfield = "{$fieldname}_backup";
-    $DB->execute('ALTER TABLE {'.$tablename.'} CHANGE '.$fieldname.' '.$backupfield.' TIMESTAMP');
+    $DB->execute('ALTER TABLE {' . $tablename . '} CHANGE ' . $fieldname . ' ' . $backupfield . ' TIMESTAMP');
     $dbman->rename_field($table, $field, $fieldname);
     echo "$tablename.$fieldname converted from timestamp to integer (backup data in $tablename.$backupfield)<br/>\n";
 }
+<<<<<<< HEAD
 function xmldb_block_mrbs_rlp_upgrade($oldversion=0)
 {
+=======
+
+function xmldb_block_mrbs_upgrade($oldversion = 0) {
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     global $DB, $CFG;
     $dbman = $DB->get_manager();
     if ($oldversion < 2011050600) {
@@ -141,6 +162,7 @@ function xmldb_block_mrbs_rlp_upgrade($oldversion=0)
             upgrade_block_savepoint(true, 2012091200, 'mrbs_rlp');
         }
     }
+<<<<<<< HEAD
     if ($oldversion < 2016101700) {
         // Changing type of field area_name on table block_mrbs_rlp_area to char.
         $table = new xmldb_table('block_mrbs_rlp_area');
@@ -160,5 +182,8 @@ function xmldb_block_mrbs_rlp_upgrade($oldversion=0)
         // Mrbs savepoint reached.
         upgrade_block_savepoint(true, 2016101700, 'mrbs_rlp');
     }
+=======
+
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     return true;
 }

@@ -99,13 +99,17 @@ function RoomSearch() {
             try {
                 xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
             } catch (e) {
+<<<<<<< HEAD
                 window.alert("Your browser does not support AJAX!");
+=======
+                alert("Your browser does not support AJAX!");
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
             }
         }
     }
 
     xmlHttp.onreadystatechange = function () {
-        if (xmlHttp.readyState === 4) {
+        if (xmlHttp.readyState == 4) {
             //We've got a list of rooms from the server
             freeRooms = xmlHttp.responseText.split("\n");
             var rooms = document.getElementById('rooms');
@@ -114,7 +118,7 @@ function RoomSearch() {
             while (rooms.childNodes.length >= 1) {
                 rooms.removeChild(rooms.firstChild);
             }
-            if (xmlHttp.responseText !== '') {
+            if (xmlHttp.responseText != '') {
                 document.getElementById('results').innerHTML = langRoomsFree;
                 for (i = 0; i < freeRooms.length; i++) {
                     room = freeRooms[i].split(",");

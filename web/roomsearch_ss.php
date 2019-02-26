@@ -18,8 +18,13 @@
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 include "config.inc.php";
 include "functions.php";
+<<<<<<< HEAD
 require_once "mrbs_rlp_auth.php";
 include "mrbs_rlp_sql.php";
+=======
+require_once "mrbs_auth.php";
+include "mrbs_sql.php";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 
 require_login();
 $day = optional_param('day', 0, PARAM_INT);
@@ -112,9 +117,8 @@ if (isset($all_day) && ($all_day == "yes")) {
     // Round up the duration to the next whole resolution unit.
     // If they asked for 0 minutes, push that up to 1 resolution unit.
     $diff = $endtime - $starttime;
-    if (($tmp = $diff % $resolution) != 0 || $diff == 0) {
+    if (($tmp = $diff % $resolution) != 0 || $diff == 0)
         $endtime += $resolution - $tmp;
-    }
 
     $endtime += cross_dst($starttime, $endtime);
 }
@@ -135,7 +139,10 @@ $params = [$starttime, $endtime, $starttime, $starttime, $endtime, $endtime, $mi
 
 
 
+
+
 if ($computer) {
+<<<<<<< HEAD
     $sql .= " AND " . $DB->sql_like('r.description', '?', false);
     $params[] = 'Teaching IT%';
 }
@@ -145,6 +152,17 @@ if ($teaching) {
 }
 if ($special) {
     $sql .= " AND " . $DB->sql_like('r.description', '?', false);
+=======
+    $sql.= " AND " . $DB->sql_like('r.description', '?', false);
+    $params[] = 'Teaching IT%';
+}
+if ($teaching) {
+    $sql.= " AND " . $DB->sql_like('r.description', '?', false);
+    $params[] = 'Teaching%';
+}
+if ($special) {
+    $sql.= " AND " . $DB->sql_like('r.description', '?', false, false, true);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     $params[] = 'Teaching Specialist%';
 }
 
@@ -154,7 +172,11 @@ $rooms = $DB->get_records_sql($sql, $params);
 if (!empty($rooms)) {
     $list = '';
     foreach ($rooms as $room) {
+<<<<<<< HEAD
         $list .= $room->area_name . ',<a href="edit_entry.php?room=' . $room->id . '&period=' . $period . '&year=' . $year . '&month=' . $month . '&day=' . $day . '&duration=' . $diff . '">' . $room->room_name . '</a>,' . $room->description . ',' . $room->capacity . "\n";
+=======
+        $list.=$room->area_name . ',<a href="javascript:openURL(\'edit_entry.php?room=' . $room->id . '&period=' . $period . '&year=' . $year . '&month=' . $month . '&day=' . $day . '&duration=' . $diff . '\')">' . $room->room_name . '</a>,' . $room->description . ',' . $room->capacity . "\n";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     }
     //remove last \n to prevent blank row in table
     echo substr($list, 0, -1);

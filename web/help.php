@@ -20,7 +20,7 @@ include "config.inc.php";
 include "functions.php";
 //include "../version.php";
 
-global $USER, $CFG, $PAGE;
+global $USER;
 
 $pluginmanager = core_plugin_manager::instance();
 $mrbs_rlp = $pluginmanager->get_plugin_info('block_mrbs_rlp');
@@ -35,7 +35,7 @@ $year = optional_param('year', 0, PARAM_INT);
 $area = optional_param('area', 0, PARAM_INT);
 
 //If we dont know the right date then make it up
-if (($day == 0) or ($month == 0) or ($year == 0)) {
+if (($day == 0) or ( $month == 0) or ( $year == 0)) {
     $day = date("d");
     $month = date("m");
     $year = date("Y");
@@ -57,6 +57,7 @@ echo "<h3>" . get_string('about_mrbs_rlp', 'block_mrbs_rlp') . "</h3>\n";
 echo "<p><strong>" . get_string('mrbs_rlp', 'block_mrbs_rlp') . "</strong>: " . $mrbs_rlp->release . "\n";
 echo "<br><a href=\"https://github.com/bildung-rp/moodle-block_mrbs_rlp\">https://github.com/bildung-rp/moodle-block_mrbs_rlp</a>\n";
 
+<<<<<<< HEAD
 echo "<br /><br /><strong>" . get_string('system', 'block_mrbs_rlp') . "</strong> " . php_uname() . "\n";
 echo "<br /><strong>PHP</strong>: " . phpversion() . "\n";
 
@@ -69,6 +70,24 @@ if (file_exists($CFG->dirroot . '/blocks/mrbs_rlp/lang/' . $lang . '/help/site_f
     include $CFG->dirroot . '/blocks/mrbs_rlp/lang/' . $lang . '/help/site_faq.html';
 } else {
     include $CFG->dirroot . '/blocks/mrbs_rlp/lang/en/help/site_faq.html';
+=======
+echo "<H3>" . get_string('about_mrbs', 'block_mrbs') . "</H3>\n";
+echo "<P><a href=\"http://mrbs.sourceforge.net\">" . get_string('mrbs', 'block_mrbs') . "</a> - " . get_mrbs_version() . "\n";
+//echo "<BR>" . get_string('database','block_mrbs') . sql_version() . "\n";
+echo "<BR>" . get_string('system', 'block_mrbs') . php_uname() . "\n";
+echo "<BR>PHP: " . phpversion() . "\n";
+
+echo "<H3>" . get_string('help') . "</H3>\n";
+echo get_string('please_contact', 'block_mrbs') . '<a href="mailto:' . $mrbs_admin_email
+ . '">' . $mrbs_admin
+ . "</a> " . get_string('for_any_questions', 'block_mrbs') . "\n";
+
+$lang = current_language();
+if (file_exists($CFG->dirroot . '/blocks/mrbs/lang/' . $lang . '/help/site_faq.html')) {
+    include $CFG->dirroot . '/blocks/mrbs/lang/' . $lang . '/help/site_faq.html';
+} else {
+    include $CFG->dirroot . '/blocks/mrbs/lang/en/help/site_faq.html';
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 }
 
 include "trailer.php";

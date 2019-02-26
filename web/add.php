@@ -16,11 +16,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
+<<<<<<< HEAD
 global $CFG, $PAGE, $DB;
 
 require "config.inc.php";
 require "functions.php";
 require_once "mrbs_rlp_auth.php";
+=======
+require "config.inc.php";
+require "functions.php";
+require_once "mrbs_auth.php";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 
 $type = required_param('type', PARAM_ALPHA);
 $name = required_param('name', PARAM_TEXT);
@@ -45,7 +51,9 @@ if (!getAuthorised(2)) {
     showAccessDenied($day, $month, $year, $area);
     exit();
 }
-require_sesskey();
+if (!confirm_sesskey()) {
+    error('Invalid sesskey');
+}
 
 // This file is for adding new areas/rooms
 // we need to do different things depending on if its a room

@@ -89,7 +89,11 @@ class booking_updated extends \core\event\base
     protected function get_legacy_logdata()
     {
         global $CFG;
+<<<<<<< HEAD
         return array(SITEID, 'mrbs_rlp', 'edit booking', $CFG->wwwroot . 'blocks/mrbs_rlp/web/view_entry.php?id=' . $this->objectid,
+=======
+        return array(SITEID, 'mrbs', 'edit booking', $CFG->wwwroot . 'blocks/mrbs/web/view_entry.php?id=' . $this->objectid,
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
             $this->other['name']);
     }
 
@@ -102,4 +106,8 @@ class booking_updated extends \core\event\base
             throw new \coding_exception('Must specify the room for the booking as \'other[\'room\']\'');
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 }

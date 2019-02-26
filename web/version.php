@@ -17,10 +17,20 @@
 // This should probably be a class, but you can only have protected
 // class members in PHP 5, so we won't bother
 
+<<<<<<< HEAD
 function get_mrbs_rlp_version()
 {
     // MRBS developers, make sure to update this string before each release
     $mrbs_rlp_version = "MRBS 1.4.1 (unofficial!)";
 
     return $mrbs_rlp_version;
+=======
+function get_mrbs_version() {
+    // MRBS developers, make sure to update this string before each release
+    $mrbs_version = "MRBS 1.3.0 (unofficial!)";
+
+    return $mrbs_version;
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 }
+
+?>

@@ -15,7 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
+<<<<<<< HEAD
 global $PAGE, $DB;
+=======
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 include "config.inc.php";
 include "functions.php";
 
@@ -74,14 +77,22 @@ function hours_minutes_seconds_format()
 
 // Convert a start time and end time to a plain language description.
 // This is similar but different from the way it is done in view_entry.
+<<<<<<< HEAD
 function describe_span($starts, $ends)
 {
+=======
+function describe_span($starts, $ends) {
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     global $twentyfourhour_format;
     $start_date = userdate($starts, '%A %d %B %Y');
     $start_time = userdate($starts, hours_minutes_seconds_format());
     $duration = $ends - $starts;
     if ($start_time == "00:00:00" && $duration == 60 * 60 * 24) {
+<<<<<<< HEAD
         return $start_date . " - " . get_string('all_day', 'block_mrbs_rlp');
+=======
+        return $start_date . " - " . get_string('all_day', 'block_mrbs');
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     }
     toTimeString($duration, $dur_units);
     return $start_date . " " . $start_time . " - " . $duration . " " . $dur_units;
@@ -89,9 +100,14 @@ function describe_span($starts, $ends)
 
 // Convert a start period and end period to a plain language description.
 // This is similar but different from the way it is done in view_entry.
+<<<<<<< HEAD
 function describe_period_span($starts, $ends)
 {
     list($start_period, $start_date) = period_date_string($starts);
+=======
+function describe_period_span($starts, $ends) {
+    list( $start_period, $start_date) = period_date_string($starts);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     list(, $end_date) = period_date_string($ends, -1);
     $duration = $ends - $starts;
     toPeriodString($start_period, $duration, $dur_units);
@@ -100,8 +116,12 @@ function describe_period_span($starts, $ends)
 
 // this is based on describe_span but it displays the start and end
 // date/time of an entry
+<<<<<<< HEAD
 function start_to_end($starts, $ends)
 {
+=======
+function start_to_end($starts, $ends) {
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     global $twentyfourhour_format;
     $start_date = userdate($starts, '%A %d %B %Y');
     $start_time = userdate($starts, hours_minutes_seconds_format());
@@ -133,7 +153,11 @@ function reporton(&$item, &$last_area_room, &$last_date, $sortby, $display)
     // entries to be sorted on area/room
     if ($sortby == "r") {
         if ($area_room != $last_area_room) {
+<<<<<<< HEAD
             echo "<hr><h2>" . get_string('room', 'block_mrbs_rlp') . ": " . $area_room . "</h2>\n";
+=======
+            echo "<hr><h2>" . get_string('room', 'block_mrbs') . ": " . $area_room . "</h2>\n";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
         }
         if ($date != $last_date || $area_room != $last_area_room) {
             echo "<hr noshade=\"true\"><h3>" . get_string('date') . " " . $date . "</h3>\n";
@@ -150,7 +174,11 @@ function reporton(&$item, &$last_area_room, &$last_date, $sortby, $display)
             echo "<hr><h2>" . get_string('date') . " " . $date . "</h2>\n";
         }
         if ($area_room != $last_area_room || $date != $last_date) {
+<<<<<<< HEAD
             echo "<hr noshade=\"true\"><h3>" . get_string('room', 'block_mrbs_rlp') . ": " . $area_room . "</h3>\n";
+=======
+            echo "<hr noshade=\"true\"><h3>" . get_string('room', 'block_mrbs') . ": " . $area_room . "</h3>\n";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
             $last_area_room = $area_room;
         }
         // remember current date that is being processed.
@@ -164,7 +192,11 @@ function reporton(&$item, &$last_area_room, &$last_date, $sortby, $display)
     echo "<hr><table width=\"100%\">\n";
 
     // Brief Description (title), linked to view_entry:
+<<<<<<< HEAD
     $viewurl = new moodle_url('/blocks/mrbs_rlp/web/view_entry.php', ['id' => $item->id]);
+=======
+    $viewurl = new moodle_url('/blocks/mrbs/web/view_entry.php', array('id' => $item->id));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     echo "<tr><td class=\"BL\"><a href=\"" . $viewurl . "\">"
     . s($item->name) . "</a></td>\n";
 
@@ -191,9 +223,15 @@ function reporton(&$item, &$last_area_room, &$last_date, $sortby, $display)
 
     // Entry Type:
     $et = empty($typel[$item->type]) ? "?$item->type?" : $typel[$item->type];
+<<<<<<< HEAD
     echo "<tr><td class=\"BL\" colspan=2><b>" . get_string('type', 'block_mrbs_rlp') . "</b> $et</td></tr>\n";
     // Created by and last update timestamp:
     echo "<tr><td class=\"BL\" colspan=2><small><b>" . get_string('createdby', 'block_mrbs_rlp') . "</b> " .
+=======
+    echo "<tr><td class=\"BL\" colspan=2><b>" . get_string('type', 'block_mrbs') . "</b> $et</td></tr>\n";
+    // Created by and last update timestamp:
+    echo "<tr><td class=\"BL\" colspan=2><small><b>" . get_string('createdby', 'block_mrbs') . "</b> " .
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     s($item->create_by) . ", <b>" . get_string('lastmodified') . "</b> " .
     time_date_string($item->timestamp) . "</small></td></tr>\n";
 
@@ -204,8 +242,12 @@ function reporton(&$item, &$last_area_room, &$last_date, $sortby, $display)
 // $sumby selects grouping on brief description (d) or created by (c).
 // This also builds hash tables of all unique names and rooms. When sorted,
 // these will become the column and row headers of the summary table.
+<<<<<<< HEAD
 function accumulate(&$row, &$count, &$hours, $report_start, $report_end, &$room_hash, &$name_hash)
 {
+=======
+function accumulate(&$row, &$count, &$hours, $report_start, $report_end, &$room_hash, &$name_hash) {
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     global $sumby;
     // Use brief description or created by as the name:
     if ($sumby == "d") {
@@ -223,8 +265,12 @@ function accumulate(&$row, &$count, &$hours, $report_start, $report_end, &$room_
     $name_hash[$name] = 1;
 }
 
+<<<<<<< HEAD
 function accumulate_periods(&$item, &$count, &$hours, $report_start, $report_end, &$room_hash, &$name_hash)
 {
+=======
+function accumulate_periods(&$item, &$count, &$hours, $report_start, $report_end, &$room_hash, &$name_hash) {
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     global $sumby;
     global $periods;
     $max_periods = count($periods);
@@ -277,7 +323,11 @@ function do_summary(&$count, &$hours, &$room_hash, &$name_hash)
     $n_names = sizeof($names);
 
     echo "<hr><h1>" .
+<<<<<<< HEAD
     (empty($enable_periods) ? get_string('summary_header', 'block_mrbs_rlp') : get_string('summary_header_per', 'block_mrbs_rlp')) .
+=======
+    (empty($enable_periods) ? get_string('summary_header', 'block_mrbs') : get_string('summary_header_per', 'block_mrbs')) .
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
     "</h1><table border=2 cellspacing=4>\n";
     echo "<tr><td>&nbsp;</td>\n";
     for ($c = 0; $c < $n_rooms; $c++) {
@@ -314,15 +364,18 @@ function do_summary(&$count, &$hours, &$room_hash, &$name_hash)
         $grand_hours_total += $row_hours_total;
     }
     echo "<tr><td class=\"BR\" align=right><b>" . get_string('total') . "</b></td>\n";
+<<<<<<< HEAD
     for ($c = 0; $c < $n_rooms; $c++) {
+=======
+    for ($c = 0; $c < $n_rooms; $c++)
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
         cell($col_count_total[$c], $col_hours_total[$c]);
-    }
     cell($grand_count_total, $grand_hours_total);
     echo "</tr></table>\n";
 }
 
 //If we dont know the right date then make it up
-if (($day == 0) or ($month == 0) or ($year == 0)) {
+if (($day == 0) or ( $month == 0) or ( $year == 0)) {
     $day = date("d");
     $month = date("m");
     $year = date("Y");
@@ -431,6 +484,7 @@ if ($pview != 1) {
     <h1><?php echo get_string('report_on', 'block_mrbs_rlp'); ?></h1>
     <form method="get" action="report.php">
         <table>
+<<<<<<< HEAD
             <tr><td class="CR"><?php echo get_string('report_start', 'block_mrbs_rlp'); ?></td>
                 <td class="CL"> <font size="-1">
                     <?php genDateSelector("From_", $From_day, $From_month, $From_year); ?>
@@ -448,10 +502,30 @@ if ($pview != 1) {
                                       value="<?php echo $roommatch_default; ?>">
                 </td></tr>
             <tr><td CLASS=CR><?php echo get_string('match_type', 'block_mrbs_rlp') ?></td>
+=======
+            <tr><td class="CR"><?php echo get_string('report_start', 'block_mrbs'); ?></td>
+                <td class="CL"> <font size="-1">
+                    <?php genDateSelector("From_", $From_day, $From_month, $From_year); ?>
+                    </font></td></tr>
+            <tr><td class="CR"><?php echo get_string('report_end', 'block_mrbs'); ?></td>
+                <td class="CL"> <font size="-1">
+                    <?php genDateSelector("To_", $To_day, $To_month, $To_year); ?>
+                    </font></td></tr>
+            <tr><td class="CR"><?php echo get_string('match_area', 'block_mrbs'); ?></td>
+                <td class="CL"><input type="text" name="areamatch" size="18"
+                                      value="<?php echo $areamatch_default; ?>">
+                </td></tr>
+            <tr><td class="CR"><?php echo get_string('match_room', 'block_mrbs'); ?></td>
+                <td class="CL"><input type="text" name="roommatch" size="18"
+                                      value="<?php echo $roommatch_default; ?>">
+                </td></tr>
+            <tr><td CLASS=CR><?php echo get_string('match_type', 'block_mrbs') ?></td>
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
                 <td CLASS=CL valign=top><table><tr><td>
                                 <select name="typematch[]" multiple="yes">
                                     <?php
                                     foreach ($typel as $key => $val) {
+<<<<<<< HEAD
                                         if (!empty($val)) {
                                             echo "<option value=\"$key\"" .
                                             (is_array($typematch_default) && in_array($key, $typematch_default) ? " selected" : "") .
@@ -530,6 +604,86 @@ if ($pview != 1) {
                 </td></tr>
             <tr><td>&nbsp;</td><td><?php print_string('help_wildcard', 'block_mrbs_rlp'); ?></td></tr>
             <tr><td colspan="2" align="center"><input name="submitform" type="submit" value="<?php echo get_string('submitquery', 'block_mrbs_rlp') ?>">
+=======
+                                        if (!empty($val))
+                                            echo "<option value=\"$key\"" .
+                                            (is_array($typematch_default) && in_array($key, $typematch_default) ? " selected" : "") .
+                                            ">$val\n";
+                                    }
+                                    ?></select></td><td><?php echo get_string('ctrl_click_type', 'block_mrbs') ?></td></tr></table>
+                </td></tr>
+            <tr><td class="CR"><?php echo get_string('match_entry', 'block_mrbs'); ?></td>
+                <td class="CL"><input type="text" name="namematch" size="18"
+                                      value="<?php echo $namematch_default; ?>">
+                </td></tr>
+            <tr><td class="CR"><?php echo get_string('match_descr', 'block_mrbs'); ?></td>
+                <td class="CL"><input type="text" name="descrmatch" size="18"
+                                      value="<?php echo $descrmatch_default; ?>">
+                </td></tr>
+            <tr><td class="CR"><?php echo get_string('createdby', 'block_mrbs'); ?></td>
+                <td class="CL"><input type="text" name="creatormatch" size="18"
+                                      value="<?php echo $creatormatch_default; ?>">
+                </td></tr>
+            <tr><td class="CR"><?php echo get_string('include', 'block_mrbs'); ?></td>
+                <td class="CL">
+                    <input type="radio" name="summarize" value="1"<?php
+                    if ($summarize == 1)
+                        echo " checked";
+                    echo ">" . get_string('report_only', 'block_mrbs');
+                    ?>
+                           <input type="radio" name="summarize" value="2"<?php
+                           if ($summarize == 2)
+                               echo " checked";
+                           echo ">" . get_string('summary_only', 'block_mrbs');
+                           ?>
+                           <input type="radio" name="summarize" value="3"<?php
+                           if ($summarize == 3)
+                               echo " checked";
+                           echo ">" . get_string('report_and_summary', 'block_mrbs');
+                           ?>
+                </td></tr>
+            <tr><td class="CR"><?php echo get_string('sort_rep', 'block_mrbs'); ?></td>
+                <td class="CL">
+                    <input type="radio" name="sortby" value="r"<?php
+                    if ($sortby == "r")
+                        echo " checked";
+                    echo ">" . get_string('room', 'block_mrbs');
+                    ?>
+                           <input type="radio" name="sortby" value="s"<?php
+                           if ($sortby == "s")
+                               echo " checked";
+                           echo ">" . get_string('sort_rep_time', 'block_mrbs');
+                           ?>
+                </td></tr>
+            <tr><td class="CR"><?php echo get_string('rep_dsp', 'block_mrbs'); ?></td>
+                <td class="CL">
+                    <input type="radio" name="display" value="d"<?php
+                    if ($display == "d")
+                        echo " checked";
+                    echo ">" . get_string('rep_dsp_dur', 'block_mrbs');
+                    ?>
+                           <input type="radio" name="display" value="e"<?php
+                           if ($display == "e")
+                               echo " checked";
+                           echo ">" . get_string('rep_dsp_end', 'block_mrbs');
+                           ?>
+                </td></tr>
+            <tr><td class="CR"><?php echo get_string('summarize_by', 'block_mrbs'); ?></td>
+                <td class="CL">
+                    <input type="radio" name="sumby" value="d"<?php
+                    if ($sumby == "d")
+                        echo " checked";
+                    echo ">" . get_string('sum_by_descrip', 'block_mrbs');
+                    ?>
+                           <input type="radio" name="sumby" value="c"<?php
+                           if ($sumby == "c")
+                               echo " checked";
+                           echo ">" . get_string('sum_by_creator', 'block_mrbs');
+                           ?>
+                </td></tr>
+            <tr><td>&nbsp;</td><td><?php print_string('help_wildcard', 'block_mrbs'); ?></td></tr>
+            <tr><td colspan="2" align="center"><input name="submitform" type="submit" value="<?php echo get_string('submitquery', 'block_mrbs') ?>">
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
                 </td></tr>
         </table>
     </form>
@@ -542,25 +696,32 @@ if ($submitform) {
     $report_start = mktime(0, 0, 0, $From_month + 0, $From_day + 0, $From_year + 0);
     $report_end = mktime(0, 0, 0, $To_month + 0, $To_day + 1, $To_year + 0);
 
-    //   SQL result will contain the following columns:
-    // Col Index  Description:
-    //   1  [0]   Entry ID, not displayed -- used for linking to View script.
-    //   2  [1]   Start time as Unix time_t
-    //   3  [2]   End time as Unix time_t
-    //   4  [3]   Entry name or short description, must be HTML escaped
-    //   5  [4]   Entry description, must be HTML escaped
-    //   6  [5]   Type, single char mapped to a string
-    //   7  [6]   Created by (user name or IP addr), must be HTML escaped
-    //   8  [7]   Creation timestamp, converted to Unix time_t by the database
-    //   9  [8]   Area name, must be HTML escaped
-    //  10  [9]   Room name, must be HTML escaped
+//   SQL result will contain the following columns:
+// Col Index  Description:
+//   1  [0]   Entry ID, not displayed -- used for linking to View script.
+//   2  [1]   Start time as Unix time_t
+//   3  [2]   End time as Unix time_t
+//   4  [3]   Entry name or short description, must be HTML escaped
+//   5  [4]   Entry description, must be HTML escaped
+//   6  [5]   Type, single char mapped to a string
+//   7  [6]   Created by (user name or IP addr), must be HTML escaped
+//   8  [7]   Creation timestamp, converted to Unix time_t by the database
+//   9  [8]   Area name, must be HTML escaped
+//  10  [9]   Room name, must be HTML escaped
 
     $sql = "SELECT e.id, e.start_time, e.end_time, e.name, e.description, "
             . "e.type, e.create_by, e.timestamp, a.area_name, r.room_name"
+<<<<<<< HEAD
             . " FROM {block_mrbs_rlp_entry} e, {block_mrbs_rlp_area} a, {block_mrbs_rlp_room} r"
             . " WHERE e.room_id = r.id AND r.area_id = a.id"
             . " AND e.start_time < ? AND e.end_time > ?";
     $params = [$report_end, $report_start];
+=======
+            . " FROM {block_mrbs_entry} e, {block_mrbs_area} a, {block_mrbs_room} r"
+            . " WHERE e.room_id = r.id AND r.area_id = a.id"
+            . " AND e.start_time < ? AND e.end_time > ?";
+    $params = array($report_end, $report_start);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
 
     if (!empty($areamatch)) {
         $sql .= " AND " . $DB->sql_like("a.area_name", '?', false);
@@ -616,7 +777,11 @@ if ($submitform) {
         $last_area_room = "";
         $last_date = "";
         echo "<P><B>" . $nmatch . " "
+<<<<<<< HEAD
         . ($nmatch == 1 ? get_string('entry_found', 'block_mrbs_rlp') : get_string('entries_found', 'block_mrbs_rlp'))
+=======
+        . ($nmatch == 1 ? get_string('entry_found', 'block_mrbs') : get_string('entries_found', 'block_mrbs'))
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
         . "</B>\n";
 
         foreach ($rep as $item) {
