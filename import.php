@@ -55,9 +55,21 @@ if (!isset($cfg_mrbs_rlp->periods) or empty($cfg_mrbs_rlp->periods)) {
     }
 }
 $output = '';
+<<<<<<< HEAD
 if (!empty($cfg_mrbs_rlp->cronfile) && file_exists($cfg_mrbs_rlp->cronfile)) {
     if ($mrbs_rlp_sessions = fopen($cfg_mrbs_rlp->cronfile, 'r')) {
         $output .= get_string('startedimport', 'block_mrbs_rlp') . "\n";
+=======
+<<<<<<< HEAD
+if (!empty($cfg_mrbs_rlp->cronfile) && file_exists($cfg_mrbs_rlp->cronfile)) {
+    if ($mrbs_rlp_sessions = fopen($cfg_mrbs_rlp->cronfile, 'r')) {
+        $output .= get_string('startedimport', 'block_mrbs_rlp') . "\n";
+=======
+if (file_exists($cfg_mrbs->cronfile)) {
+    if ($mrbs_sessions = fopen($cfg_mrbs->cronfile, 'r')) {
+        $output .= get_string('startedimport', 'block_mrbs') . "\n";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         $now = time();
         $DB->set_field_select('block_mrbs_rlp_entry', 'type', 'M', 'type=\'K\' and start_time > ?', [$now]); // Change old imported (type K) records to temporary type M
         while ($array = fgetcsv($mrbs_rlp_sessions)) { //import timetable into mrbs_rlp
@@ -76,10 +88,23 @@ if (!empty($cfg_mrbs_rlp->cronfile) && file_exists($cfg_mrbs_rlp->cronfile)) {
             $room = import::room_id_lookup($csvrow->room_name);
             $weeks = str_split($csvrow->weekpattern);
             foreach ($weeks as $week) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 if (($week == 1) and ($date > $now)) {
                     $start_time = import::time_to_datetime($date, $csvrow->start_time);
                     $end_time = mrbs_rlp_3($date, $csvrow->end_time);
                     if (!import::is_timetabled($csvrow->name, $start_time)) { ////only timetable class if it isn't already timetabled elsewhere (class been moved)
+<<<<<<< HEAD
+=======
+=======
+                if (($week == 1) and ( $date > $now)) {
+                    $start_time = time_to_datetime($date, $csvrow->start_time);
+                    $end_time = time_to_datetime($date, $csvrow->end_time);
+                    if (!is_timetabled($csvrow->name, $start_time)) { ////only timetable class if it isn't already timetabled elsewhere (class been moved)
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                         $entry = new stdClass();
                         $entry->start_time = $start_time;
                         $entry->end_time = $end_time;
@@ -104,22 +129,48 @@ if (!empty($cfg_mrbs_rlp->cronfile) && file_exists($cfg_mrbs_rlp->cronfile)) {
                         if ($existingclass = $DB->get_record_sql($sql, [
                             $start_time, $start_time, $end_time,
                             $end_time, $start_time, $end_time, $room
+<<<<<<< HEAD
                                 ])
                         ) {
                             $hr_start_time = date("j F, Y", $start_time) . ", " . import::to_hr_time($start_time);
+=======
+<<<<<<< HEAD
+                                ])
+                        ) {
+                            $hr_start_time = date("j F, Y", $start_time) . ", " . import::to_hr_time($start_time);
+=======
+                                ))
+                        ) {
+                            $hr_start_time = date("j F, Y", $start_time) . ", " . to_hr_time($start_time);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                             $a = new stdClass();
                             $a->oldbooking = $existingclass->description . '(' . $existingclass->id . ')';
                             $a->newbooking = $csvrow->description . '(' . $newentryid . ')';
                             $a->time = $hr_start_time;
                             $a->room = $csvrow->room_name;
+<<<<<<< HEAD
                             $a->admin = $cfg_mrbs_rlp->admin . ' (' . $cfg_mrbs_rlp->admin_email . ')';
                             $output .= get_string('clash', 'block_mrbs_rlp', $a);
+=======
+<<<<<<< HEAD
+                            $a->admin = $cfg_mrbs_rlp->admin . ' (' . $cfg_mrbs_rlp->admin_email . ')';
+                            $output .= get_string('clash', 'block_mrbs_rlp', $a);
+=======
+                            $a->admin = $cfg_mrbs->admin . ' (' . $cfg_mrbs->admin_email . ')';
+                            $output .= get_string('clash', 'block_mrbs', $a);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
                             $existingteacher = $DB->get_record('user', ['username' => $existingclass->create_by]);
                             $newteacher = $DB->get_record('user', ['username' => $csvrow->username]);
 
                             $body = get_string('clashemailbody', 'block_mrbs_rlp', $a);
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                             if (email_to_user($existingteacher, $newteacher, get_string('clashemailsub', 'block_mrbs_rlp', $a), $body)) {
                                 $output .= ', ' . get_string('clashemailsent', 'block_mrbs_rlp') . ' ' . $existingteacher->firstname . ' ' . $existingteacher->lastname . '<' . $existingteacher->email . '>';
                             } else {
@@ -129,6 +180,20 @@ if (!empty($cfg_mrbs_rlp->cronfile) && file_exists($cfg_mrbs_rlp->cronfile)) {
                                 $output .= ', ' . get_string('clashemailsent', 'block_mrbs_rlp') . ' ' . $newteacher->firstname . ' ' . $newteacher->lastname . '<' . $newteacher->email . '>';
                             } else {
                                 $output .= get_string('clashemailnotsent', 'block_mrbs_rlp') . $csvrow->description . '(' . $newentryid . ')';
+<<<<<<< HEAD
+=======
+=======
+                            if (email_to_user($existingteacher, $newteacher, get_string('clashemailsub', 'block_mrbs', $a), $body)) {
+                                $output .= ', ' . get_string('clashemailsent', 'block_mrbs') . ' ' . $existingteacher->firstname . ' ' . $existingteacher->lastname . '<' . $existingteacher->email . '>';
+                            } else {
+                                $output .= get_string('clashemailnotsent', 'block_mrbs') . $existingclass->description . '(' . $existingclass->id . ')';
+                            }
+                            if (email_to_user($newteacher, $existingteacher, get_string('clashemailsub', 'block_mrbs', $a), $body)) {
+                                $output .= ', ' . get_string('clashemailsent', 'block_mrbs') . ' ' . $newteacher->firstname . ' ' . $newteacher->lastname . '<' . $newteacher->email . '>';
+                            } else {
+                                $output .= get_string('clashemailnotsent', 'block_mrbs') . $csvrow->description . '(' . $newentryid . ')';
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                             }
                             $output .= "\n";
                         }
@@ -151,16 +216,78 @@ if (!empty($cfg_mrbs_rlp->cronfile) && file_exists($cfg_mrbs_rlp->cronfile)) {
 
         //move the processed file to prevent wasted time re-processing TODO: option for how long to keep these- I've found them useful for debugging but obviously can't keep them for ever
         $date = date('Ymd');
+<<<<<<< HEAD
         if (rename($cfg_mrbs_rlp->cronfile, $cfg_mrbs_rlp->cronfile . '.' . $date)) {
             $output .= $cfg_mrbs_rlp->cronfile . get_string('movedto', 'block_mrbs_rlp') . $cfg_mrbs_rlp->cronfile . '.' . $date . "\n";
+=======
+<<<<<<< HEAD
+        if (rename($cfg_mrbs_rlp->cronfile, $cfg_mrbs_rlp->cronfile . '.' . $date)) {
+            $output .= $cfg_mrbs_rlp->cronfile . get_string('movedto', 'block_mrbs_rlp') . $cfg_mrbs_rlp->cronfile . '.' . $date . "\n";
+=======
+        if (rename($cfg_mrbs->cronfile, $cfg_mrbs->cronfile . '.' . $date)) {
+            $output .= $cfg_mrbs->cronfile . get_string('movedto', 'block_mrbs') . $cfg_mrbs->cronfile . '.' . $date . "\n";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         }
         $script_time_taken = time() - $script_start_time;
         $output .= get_string('finishedimport', 'block_mrbs_rlp', $script_time_taken);
 
         echo $output; //will only show up if being run via apache
         //email output to admin
+<<<<<<< HEAD
         if ($mrbs_rlpadmin = $DB->get_record('user', ['email' => $cfg_mrbs_rlp->admin_email])) {
             email_to_user($mrbs_rlpadmin, $mrbs_rlpadmin, get_string('importlog', 'block_mrbs_rlp'), $output);
+=======
+<<<<<<< HEAD
+        if ($mrbs_rlpadmin = $DB->get_record('user', ['email' => $cfg_mrbs_rlp->admin_email])) {
+            email_to_user($mrbs_rlpadmin, $mrbs_rlpadmin, get_string('importlog', 'block_mrbs_rlp'), $output);
+=======
+        if ($mrbsadmin = $DB->get_record('user', array('email' => $cfg_mrbs->admin_email))) {
+            email_to_user($mrbsadmin, $mrbsadmin, get_string('importlog', 'block_mrbs'), $output);
+        }
+    }
+}
+
+//==========================================FUNCTIONS==============================================================
+//looks up the room id from the name
+function room_id_lookup($name) {
+    global $DB;
+    if (!$room = $DB->get_record('block_mrbs_room', array('room_name' => $name))) {
+        $error = "ERROR: failed to return id from database (room $name probably doesn't exist)";
+        echo $error . "\n";
+        return 'error';
+    } else {
+        return $room->id;
+    }
+}
+
+/**
+ * Checks if a class already has a timetable entry. If a previous imported entry exists,
+ * and was edited, leave it. If it wasn't edited (flagged by type M), change it's type back to
+ * K (to show it's an imported record), and return true. If there's no record for the class, or
+ * updating the type back to K fails, return false.
+ *
+ * @param $name string name of the booking
+ * @param $time int start time of the booking in unix timestamp format
+ * @return bool does a previous booking exist?
+ */
+function is_timetabled($name, $time) {
+    global $DB;
+    if ($DB->get_record('block_mrbs_entry', array('name' => $name, 'start_time' => $time, 'type' => 'L'))) {
+        return true;
+    } else if ($record = $DB->get_record('block_mrbs_entry', array(
+        'name' => $name, 'start_time' => $time, 'type' => 'M'
+            ))
+    ) {
+        $upd = new stdClass;
+        $upd->id = $record->id;
+        $upd->type = 'K';
+        if ($DB->update_record('block_mrbs_entry', $upd)) {
+            return true;
+        } else {
+            return false;
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         }
     }
 }

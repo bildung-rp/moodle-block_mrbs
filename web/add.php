@@ -16,11 +16,23 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 global $CFG, $PAGE, $DB;
 
 require "config.inc.php";
 require "functions.php";
 require_once "mrbs_rlp_auth.php";
+<<<<<<< HEAD
+=======
+=======
+require "config.inc.php";
+require "functions.php";
+require_once "mrbs_auth.php";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 $type = required_param('type', PARAM_ALPHA);
 $name = required_param('name', PARAM_TEXT);

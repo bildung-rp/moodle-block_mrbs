@@ -73,8 +73,16 @@ if ($pview) {
 $PAGE->set_url($thisurl);
 require_login();
 
+<<<<<<< HEAD
 $namefields = get_all_user_name_fields(true, 'u');
 
+=======
+<<<<<<< HEAD
+$namefields = get_all_user_name_fields(true, 'u');
+
+=======
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 if ($series) {
     $sql = "SELECT re.name,
             re.description,
@@ -91,9 +99,26 @@ if ($series) {
 	        re.end_date,
 	        re.rep_opt,
 	        re.rep_num_weeks,
+<<<<<<< HEAD
             u.id as userid,
             $namefields
 			FROM  {block_mrbs_rlp_repeat} re left join {user} u on u.username = re.create_by, {block_mrbs_rlp_room} r, {block_mrbs_rlp_area} a
+=======
+<<<<<<< HEAD
+            u.id as userid,
+            $namefields
+			FROM  {block_mrbs_rlp_repeat} re left join {user} u on u.username = re.create_by, {block_mrbs_rlp_room} r, {block_mrbs_rlp_area} a
+=======
+	        u.id as userid,
+                u.firstname,
+                u.lastname,
+                u.lastnamephonetic,
+                u.firstnamephonetic,
+                u.middlename,
+                u.alternatename
+			FROM  {block_mrbs_repeat} re left join {user} u on u.username = re.create_by, {block_mrbs_room} r, {block_mrbs_area} a
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 			WHERE re.room_id = r.id
 			AND r.area_id = a.id
 			AND re.id= ?";
@@ -110,9 +135,26 @@ if ($series) {
 	        e.start_time,
 	        e.end_time,
 	        e.repeat_id,
+<<<<<<< HEAD
             u.id as userid,
             $namefields
 			FROM  {block_mrbs_rlp_entry} e left join {user} u on u.username = e.create_by, {block_mrbs_rlp_room} r, {block_mrbs_rlp_area} a
+=======
+<<<<<<< HEAD
+            u.id as userid,
+            $namefields
+			FROM  {block_mrbs_rlp_entry} e left join {user} u on u.username = e.create_by, {block_mrbs_rlp_room} r, {block_mrbs_rlp_area} a
+=======
+	        u.id as userid,                
+                u.firstname,
+                u.lastname,
+                u.lastnamephonetic,
+                u.firstnamephonetic,
+                u.middlename,
+                u.alternatename
+			FROM  {block_mrbs_entry} e left join {user} u on u.username = e.create_by, {block_mrbs_room} r, {block_mrbs_area} a
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 			WHERE e.room_id = r.id
 			AND r.area_id = a.id
 			AND e.id= ?";
@@ -127,7 +169,15 @@ $booking->fullname = fullname($booking);
 // leave this code alone, please.
 $name = s($booking->name);
 $description = s($booking->description);
+<<<<<<< HEAD
 $userurl = new moodle_url('/user/view.php', ['id' => $booking->userid]);
+=======
+<<<<<<< HEAD
+$userurl = new moodle_url('/user/view.php', ['id' => $booking->userid]);
+=======
+$userurl = new moodle_url('/user/view.php', array('id' => $booking->userid));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 $create_by = '<a href="' . $userurl . '">' . s($booking->fullname) . '</a>';
 $room_name = s($booking->room_name);
 $area_name = s($booking->area_name);
@@ -209,8 +259,18 @@ print_header_mrbs_rlp($day, $month, $year, $area);
 
 <H3>
     <?php
+<<<<<<< HEAD
     if ($course = $DB->get_record('course', ['shortname' => $name])) {
         $courseurl = new moodle_url('/course/view.php', ['id' => $course->id]);
+=======
+<<<<<<< HEAD
+    if ($course = $DB->get_record('course', ['shortname' => $name])) {
+        $courseurl = new moodle_url('/course/view.php', ['id' => $course->id]);
+=======
+    if ($course = $DB->get_record('course', array('shortname' => $name))) {
+        $courseurl = new moodle_url('/course/view.php', array('id' => $course->id));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         echo '<a href="' . $courseurl . '">' . $name . '</a>';
         $sizequery = "SELECT count(*) as size
                     FROM {context} cx
@@ -219,7 +279,15 @@ print_header_mrbs_rlp($day, $month, $year, $area);
                         JOIN {course} c ON cx.contextlevel = 50
                             AND cx.instanceid = c.id
                     WHERE c.id  = ?";
+<<<<<<< HEAD
         $size = $DB->get_record_sql($sizequery, [$course->id]);
+=======
+<<<<<<< HEAD
+        $size = $DB->get_record_sql($sizequery, [$course->id]);
+=======
+        $size = $DB->get_record_sql($sizequery, array($course->id));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         echo '<br />class size: ' . $size->size;
     } else {
         echo $name;
@@ -233,6 +301,10 @@ print_header_mrbs_rlp($day, $month, $year, $area);
         <td><?php echo nl2br($description) ?></td>
     </tr>
     <tr>
+<<<<<<< HEAD
+        <td><b><?php echo get_string('room', 'block_mrbs_rlp') . ":" ?></b></td>
+=======
+<<<<<<< HEAD
         <td><b><?php echo get_string('room', 'block_mrbs_rlp') . ":" ?></b></td>
         <td><?php echo nl2br($area_name . " - " . $room_name) ?></td>
     </tr>
@@ -254,6 +326,34 @@ print_header_mrbs_rlp($day, $month, $year, $area);
     </tr>
     <tr>
         <td><b><?php echo get_string('createdby', 'block_mrbs_rlp') ?></b></td>
+=======
+        <td><b><?php echo get_string('room', 'block_mrbs') . ":" ?></b></td>
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
+        <td><?php echo nl2br($area_name . " - " . $room_name) ?></td>
+    </tr>
+    <tr>
+        <td><b><?php echo get_string('start_date', 'block_mrbs') ?></b></td>
+        <td><?php echo $start_date ?></td>
+    </tr>
+    <tr>
+        <td><b><?php echo get_string('duration', 'block_mrbs') ?></b></td>
+        <td><?php echo $duration . " " . $dur_units ?></td>
+    </tr>
+    <tr>
+        <td><b><?php echo get_string('end_date', 'block_mrbs') ?></b></td>
+        <td><?php echo $end_date ?></td>
+    </tr>
+    <tr>
+        <td><b><?php echo get_string('type', 'block_mrbs') ?></b></td>
+        <td><?php echo empty($typel[$type]) ? "?$type?" : $typel[$type] ?></td>
+    </tr>
+    <tr>
+<<<<<<< HEAD
+        <td><b><?php echo get_string('createdby', 'block_mrbs_rlp') ?></b></td>
+=======
+        <td><b><?php echo get_string('createdby', 'block_mrbs') ?></b></td>
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         <td><?php echo $create_by ?></td>
     </tr>
     <tr>
@@ -261,8 +361,18 @@ print_header_mrbs_rlp($day, $month, $year, $area);
         <td><?php echo $updated ?></td>
     </tr>
     <tr>
+<<<<<<< HEAD
         <td><b><?php echo get_string('rep_type', 'block_mrbs_rlp') ?></b></td>
         <td><?php echo get_string($repeat_key, 'block_mrbs_rlp') ?></td>
+=======
+<<<<<<< HEAD
+        <td><b><?php echo get_string('rep_type', 'block_mrbs_rlp') ?></b></td>
+        <td><?php echo get_string($repeat_key, 'block_mrbs_rlp') ?></td>
+=======
+        <td><b><?php echo get_string('rep_type', 'block_mrbs') ?></b></td>
+        <td><?php echo get_string($repeat_key, 'block_mrbs') ?></td>
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     </tr>
 
     <?php
@@ -278,12 +388,27 @@ print_header_mrbs_rlp($day, $month, $year, $area);
             }
         }
         if ($rep_type == 6) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             echo "<tr><td><b>" . get_string('rep_num_weeks', 'block_mrbs_rlp') . get_string('rep_for_nweekly', 'block_mrbs_rlp') . "</b></td><td>$rep_num_weeks</td></tr>\n";
         }
         if ($opt) {
             echo "<tr><td><b>" . get_string('rep_rep_day', 'block_mrbs_rlp') . "</b></td><td>$opt</td></tr>\n";
         }
         echo "<tr><td><b>" . get_string('rep_end_date', 'block_mrbs_rlp') . "</b></td><td>$rep_end_date</td></tr>\n";
+<<<<<<< HEAD
+=======
+=======
+            echo "<tr><td><b>" . get_string('rep_num_weeks', 'block_mrbs') . get_string('rep_for_nweekly', 'block_mrbs') . "</b></td><td>$rep_num_weeks</td></tr>\n";
+        }
+        if ($opt) {
+            echo "<tr><td><b>" . get_string('rep_rep_day', 'block_mrbs') . "</b></td><td>$opt</td></tr>\n";
+        }
+        echo "<tr><td><b>" . get_string('rep_end_date', 'block_mrbs') . "</b></td><td>$rep_end_date</td></tr>\n";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     }
     ?>
 
@@ -295,22 +420,52 @@ print_header_mrbs_rlp($day, $month, $year, $area);
     $canedit = getWritable($booking->create_by, getUserName());
     if ($canedit || $roomadmin) {
         if (!$series) {
+<<<<<<< HEAD
             $editurl = new moodle_url('/blocks/mrbs_rlp/web/edit_entry.php', ['id' => $id]);
             echo '<a href="' . $editurl . '">' . get_string('editentry', 'block_mrbs_rlp') . "</a>";
+=======
+<<<<<<< HEAD
+            $editurl = new moodle_url('/blocks/mrbs_rlp/web/edit_entry.php', ['id' => $id]);
+            echo '<a href="' . $editurl . '">' . get_string('editentry', 'block_mrbs_rlp') . "</a>";
+=======
+            $editurl = new moodle_url('/blocks/mrbs/web/edit_entry.php', array('id' => $id));
+            echo '<a href="' . $editurl . '">' . get_string('editentry', 'block_mrbs') . "</a>";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         }
         if ($repeat_id) {
             echo " - ";
         }
         if ($repeat_id || $series) {
+<<<<<<< HEAD
             $editurl = new moodle_url('/blocks/mrbs_rlp/web/edit_entry.php', ['id' => $id, 'edit_type' => 'series', 'day' => $day, 'month' => $month, 'year' => $year]);
             echo '<a href="' . $editurl . '">' . get_string('editseries', 'block_mrbs_rlp') . "</a>";
+=======
+<<<<<<< HEAD
+            $editurl = new moodle_url('/blocks/mrbs_rlp/web/edit_entry.php', ['id' => $id, 'edit_type' => 'series', 'day' => $day, 'month' => $month, 'year' => $year]);
+            echo '<a href="' . $editurl . '">' . get_string('editseries', 'block_mrbs_rlp') . "</a>";
+=======
+            $editurl = new moodle_url('/blocks/mrbs/web/edit_entry.php', array('id' => $id, 'edit_type' => 'series', 'day' => $day, 'month' => $month, 'year' => $year));
+            echo '<a href="' . $editurl . '">' . get_string('editseries', 'block_mrbs') . "</a>";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         }
 
         echo '<br />';
 
         if (!$series) {
+<<<<<<< HEAD
             $delurl = new moodle_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id, 'series' => 0, 'sesskey' => sesskey()]);
             echo '<A HREF="' . $delurl . '" onClick="return confirm("' . get_string('confirmdel', 'block_mrbs_rlp') . '");">' . get_string('deleteentry', 'block_mrbs_rlp') . "</A>";
+=======
+<<<<<<< HEAD
+            $delurl = new moodle_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id, 'series' => 0, 'sesskey' => sesskey()]);
+            echo '<A HREF="' . $delurl . '" onClick="return confirm("' . get_string('confirmdel', 'block_mrbs_rlp') . '");">' . get_string('deleteentry', 'block_mrbs_rlp') . "</A>";
+=======
+            $delurl = new moodle_url('/blocks/mrbs/web/del_entry.php', array('id' => $id, 'series' => 0, 'sesskey' => sesskey()));
+            echo '<A HREF="' . $delurl . '" onClick="return confirm("' . get_string('confirmdel', 'block_mrbs') . '");">' . get_string('deleteentry', 'block_mrbs') . "</A>";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         }
 
         if ($repeat_id) {
@@ -318,8 +473,18 @@ print_header_mrbs_rlp($day, $month, $year, $area);
         }
 
         if ($repeat_id || $series) {
+<<<<<<< HEAD
             $delurl = new moodle_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id, 'series' => 1, 'sesskey' => sesskey(), 'day' => $day, 'month' => $month, 'year' => $year]);
             echo '<A HREF="' . $delurl . '" onClick="return confirm("' . get_string('confirmdel', 'block_mrbs_rlp') . '");">' . get_string('deleteseries', 'block_mrbs_rlp') . "</A>";
+=======
+<<<<<<< HEAD
+            $delurl = new moodle_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id, 'series' => 1, 'sesskey' => sesskey(), 'day' => $day, 'month' => $month, 'year' => $year]);
+            echo '<A HREF="' . $delurl . '" onClick="return confirm("' . get_string('confirmdel', 'block_mrbs_rlp') . '");">' . get_string('deleteseries', 'block_mrbs_rlp') . "</A>";
+=======
+            $delurl = new moodle_url('/blocks/mrbs/web/del_entry.php', array('id' => $id, 'series' => 1, 'sesskey' => sesskey(), 'day' => $day, 'month' => $month, 'year' => $year));
+            echo '<A HREF="' . $delurl . '" onClick="return confirm("' . get_string('confirmdel', 'block_mrbs') . '");">' . get_string('deleteseries', 'block_mrbs') . "</A>";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         }
     } // Writable
     ?>
@@ -332,3 +497,10 @@ print_header_mrbs_rlp($day, $month, $year, $area);
     }
 
     include "trailer.php";
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+    
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
