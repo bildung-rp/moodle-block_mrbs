@@ -24,10 +24,6 @@ require_once('mrbs_rlp_auth.php');
 
 $pview = optional_param('pview', 0, PARAM_INT);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 function print_user_header_mrbs_rlp($day = null, $month = null, $year = null, $area = null)
 {
     print_header_mrbs_rlp($day, $month, $year, $area, true);
@@ -36,33 +32,12 @@ function print_user_header_mrbs_rlp($day = null, $month = null, $year = null, $a
 function print_header_mrbs_rlp($day = null, $month = null, $year = null, $area = null, $userview = false)
 { //if values are not passed assume null
     global $mrbs_rlp_company, $mrbs_rlp_company_url, $search_str, $locale_warning, $pview;
-<<<<<<< HEAD
-=======
-=======
-function print_user_header_mrbs($day = NULL, $month = NULL, $year = NULL, $area = NULL) {
-    print_header_mrbs($day, $month, $year, $area, true);
-}
-
-function print_header_mrbs($day = NULL, $month = NULL, $year = NULL, $area = NULL, $userview = false) { //if values are not passed assume NULL
-    global $mrbs_company, $mrbs_company_url, $search_str, $locale_warning, $pview;
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     global $OUTPUT, $PAGE, $USER;
     global $javascript_cursor;
     global $CFG;
 
-<<<<<<< HEAD
     $cfg_mrbs_rlp = get_config('block/mrbs_rlp');
     $strmrbs_rlp = get_string('blockname', 'block_mrbs_rlp');
-=======
-<<<<<<< HEAD
-    $cfg_mrbs_rlp = get_config('block/mrbs_rlp');
-    $strmrbs_rlp = get_string('blockname', 'block_mrbs_rlp');
-=======
-    $cfg_mrbs = get_config('block/mrbs');
-    $strmrbs = get_string('blockname', 'block_mrbs');
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
     if (!$site = get_site()) {
         redirect(new moodle_url('/admin/index.php'));
@@ -70,15 +45,7 @@ function print_header_mrbs($day = NULL, $month = NULL, $year = NULL, $area = NUL
 
     $context = context_system::instance();
 
-<<<<<<< HEAD
     require_capability('block/mrbs_rlp:viewmrbs_rlp', $context);
-=======
-<<<<<<< HEAD
-    require_capability('block/mrbs_rlp:viewmrbs_rlp', $context);
-=======
-    require_capability('block/mrbs:viewmrbs', $context);
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
     // If we dont know the right date then make it up
     if (!$day) {
@@ -185,10 +152,6 @@ HTML1END;
                     // fix number of days for the $month/$year that you start with
                     ChangeOptionDays(document.form1, ''); // Note: The 2nd arg must match the first in the call to genDateSelector above.
                     // -->
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                     </script>
 	    <input type=submit value="$gotostr">
                   </font>
@@ -223,43 +186,6 @@ HTML2END;
                   <input type=hidden name=day        value="' . $day . '"        >
                   <input type=hidden name=month      value="' . $month . '"        >
                   <input type=hidden name=year       value="' . $year . '"        >';
-<<<<<<< HEAD
-=======
-=======
-                    </SCRIPT>
-	    <INPUT TYPE=SUBMIT VALUE="$gotostr">
-                  </FONT>
-                </FORM>
-              </TD>
-HTML2END;
-        if (!$userview) {
-            if (has_capability("block/mrbs:forcebook", $context)) {
-                echo'<TD CLASS="banner" BGCOLOR="#C0E0FF" ALIGN=CENTER>
-                  <a href="edit_entry.php?force=TRUE">' . get_string('forciblybook', 'block_mrbs') . '</a>
-              </TD>';
-            }
-
-            echo '<TD CLASS="banner" BGCOLOR="#C0E0FF" ALIGN=CENTER>';
-            echo '<a target="popup" title="' . $roomsearchstr . '" href="' . $roomsearchurl . '" ';
-            echo 'onclick="this.target=\'popup\'; return openpopup(\'' . $roomsearchurl . '\', \'popup\', \'toolbar=1,location=0,scrollbars,resizable,width=500,height=400\', 0);">';
-            echo $roomsearchstr . '</a></TD>';
-        } // !$userview
-
-        echo '<TD CLASS="banner" BGCOLOR="#C0E0FF" ALIGN=CENTER><A HREF="' . $helpurl . '">' . $helpstr . '</A></TD>';
-
-        if (!$userview) {
-            if ($canadmin) {
-                echo '<TD CLASS="banner" BGCOLOR="#C0E0FF" ALIGN=CENTER><A HREF="' . $adminurl . '">' . $adminstr . '</A></TD>';
-            }
-            echo '<TD CLASS="banner" BGCOLOR="#C0E0FF" ALIGN=CENTER><A HREF="' . $reporturl . '">' . $reportstr . '</A></TD>';
-            echo '<TD CLASS="banner" BGCOLOR="#C0E0FF" ALIGN=CENTER><FORM METHOD=GET ACTION="' . $searchurl . '">';
-            echo '<FONT SIZE=2><A HREF="' . $searchadvurl . '">' . $searchstr . '</A></FONT>
-                  <INPUT TYPE=TEXT   NAME="search_str" VALUE="' . $search_str . '" SIZE=10>
-                  <INPUT TYPE=HIDDEN NAME=day        VALUE="' . $day . '"        >
-                  <INPUT TYPE=HIDDEN NAME=month      VALUE="' . $month . '"        >
-                  <INPUT TYPE=HIDDEN NAME=year       VALUE="' . $year . '"        >';
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             if (!empty($area)) {
                 echo "<input type=hidden name=area value=$area>\n";
             }
@@ -347,15 +273,7 @@ function genDateSelector($prefix, $day, $month, $year, $updatefreerooms = false,
         $year = date("Y");
     }
 
-<<<<<<< HEAD
     echo "<select name=\"${prefix}day\" ";
-=======
-<<<<<<< HEAD
-    echo "<select name=\"${prefix}day\" ";
-=======
-    echo "<SELECT NAME=\"${prefix}day\" ";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     if ($updatefreerooms) {
         echo"onChange=\"updateFreeRooms()\"";
     }
@@ -365,25 +283,11 @@ function genDateSelector($prefix, $day, $month, $year, $updatefreerooms = false,
     echo ">";
 
     for ($i = 1; $i <= 31; $i++) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         echo "<option " . ($i == $day ? " SELECTED" : "") . ">" . $i . "</OPTION>";
     }
 
     echo "</select>
             <select name=\"${prefix}month\" onchange=\"ChangeOptionDays(this.form,'$prefix'";
-<<<<<<< HEAD
-=======
-=======
-        echo "<OPTION " . ($i == $day ? " SELECTED" : "") . ">" . $i . "</OPTION>";
-    }
-
-    echo "</SELECT>
-            <SELECT NAME=\"${prefix}month\" onchange=\"ChangeOptionDays(this.form,'$prefix'";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     if ($updatefreerooms) {
         echo ",true";
     }
@@ -497,15 +401,7 @@ function period_date_string($t, $mod_time = 0)
     }
     // I have made the separater a ',' as a '-' leads to an ambiguious
     // display in report.php when showing end times.
-<<<<<<< HEAD
     return [$p_num, $periods[$p_num] . userdate($t, ", %A %d %B %Y")];
-=======
-<<<<<<< HEAD
-    return [$p_num, $periods[$p_num] . userdate($t, ", %A %d %B %Y")];
-=======
-    return array($p_num, $periods[$p_num] . userdate($t, ", %A %d %B %Y"));
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 }
 
 function period_time_string($t, $mod_time = 0)
@@ -543,27 +439,11 @@ function tdcell($colclass)
     // This should be 'static $ecolors = array(...)' but that crashes PHP3.0.12!
     static $ecolors;
     if (!isset($ecolors)) {
-<<<<<<< HEAD
         $ecolors = [
             "A" => "#FFCCFF", "B" => "#99CCCC", "C" => "#FF9999",
             "D" => "#FFFF99", "E" => "#C0E0FF", "F" => "#FFCC99",
             "G" => "#FF6666", "H" => "#66FFFF", "I" => "#DDFFDD",
             "J" => "#CCCCCC", "red" => "#FFF0F0", "white" => "#FFFFFF"];
-=======
-<<<<<<< HEAD
-        $ecolors = [
-            "A" => "#FFCCFF", "B" => "#99CCCC", "C" => "#FF9999",
-            "D" => "#FFFF99", "E" => "#C0E0FF", "F" => "#FFCC99",
-            "G" => "#FF6666", "H" => "#66FFFF", "I" => "#DDFFDD",
-            "J" => "#CCCCCC", "red" => "#FFF0F0", "white" => "#FFFFFF"];
-=======
-        $ecolors = array(
-            "A" => "#FFCCFF", "B" => "#99CCCC", "C" => "#FF9999",
-            "D" => "#FFFF99", "E" => "#C0E0FF", "F" => "#FFCC99",
-            "G" => "#FF6666", "H" => "#66FFFF", "I" => "#DDFFDD",
-            "J" => "#CCCCCC", "red" => "#FFF0F0", "white" => "#FFFFFF");
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     }
     if (isset($ecolors[$colclass])) {
         echo "<td class='" . $colclass . " border' bgcolor='" . $ecolors[$colclass] . "'>";
@@ -592,17 +472,8 @@ function show_colour_key()
 }
 
 // Round time down to the nearest resolution
-<<<<<<< HEAD
 function round_t_down($t, $resolution, $am7)
 {
-=======
-<<<<<<< HEAD
-function round_t_down($t, $resolution, $am7)
-{
-=======
-function round_t_down($t, $resolution, $am7) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     return (int) $t - (int) abs(((int) $t - (int) $am7) % $resolution);
 }
 
@@ -725,15 +596,7 @@ function cross_dst($start, $end)
  * c.i.php.
  *
  * @param string    $string   string to convert
-<<<<<<< HEAD
  * @return string   $string   string converted to get_string('charset','block_mrbs_rlp') [i.e. the character set of the MRBS block language pack
-=======
-<<<<<<< HEAD
- * @return string   $string   string converted to get_string('charset','block_mrbs_rlp') [i.e. the character set of the MRBS block language pack
-=======
- * @return string   $string   string converted to get_string('charset','block_mrbs') [i.e. the character set of the MRBS block language pack
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
  */
 function removeMailUnicode($string)
 {
@@ -766,15 +629,7 @@ function getMailPeriodDateString($t, $mod_time = 0)
     ($p_num >= count($periods) - 1) ? $p_num = count($periods) - 1 : '';
     // I have made the separater a ',' as a '-' leads to an ambiguious
     // display in report.php when showing end times.
-<<<<<<< HEAD
     return [$p_num, $periods[$p_num] . userdate($t, ", %A %d %B %Y")];
-=======
-<<<<<<< HEAD
-    return [$p_num, $periods[$p_num] . userdate($t, ", %A %d %B %Y")];
-=======
-    return array($p_num, $periods[$p_num] . userdate($t, ", %A %d %B %Y"));
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 }
 
 // }}}
@@ -787,17 +642,8 @@ function getMailPeriodDateString($t, $mod_time = 0)
  * @param   boolean     $inc_time  include time in return string
  * @return  string                 formated string
  */
-<<<<<<< HEAD
 function getMailTimeDateString($t, $inc_time = true)
 {
-=======
-<<<<<<< HEAD
-function getMailTimeDateString($t, $inc_time = true)
-{
-=======
-function getMailTimeDateString($t, $inc_time = TRUE) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     global $twentyfourhour_format;
     // This bit's necessary, because it seems %p in userdate format
     // strings doesn't work
@@ -916,15 +762,7 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
     }
     // If there are no recipients then don't both preparing the email
     if (!isset($recipientlist) || sizeof($recipientlist) == 0) {
-<<<<<<< HEAD
         return false;
-=======
-<<<<<<< HEAD
-        return false;
-=======
-        return FALSE;
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     }
     //
     $subjdetails = new stdClass;
@@ -945,21 +783,9 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
     $subject = str_replace('&nbsp;', ' ', $subject);
 
     if ($new_entry) {
-<<<<<<< HEAD
         $body = get_string('mail_body_new_entry', 'block_mrbs_rlp') . ": \n\n";
     } else {
         $body = get_string('mail_body_changed_entry', 'block_mrbs_rlp') . ": \n\n";
-=======
-<<<<<<< HEAD
-        $body = get_string('mail_body_new_entry', 'block_mrbs_rlp') . ": \n\n";
-    } else {
-        $body = get_string('mail_body_changed_entry', 'block_mrbs_rlp') . ": \n\n";
-=======
-        $body = get_string('mail_body_new_entry', 'block_mrbs') . ": \n\n";
-    } else {
-        $body = get_string('mail_body_changed_entry', 'block_mrbs') . ": \n\n";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     }
     // Set the link to view entry page
     if (isset($url_base) && ($url_base != "")) {
@@ -974,15 +800,7 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
     $body .= "\n";
     // Displays/don't displays entry details
     if (MAIL_DETAILS) {
-<<<<<<< HEAD
         $body .= "\n" . get_string('namebooker', 'block_mrbs_rlp') . ": ";
-=======
-<<<<<<< HEAD
-        $body .= "\n" . get_string('namebooker', 'block_mrbs_rlp') . ": ";
-=======
-        $body .= "\n" . get_string('namebooker', 'block_mrbs') . ": ";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         $body .= compareEntries(removeMailUnicode($name), removeMailUnicode($mail_previous['namebooker']), $new_entry) . "\n";
 
         // Description:
@@ -990,54 +808,23 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
         $body .= compareEntries(removeMailUnicode($description), removeMailUnicode($mail_previous['description']), $new_entry) . "\n";
 
         // Room:
-<<<<<<< HEAD
         $body .= get_string('room', 'block_mrbs_rlp') . ": " .
-=======
-<<<<<<< HEAD
-        $body .= get_string('room', 'block_mrbs_rlp') . ": " .
-=======
-        $body .= get_string('room', 'block_mrbs') . ": " .
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 compareEntries(removeMailUnicode($area_name), removeMailUnicode($mail_previous['area_name']), $new_entry);
         $body .= " - " . compareEntries(removeMailUnicode($room_name), removeMailUnicode($mail_previous['room_name']), $new_entry) . "\n";
 
         // Start time
         if ($enable_periods) {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             list($start_period, $start_date) = getMailPeriodDateString($starttime);
             $body .= get_string('start_date', 'block_mrbs_rlp') . ": ";
             $body .= compareEntries(unHtmlEntities($start_date), unHtmlEntities($mail_previous['start_date']), $new_entry) . "\n";
         } else {
             $start_date = getMailTimeDateString($starttime);
             $body .= get_string('start_date', 'block_mrbs_rlp') . ": " .
-<<<<<<< HEAD
-=======
-=======
-            list( $start_period, $start_date) = getMailPeriodDateString($starttime);
-            $body .= get_string('start_date', 'block_mrbs') . ": ";
-            $body .= compareEntries(unHtmlEntities($start_date), unHtmlEntities($mail_previous['start_date']), $new_entry) . "\n";
-        } else {
-            $start_date = getMailTimeDateString($starttime);
-            $body .= get_string('start_date', 'block_mrbs') . ": " .
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                     compareEntries($start_date, $mail_previous['start_date'], $new_entry) . "\n";
         }
 
         // Duration
-<<<<<<< HEAD
         $body .= get_string('duration', 'block_mrbs_rlp') . ": " .
-=======
-<<<<<<< HEAD
-        $body .= get_string('duration', 'block_mrbs_rlp') . ": " .
-=======
-        $body .= get_string('duration', 'block_mrbs') . ": " .
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 compareEntries($duration, $mail_previous['duration'], $new_entry);
         $body .= " " . compareEntries($dur_units, $mail_previous['dur_units'], $new_entry) . "\n";
 
@@ -1046,41 +833,17 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
             $myendtime = $endtime;
             $mod_time = -1;
             list($end_period, $end_date) = getMailPeriodDateString($myendtime, $mod_time);
-<<<<<<< HEAD
             $body .= get_string('end_date', 'block_mrbs_rlp') . ": ";
-=======
-<<<<<<< HEAD
-            $body .= get_string('end_date', 'block_mrbs_rlp') . ": ";
-=======
-            $body .= get_string('end_date', 'block_mrbs') . ": ";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             $body .= compareEntries(unHtmlEntities($end_date), unHtmlEntities($mail_previous['end_date']), $new_entry) . "\n";
         } else {
             $myendtime = $endtime;
             $end_date = getMailTimeDateString($myendtime);
-<<<<<<< HEAD
             $body .= get_string('end_date', 'block_mrbs_rlp') . ": " .
-=======
-<<<<<<< HEAD
-            $body .= get_string('end_date', 'block_mrbs_rlp') . ": " .
-=======
-            $body .= get_string('end_date', 'block_mrbs') . ": " .
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                     compareEntries($end_date, $mail_previous['end_date'], $new_entry) . "\n";
         }
 
         // Type of booking
-<<<<<<< HEAD
         $body .= get_string('type', 'block_mrbs_rlp') . ": ";
-=======
-<<<<<<< HEAD
-        $body .= get_string('type', 'block_mrbs_rlp') . ": ";
-=======
-        $body .= get_string('type', 'block_mrbs') . ": ";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         if ($new_entry) {
             $body .= $typel[$type];
         } else {
@@ -1089,15 +852,7 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
         }
 
         // Created by
-<<<<<<< HEAD
         $body .= "\n" . get_string('createdby', 'block_mrbs_rlp') . ": " .
-=======
-<<<<<<< HEAD
-        $body .= "\n" . get_string('createdby', 'block_mrbs_rlp') . ": " .
-=======
-        $body .= "\n" . get_string('createdby', 'block_mrbs') . ": " .
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 compareEntries($create_by, $mail_previous['createdby'], $new_entry) . "\n";
 
         // Last updated
@@ -1105,27 +860,12 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
                 compareEntries(getMailTimeDateString(time()), $mail_previous['updated'], $new_entry);
 
         // Repeat Type
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         $body .= "\n" . get_string('rep_type', 'block_mrbs_rlp');
         if ($new_entry) {
             $body .= ": " . get_string('rep_type_' . $rep_type, 'block_mrbs_rlp');
         } else {
             $temp = $mail_previous['rep_type'];
             $body .= ": " . compareEntries(get_string('rep_type_' . $rep_type, 'block_mrbs_rlp'), get_string('rep_type_' . $temp, 'block_mrbs_rlp'), $new_entry);
-<<<<<<< HEAD
-=======
-=======
-        $body .= "\n" . get_string('rep_type', 'block_mrbs');
-        if ($new_entry) {
-            $body .= ": " . get_string('rep_type_' . $rep_type, 'block_mrbs');
-        } else {
-            $temp = $mail_previous['rep_type'];
-            $body .= ": " . compareEntries(get_string('rep_type_' . $rep_type, 'block_mrbs'), get_string('rep_type_' . $temp, 'block_mrbs'), $new_entry);
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         }
 
         // Details if a series
@@ -1135,10 +875,6 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
                 // Display day names according to language and preferred weekday start.
                 for ($i = 0; $i < 7; $i++) {
                     $daynum = ($i + $weekstarts) % 7;
-<<<<<<< HEAD
-                    if ($rep_opt[$daynum]) {
-=======
-<<<<<<< HEAD
                     if ($rep_opt[$daynum]) {
                         $opt .= day_name($daynum) . " ";
                     }
@@ -1146,44 +882,15 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
             }
             if ($rep_type == 6) {
                 $body .= "\n" . get_string('rep_num_weeks', 'block_mrbs_rlp');
-=======
-                    if ($rep_opt[$daynum])
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
-                        $opt .= day_name($daynum) . " ";
-                }
-            }
-            if ($rep_type == 6) {
-<<<<<<< HEAD
-                $body .= "\n" . get_string('rep_num_weeks', 'block_mrbs_rlp');
-=======
-                $body .= "\n" . get_string('rep_num_weeks', 'block_mrbs');
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 $body .= ": " . compareEntries($rep_num_weeks, $mail_previous["rep_num_weeks"], $new_entry);
             }
 
             if ($opt || $mail_previous["rep_opt"]) {
-<<<<<<< HEAD
                 $body .= "\n" . get_string('rep_rep_day', 'block_mrbs_rlp');
                 $body .= ": " . compareEntries($opt, $mail_previous["rep_opt"], $new_entry);
             }
 
             $body .= "\n" . get_string('rep_end_date', 'block_mrbs_rlp');
-=======
-<<<<<<< HEAD
-                $body .= "\n" . get_string('rep_rep_day', 'block_mrbs_rlp');
-                $body .= ": " . compareEntries($opt, $mail_previous["rep_opt"], $new_entry);
-            }
-
-            $body .= "\n" . get_string('rep_end_date', 'block_mrbs_rlp');
-=======
-                $body .= "\n" . get_string('rep_rep_day', 'block_mrbs');
-                $body .= ": " . compareEntries($opt, $mail_previous["rep_opt"], $new_entry);
-            }
-
-            $body .= "\n" . get_string('rep_end_date', 'block_mrbs');
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             if ($new_entry) {
                 if ($modified_enddate != null) {
                     $body .= ": " . userdate($modified_enddate, '%A %d %B %Y');
@@ -1203,15 +910,7 @@ function notifyAdminOnBooking($new_entry, $new_id, $modified_enddate = null)
         $body .= "\n";
     }
 
-<<<<<<< HEAD
     $recipientlist = isset($recipientlist) ? array_unique($recipientlist) : [];
-=======
-<<<<<<< HEAD
-    $recipientlist = isset($recipientlist) ? array_unique($recipientlist) : [];
-=======
-    $recipientlist = isset($recipientlist) ? array_unique($recipientlist) : array();
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
     $result = 1;
     if (!$fromuser = get_user_by_email(MAIL_FROM)) {
@@ -1290,10 +989,6 @@ function notifyAdminOnDelete($mail_previous)
 
     $subject = get_string('mail_subject_delete', 'block_mrbs_rlp', $subjdetails);
     $subject = str_replace('&nbsp;', ' ', $subject);
-<<<<<<< HEAD
-    $body = get_string('mail_body_del_entry', 'block_mrbs_rlp') . ": \n\n";
-=======
-<<<<<<< HEAD
     $body = get_string('mail_body_del_entry', 'block_mrbs_rlp') . ": \n\n";
     // Displays deleted entry details
     $body .= "\n" . get_string('namebooker', 'block_mrbs_rlp') . ': ';
@@ -1304,32 +999,11 @@ function notifyAdminOnDelete($mail_previous)
     $body .= removeMailUnicode($mail_previous['area_name']);
     $body .= " - " . removeMailUnicode($mail_previous['room_name']) . "\n";
     $body .= get_string('start_date', 'block_mrbs_rlp') . ': ';
-=======
-    $body = get_string('mail_body_del_entry', 'block_mrbs') . ": \n\n";
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
-    // Displays deleted entry details
-    $body .= "\n" . get_string('namebooker', 'block_mrbs') . ': ';
-    $body .= removeMailUnicode($mail_previous['namebooker']) . "\n";
-    $body .= get_string('description') . ": ";
-    $body .= removeMailUnicode($mail_previous['description']) . "\n";
-    $body .= get_string('room', 'block_mrbs') . ": ";
-    $body .= removeMailUnicode($mail_previous['area_name']);
-    $body .= " - " . removeMailUnicode($mail_previous['room_name']) . "\n";
-<<<<<<< HEAD
-    $body .= get_string('start_date', 'block_mrbs_rlp') . ': ';
-=======
-    $body .= get_string('start_date', 'block_mrbs') . ': ';
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     if ($enable_periods) {
         $body .= unHtmlEntities($mail_previous['start_date']) . "\n";
     } else {
         $body .= $mail_previous['start_date'] . "\n";
     }
-<<<<<<< HEAD
-    $body .= get_string('duration', 'block_mrbs_rlp') . ': ' . $mail_previous['duration'] . ' ';
-=======
-<<<<<<< HEAD
     $body .= get_string('duration', 'block_mrbs_rlp') . ': ' . $mail_previous['duration'] . ' ';
     $body .= $mail_previous['dur_units'] . "\n";
     if ($enable_periods) {
@@ -1351,59 +1025,15 @@ function notifyAdminOnDelete($mail_previous)
     if ($mail_previous['rep_type'] > 0) {
         if ($mail_previous['rep_type'] == 6) {
             $body .= "\n" . get_string('rep_num_weeks', 'block_mrbs_rlp');
-=======
-    $body .= get_string('duration', 'block_mrbs') . ': ' . $mail_previous['duration'] . ' ';
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
-    $body .= $mail_previous['dur_units'] . "\n";
-    if ($enable_periods) {
-        $body .= get_string('end_date', 'block_mrbs') . ": ";
-        $body .= unHtmlEntities($mail_previous['end_date']) . "\n";
-    } else {
-        $body .= get_string('end_date', 'block_mrbs') . ": " . $mail_previous['end_date'];
-        $body .= "\n";
-    }
-    $body .= get_string('type', 'block_mrbs') . ": ";
-    $body .= (empty($typel[$mail_previous['type']])) ? "?" .
-            $mail_previous['type'] . "?" : $typel[$mail_previous['type']];
-    $body .= "\n" . get_string('createdby', 'block_mrbs') . ": ";
-    $body .= $mail_previous['createdby'] . "\n";
-    $body .= get_string('lastmodified') . ": " . $mail_previous['updated'];
-    $body .= "\n" . get_string('rep_type', 'block_mrbs');
-    $temp = $mail_previous['rep_type'];
-    $body .= ": " . get_string('rep_type_' . $temp, 'block_mrbs');
-    if ($mail_previous['rep_type'] > 0) {
-        if ($mail_previous['rep_type'] == 6) {
-<<<<<<< HEAD
-            $body .= "\n" . get_string('rep_num_weeks', 'block_mrbs_rlp');
-=======
-            $body .= "\n" . get_string('rep_num_weeks', 'block_mrbs');
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             $body .= ": " . $mail_previous["rep_num_weeks"];
         }
 
         if ($mail_previous["rep_opt"]) {
-<<<<<<< HEAD
             $body .= "\n" . get_string('rep_rep_day', 'block_mrbs_rlp');
             $body .= " " . $mail_previous["rep_opt"];
         }
 
         $body .= "\n" . get_string('rep_end_date', 'block_mrbs_rlp');
-=======
-<<<<<<< HEAD
-            $body .= "\n" . get_string('rep_rep_day', 'block_mrbs_rlp');
-            $body .= " " . $mail_previous["rep_opt"];
-        }
-
-        $body .= "\n" . get_string('rep_end_date', 'block_mrbs_rlp');
-=======
-            $body .= "\n" . get_string('rep_rep_day', 'block_mrbs');
-            $body .= " " . $mail_previous["rep_opt"];
-        }
-
-        $body .= "\n" . get_string('rep_end_date', 'block_mrbs');
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         $body .= " " . $mail_previous['rep_end_date'] . "\n";
     }
     $body .= "\n";
@@ -1475,18 +1105,8 @@ function getPreviousEntryData($id, $series)
             re.end_date AS tbl_r_end_date";
     }
     $sql .= "
-<<<<<<< HEAD
     FROM {block_mrbs_rlp_entry} e, {block_mrbs_rlp_room} r, {block_mrbs_rlp_area} a ";
     (1 == $series) ? $sql .= ', ' . '{block_mrbs_rlp_repeat} re ' : '';
-=======
-<<<<<<< HEAD
-    FROM {block_mrbs_rlp_entry} e, {block_mrbs_rlp_room} r, {block_mrbs_rlp_area} a ";
-    (1 == $series) ? $sql .= ', ' . '{block_mrbs_rlp_repeat} re ' : '';
-=======
-    FROM {block_mrbs_entry} e, {block_mrbs_room} r, {block_mrbs_area} a ";
-    (1 == $series) ? $sql .= ', ' . '{block_mrbs_repeat} re ' : '';
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     $sql .= "
     WHERE e.room_id = r.id
     AND r.area_id = a.id
@@ -1514,18 +1134,8 @@ function getPreviousEntryData($id, $series)
         //
         // This is not a serie
         if (1 != $series) {
-<<<<<<< HEAD
             list($mail_previous['start_period'], $mail_previous['start_date']) = getMailPeriodDateString($details->tbl_e_start_time);
             list($mail_previous['end_period'], $mail_previous['end_date']) = getMailPeriodDateString($details->tbl_e_end_time, -1);
-=======
-<<<<<<< HEAD
-            list($mail_previous['start_period'], $mail_previous['start_date']) = getMailPeriodDateString($details->tbl_e_start_time);
-            list($mail_previous['end_period'], $mail_previous['end_date']) = getMailPeriodDateString($details->tbl_e_end_time, -1);
-=======
-            list( $mail_previous['start_period'], $mail_previous['start_date']) = getMailPeriodDateString($details->tbl_e_start_time);
-            list( $mail_previous['end_period'], $mail_previous['end_date']) = getMailPeriodDateString($details->tbl_e_end_time, -1);
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             // need to make DST correct in opposite direction to entry creation
             // so that user see what he expects to see
             $mail_previous['duration'] = $details->tbl_e_duration -
@@ -1533,23 +1143,10 @@ function getPreviousEntryData($id, $series)
         }
         // This is a serie
         else {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             list($mail_previous['start_period'], $mail_previous['start_date']) = getMailPeriodDateString($details->tbl_r_start_time);
             list($mail_previous['end_period'], $mail_previous['end_date']) = getMailPeriodDateString($details->tbl_r_end_time, 0);
             // use getMailTimeDateString as all I want is the date
             $mail_previous['rep_end_date'] = getMailTimeDateString($details->tbl_r_end_date, false);
-<<<<<<< HEAD
-=======
-=======
-            list( $mail_previous['start_period'], $mail_previous['start_date']) = getMailPeriodDateString($details->tbl_r_start_time);
-            list( $mail_previous['end_period'], $mail_previous['end_date']) = getMailPeriodDateString($details->tbl_r_end_time, 0);
-            // use getMailTimeDateString as all I want is the date
-            $mail_previous['rep_end_date'] = getMailTimeDateString($details->tbl_r_end_date, FALSE);
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             // need to make DST correct in opposite direction to entry creation
             // so that user see what he expects to see
             $mail_previous['duration'] = $details->tbl_r_duration -
@@ -1580,20 +1177,9 @@ function getPreviousEntryData($id, $series)
             }
             for ($i = 0; $i < 7; $i++) {
                 $wday = ($i + $weekstarts) % 7;
-<<<<<<< HEAD
                 if ($rep_day[$wday]) {
                     $mail_previous['rep_opt'] .= day_name($wday) . " ";
                 }
-=======
-<<<<<<< HEAD
-                if ($rep_day[$wday]) {
-                    $mail_previous['rep_opt'] .= day_name($wday) . " ";
-                }
-=======
-                if ($rep_day[$wday])
-                    $mail_previous['rep_opt'] .= day_name($wday) . " ";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             }
 
             $mail_previous['rep_num_weeks'] = $details->rep_num_weeks;
@@ -1616,15 +1202,7 @@ function getPreviousEntryData($id, $series)
             $mail_previous['start_date'] = getMailTimeDateString($details->tbl_r_start_time);
             $mail_previous['end_date'] = getMailTimeDateString($details->tbl_r_end_time);
             // use getMailTimeDateString as all I want is the date
-<<<<<<< HEAD
             $mail_previous['rep_end_date'] = getMailTimeDateString($details->tbl_r_end_date, false);
-=======
-<<<<<<< HEAD
-            $mail_previous['rep_end_date'] = getMailTimeDateString($details->tbl_r_end_date, false);
-=======
-            $mail_previous['rep_end_date'] = getMailTimeDateString($details->tbl_r_end_date, FALSE);
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             // need to make DST correct in opposite direction to entry creation
             // so that user see what he expects to see
             $mail_previous['duration'] = $details->tbl_r_duration -

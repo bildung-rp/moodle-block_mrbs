@@ -1,18 +1,6 @@
-<<<<<<< HEAD
 ﻿== Fork by https://github.com/arborrow/moodle-block_mrbs_rlp (Version 1.3.0) ==
 
 This is the Moodle 3.5 version of this block, it will not work in Moodle 3.2 (or below) - please download earlier versions from here: http://moodle.org/mod/data/view.php?d=13&rid=734
-=======
-<<<<<<< HEAD
-﻿== Fork by https://github.com/arborrow/moodle-block_mrbs_rlp (Version 1.3.0) ==
-
-This is the Moodle 3.5 version of this block, it will not work in Moodle 3.2 (or below) - please download earlier versions from here: http://moodle.org/mod/data/view.php?d=13&rid=734
-=======
-﻿== Fork by https://github.com/arborrow/moodle-block_mrbs (Version 1.3.0) ==
-
-This is the Moodle 2.0 version of this block, it will not work in Moodle 1.9 (or below) - please download earlier versions from here: http://moodle.org/mod/data/view.php?d=13&rid=734
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 * MRBS Block - Bugs, Feature Requests, and Improvements *
 

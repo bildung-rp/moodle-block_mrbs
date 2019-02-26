@@ -16,23 +16,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php'); //for Moodle integration
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 global $PAGE, $DB;
 
 include "config.inc.php";
 include "functions.php";
 require_once "mrbs_rlp_auth.php";
-<<<<<<< HEAD
-=======
-=======
-include "config.inc.php";
-include "functions.php";
-require_once "mrbs_auth.php";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 require_login();
 $day = optional_param('day', 0, PARAM_INT);
@@ -97,15 +85,7 @@ if ($type == "room") {
 
         $bookings = $DB->get_records('block_mrbs_rlp_entry', ['room_id' => $room]);
         if (!empty($bookings)) {
-<<<<<<< HEAD
             echo get_string('deletefollowing', 'block_mrbs_rlp') . ":<ul>";
-=======
-<<<<<<< HEAD
-            echo get_string('deletefollowing', 'block_mrbs_rlp') . ":<ul>";
-=======
-            echo get_string('deletefollowing', 'block_mrbs') . ":<ul>";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
             foreach ($bookings as $booking) {
                 echo '<li>' . s($booking->name) . ' (';
@@ -117,18 +97,8 @@ if ($type == "room") {
         }
 
         echo "<center>";
-<<<<<<< HEAD
         echo "<H1>" . get_string('sure', 'block_mrbs_rlp') . "</h1>";
         echo '<H1><a href="' . $thisurl->out(true, ['confirm' => 'Y', 'sesskey' => sesskey()]) . '">' . get_string('yes') . "</a>";
-=======
-<<<<<<< HEAD
-        echo "<H1>" . get_string('sure', 'block_mrbs_rlp') . "</h1>";
-        echo '<H1><a href="' . $thisurl->out(true, ['confirm' => 'Y', 'sesskey' => sesskey()]) . '">' . get_string('yes') . "</a>";
-=======
-        echo "<H1>" . get_string('sure', 'block_mrbs') . "</h1>";
-        echo '<H1><a href="' . $thisurl->out(true, array('confirm' => 'Y', 'sesskey' => sesskey())) . '">' . get_string('yes') . "</a>";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         echo '&nbsp;&nbsp;&nbsp; <a href="' . $adminurl . '">' . get_string('no') . "</a></h1>";
         echo "</center>";
         include "trailer.php";
@@ -149,18 +119,8 @@ if ($type == "area") {
         // There are rooms left in the area
         print_header_mrbs_rlp($day, $month, $year, $area);
 
-<<<<<<< HEAD
         echo '<br/><p>' . get_string('delarea', 'block_mrbs_rlp') . '</p>';
         echo '<a href="' . $adminurl . '">' . get_string('backadmin', 'block_mrbs_rlp') . "</a>";
-=======
-<<<<<<< HEAD
-        echo '<br/><p>' . get_string('delarea', 'block_mrbs_rlp') . '</p>';
-        echo '<a href="' . $adminurl . '">' . get_string('backadmin', 'block_mrbs_rlp') . "</a>";
-=======
-        echo '<br/><p>' . get_string('delarea', 'block_mrbs') . '</p>';
-        echo '<a href="' . $adminurl . '">' . get_string('backadmin', 'block_mrbs') . "</a>";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         include "trailer.php";
     }
 }

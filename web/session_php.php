@@ -47,15 +47,7 @@ if (isset($Action) && ($Action == "SetName")) {
         $NewUserName = $NewUserName;
         $NewUserPassword = $NewUserPassword;
         if (!authValidateUser($NewUserName, $NewUserPassword)) {
-<<<<<<< HEAD
             print_header_mrbs_rlp(0, 0, 0, 0);
-=======
-<<<<<<< HEAD
-            print_header_mrbs_rlp(0, 0, 0, 0);
-=======
-            print_header_mrbs(0, 0, 0, 0);
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             echo "<P>" . get_string('usernamenotfound') . "</P>\n";
             printLoginForm($TargetURL);
             exit();
@@ -73,15 +65,7 @@ if (isset($Action) && ($Action == "SetName")) {
     /* Note HTTP 1.1 mandates an absolute URL. Most modern browsers support relative URLs,
       which allows to work around problems with DNS inconsistencies in the server name.
       Anyway, if the browser cannot redirect automatically, the manual link below will work. */
-<<<<<<< HEAD
     print_header_mrbs_rlp(0, 0, 0, 0);
-=======
-<<<<<<< HEAD
-    print_header_mrbs_rlp(0, 0, 0, 0);
-=======
-    print_header_mrbs(0, 0, 0, 0);
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     echo "<br />\n";
     echo "<p>Please click <a href=\"$TargetURL\">here</a> if you're not redirected automatically to the page you requested.</p>\n";
     echo "</body>\n";
@@ -94,17 +78,8 @@ if (isset($Action) && ($Action == "SetName")) {
   Will eventually return to $TargetURL.
  */
 
-<<<<<<< HEAD
 function printLoginForm($TargetURL)
 {
-=======
-<<<<<<< HEAD
-function printLoginForm($TargetURL)
-{
-=======
-function printLoginForm($TargetURL) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     global $PHP_SELF;
     $SESSION->wantsurl = $TargetURL;
     require_login();
@@ -117,41 +92,18 @@ function printLoginForm($TargetURL) {
  * Returns: Nothing
  */
 
-<<<<<<< HEAD
 function authGet()
 {
-=======
-<<<<<<< HEAD
-function authGet()
-{
-=======
-function authGet() {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     global $PHP_SELF, $QUERY_STRING;
 
     print_header_mrbs_rlp(0, 0, 0, 0);
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     echo "<p>" . get_string('norights', 'block_mrbs_rlp') . "</p>\n";
 
     $TargetURL = basename($PHP_SELF);
     if (isset($QUERY_STRING)) {
         $TargetURL = $TargetURL . "?" . $QUERY_STRING;
     }
-<<<<<<< HEAD
-=======
-=======
-    echo "<p>" . get_string('norights', 'block_mrbs') . "</p>\n";
-
-    $TargetURL = basename($PHP_SELF);
-    if (isset($QUERY_STRING))
-        $TargetURL = $TargetURL . "?" . $QUERY_STRING;
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     printLoginForm($TargetURL);
 
     exit();
@@ -174,10 +126,6 @@ function getUserName()
       }
       return 'aborrow';
      */
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 }
 
 function getRealName($userid)
@@ -192,38 +140,16 @@ function getRealName($userid)
 // Print the logon entry on the top banner.
 function PrintLogonBox()
 {
-<<<<<<< HEAD
-=======
-=======
-}
-
-// Print the logon entry on the top banner.
-function PrintLogonBox() {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     global $PHP_SELF, $QUERY_STRING, $CFG, $user_list_link, $user_link, $day, $month;
     global $year, $auth;
 
     $TargetURL = basename($PHP_SELF);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     if (isset($url_base) && ($url_base != "")) {
         $TargetURL = $url_base . '/' . $TargetURL;
     }
     if (isset($QUERY_STRING)) {
         $TargetURL = $TargetURL . "?" . $QUERY_STRING;
     }
-<<<<<<< HEAD
-=======
-=======
-    if (isset($url_base) && ($url_base != ""))
-        $TargetURL = $url_base . '/' . $TargetURL;
-    if (isset($QUERY_STRING))
-        $TargetURL = $TargetURL . "?" . $QUERY_STRING;
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     $user = getUserName();
     if (isset($user)) {
         // words 'you are xxxx' becomes a link to the
@@ -232,29 +158,12 @@ function PrintLogonBox() {
         $search_string = "report.php?From_day=$day&From_month=$month&" .
                 "From_year=$year&To_day=1&To_month=12&To_year=2030&areamatch=&" .
                 "roommatch=&namematch=&descrmatch=&summarize=1&sortby=r&display=d&" .
-<<<<<<< HEAD
                 "sumby=d&creatormatch=$user"; ?>
-=======
-<<<<<<< HEAD
-                "sumby=d&creatormatch=$user"; ?>
-=======
-                "sumby=d&creatormatch=$user";
-        ?>
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
         <TD CLASS="banner" BGCOLOR="#C0E0FF" ALIGN=CENTER>
             <A name="logonBox" href="<?php
             echo "$search_string\" title=\""
-<<<<<<< HEAD
             . get_string('show_my_entries', 'block_mrbs_rlp') . "\">" . get_string('you_are', 'block_mrbs_rlp') . " "
-=======
-<<<<<<< HEAD
-            . get_string('show_my_entries', 'block_mrbs_rlp') . "\">" . get_string('you_are', 'block_mrbs_rlp') . " "
-=======
-            . get_string('show_my_entries', 'block_mrbs') . "\">" . get_string('you_are', 'block_mrbs') . " "
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             . $user
             ?></A><br>
                <FORM METHOD=POST ACTION="<?php echo $CFG->wwwroot . '/login/logout.php' ?>">
@@ -265,27 +174,11 @@ function PrintLogonBox() {
                 <input type="submit" value=" <?php echo get_string('logout') ?> " />
             </FORM>
             <?php
-<<<<<<< HEAD
             if (isset($user_list_link)) {
                 print "
                 <br>
                 <A href=\"$user_list_link\">" . get_string('user_list') . "</A><br>\n";
             } ?>
-=======
-<<<<<<< HEAD
-            if (isset($user_list_link)) {
-                print "
-                <br>
-                <A href=\"$user_list_link\">" . get_string('user_list') . "</A><br>\n";
-            } ?>
-=======
-            if (isset($user_list_link))
-                print "
-                <br>
-                <A href=\"$user_list_link\">" . get_string('user_list') . "</A><br>\n";
-            ?>
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         </TD>
         <?php
     } else {
@@ -298,27 +191,11 @@ function PrintLogonBox() {
                 <input type="submit" value=" <?php echo get_string('login') ?> " />
             </FORM>
             <?php
-<<<<<<< HEAD
             if (isset($user_list_link)) {
                 print "
 	        <br>
                 <A href=\"$user_list_link\">" . get_string('user_list') . "</A><br>\n";
             } ?>
-=======
-<<<<<<< HEAD
-            if (isset($user_list_link)) {
-                print "
-	        <br>
-                <A href=\"$user_list_link\">" . get_string('user_list') . "</A><br>\n";
-            } ?>
-=======
-            if (isset($user_list_link))
-                print "
-	        <br>
-                <A href=\"$user_list_link\">" . get_string('user_list') . "</A><br>\n";
-            ?>
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         </TD>
         <?php
     }

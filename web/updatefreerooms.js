@@ -19,15 +19,7 @@ function updateFreeRooms() {
     var dur_unitsInput = document.getElementsByName('dur_units');
     var dur_units = dur_unitsInput[0].options[dur_unitsInput[0].selectedIndex].value;
 
-<<<<<<< HEAD
     var areasInput = document.getElementsByName('areas');
-=======
-<<<<<<< HEAD
-    var areasInput = document.getElementsByName('areas');
-=======
-    areasInput = document.getElementsByName('areas');
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     if (areasInput.length) {
         area = areasInput[0].options[areasInput[0].selectedIndex].value;
     }
@@ -59,15 +51,7 @@ function updateFreeRooms() {
             try {
                 xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
             } catch (e) {
-<<<<<<< HEAD
                 window.alert("Your browser does not support AJAX!");
-=======
-<<<<<<< HEAD
-                window.alert("Your browser does not support AJAX!");
-=======
-                alert("Your browser does not support AJAX!");
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 return false;
             }
         }
@@ -81,10 +65,6 @@ function updateFreeRooms() {
             roomsInput = roomsInput[0];
 
             //remember which room is currently selected
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 				var currentSelection = [];
             var i;
             var room;
@@ -92,16 +72,6 @@ function updateFreeRooms() {
             	for (i = 0; i < roomsInput.length; i++) {
                	currentSelection[roomsInput.options[i].value] = roomsInput.options[i].selected;
                }
-<<<<<<< HEAD
-=======
-=======
-            var currentSelection = new Array();
-            if (roomsInput.selectedIndex != -1) {
-                for (i = 0; i < roomsInput.length; i++) {
-                    currentSelection[roomsInput.options[i].value] = roomsInput.options[i].selected;
-                }
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 roomsInput.selectedIndex = -1;
             }
             //wipe all the old options
@@ -111,15 +81,7 @@ function updateFreeRooms() {
             if (xmlHttp.responseText !== '') {
 
                 for (i = 0; i < freeRooms.length; i++) {
-<<<<<<< HEAD
                     if (freeRooms[i].search(/^\s*$/) !== -1) {
-=======
-<<<<<<< HEAD
-                    if (freeRooms[i].search(/^\s*$/) !== -1) {
-=======
-                    if (freeRooms[i].search(/^\s*$/) != -1) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                         continue; // Skip empty lines
                     }
                     room = freeRooms[i].split(/,(.*)/);
@@ -136,14 +98,4 @@ function updateFreeRooms() {
     xmlHttp.open("GET", "updatefreerooms.php" + searchstring, true);
     xmlHttp.send(null);
 
-<<<<<<< HEAD
 }
-=======
-<<<<<<< HEAD
-}
-=======
-
-
-}
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0

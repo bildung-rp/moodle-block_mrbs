@@ -14,28 +14,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-<<<<<<< HEAD
 // mrbs_rlp/week.php - Week-at-a-time view
-=======
-<<<<<<< HEAD
-// mrbs_rlp/week.php - Week-at-a-time view
-=======
-// mrbs/week.php - Week-at-a-time view
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 include "config.inc.php";
 include "functions.php";
-<<<<<<< HEAD
 require_once "mrbs_rlp_auth.php";
-=======
-<<<<<<< HEAD
-require_once "mrbs_rlp_auth.php";
-=======
-require_once "mrbs_auth.php";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 include "mincals.php";
 
 $day = optional_param('day', 0, PARAM_INT);
@@ -56,15 +40,7 @@ if ($num_of_days == 0) {
 }
 
 // If we don't know the right date then use today:
-<<<<<<< HEAD
 if (($day == 0) or ($month == 0) or ($year == 0)) { //I think we should separate these out and handle each variable independently -ab
-=======
-<<<<<<< HEAD
-if (($day == 0) or ($month == 0) or ($year == 0)) { //I think we should separate these out and handle each variable independently -ab
-=======
-if (($day == 0) or ( $month == 0) or ( $year == 0)) { //I think we should separate these out and handle each variable independently -ab
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     $day = date("d");
     $month = date("m");
     $year = date("Y");
@@ -94,15 +70,7 @@ if (($weekday = (date("w", $time) - $weekstarts + 7) % 7) > 0) {
     $year = date("Y", $time);
 }
 
-<<<<<<< HEAD
 $baseurl = new moodle_url('/blocks/mrbs_rlp/web/userweek.php', ['day' => $day, 'month' => $month, 'year' => $year]); // Used as the basis for URLs throughout this file
-=======
-<<<<<<< HEAD
-$baseurl = new moodle_url('/blocks/mrbs_rlp/web/userweek.php', ['day' => $day, 'month' => $month, 'year' => $year]); // Used as the basis for URLs throughout this file
-=======
-$baseurl = new moodle_url('/blocks/mrbs/web/userweek.php', array('day' => $day, 'month' => $month, 'year' => $year)); // Used as the basis for URLs throughout this file
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 $thisurl = new moodle_url($baseurl);
 if ($area > 0) {
     $thisurl->param('area', $area);
@@ -165,15 +133,7 @@ if ($pview != 1) {
 
 
 // Show area and room:
-<<<<<<< HEAD
 echo '<h2 align=center>' . get_string('ttfor', 'block_mrbs_rlp') . $TTUSER->firstname . ' ' . $TTUSER->lastname . '</h2>';
-=======
-<<<<<<< HEAD
-echo '<h2 align=center>' . get_string('ttfor', 'block_mrbs_rlp') . $TTUSER->firstname . ' ' . $TTUSER->lastname . '</h2>';
-=======
-echo '<h2 align=center>' . get_string('ttfor', 'block_mrbs') . $TTUSER->firstname . ' ' . $TTUSER->lastname . '</h2>';
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 //y? are year, month and day of the previous week.
 //t? are year, month and day of the next week.
@@ -196,23 +156,10 @@ if ($pview != 1) {
     $weekafter = new moodle_url($thisweekurl, ['year' => $ty, 'month' => $tm, 'day' => $td]);
     echo "<table width=\"100%\"><tr><td>
       <a href=\"" . $weekbefore . "\">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
       &lt;&lt; " . get_string('weekbefore', 'block_mrbs_rlp') . "</a></td>
       <td align=center><a href=\"" . $thisweekurl . "\">" . get_string('gotothisweek', 'block_mrbs_rlp') . "</a></td>
       <td align=right><a href=\"" . $weekafter . "\">
       " . get_string('weekafter', 'block_mrbs_rlp') . "&gt;&gt;</a></td></tr></table>";
-<<<<<<< HEAD
-=======
-=======
-      &lt;&lt; " . get_string('weekbefore', 'block_mrbs') . "</a></td>
-      <td align=center><a href=\"" . $thisweekurl . "\">" . get_string('gotothisweek', 'block_mrbs') . "</a></td>
-      <td align=right><a href=\"" . $weekafter . "\">
-      " . get_string('weekafter', 'block_mrbs') . "&gt;&gt;</a></td></tr></table>";
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 }
 
 //Get all appointments for this week in the room that we care about
@@ -300,21 +247,9 @@ if ($javascript_cursor) { // If authorized in config.inc.php, include the javasc
     echo "<SCRIPT language=\"JavaScript\">InitActiveCell("
     . ($show_plus_link ? "true" : "false") . ", "
     . "true, "
-<<<<<<< HEAD
     . ((false != $times_right_side) ? "true" : "false") . ", "
     . "\"$highlight_method\", "
     . "\"" . get_string('click_to_reserve', 'block_mrbs_rlp') . "\""
-=======
-<<<<<<< HEAD
-    . ((false != $times_right_side) ? "true" : "false") . ", "
-    . "\"$highlight_method\", "
-    . "\"" . get_string('click_to_reserve', 'block_mrbs_rlp') . "\""
-=======
-    . ((FALSE != $times_right_side) ? "true" : "false") . ", "
-    . "\"$highlight_method\", "
-    . "\"" . get_string('click_to_reserve', 'block_mrbs') . "\""
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     . ");</SCRIPT>\n";
 }
 
@@ -322,53 +257,23 @@ if ($javascript_cursor) { // If authorized in config.inc.php, include the javasc
 echo "<table cellspacing=0 border=1 width=\"100%\">";
 
 // The header row contains the weekday names and short dates.
-<<<<<<< HEAD
 echo "<tr><th width=\"1%\"><br>" . ($enable_periods ? get_string('period', 'block_mrbs_rlp') : get_string('time')) . "</th>";
 if (empty($dateformat)) {
-=======
-<<<<<<< HEAD
-echo "<tr><th width=\"1%\"><br>" . ($enable_periods ? get_string('period', 'block_mrbs_rlp') : get_string('time')) . "</th>";
-if (empty($dateformat)) {
-=======
-echo "<tr><th width=\"1%\"><br>" . ($enable_periods ? get_string('period', 'block_mrbs') : get_string('time')) . "</th>";
-if (empty($dateformat))
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     $dformat = "%a<br>%b %d";
 } else {
     $dformat = "%a<br>%d %b";
 }
 for ($j = 0; $j <= ($num_of_days - 1); $j++) {
     $t = mktime(12, 0, 0, $month, $day + $j, $year);
-<<<<<<< HEAD
     $dayurl = new moodle_url('/blocks/mrbs_rlp/web/day.php', ['year' => userdate($t, "%Y"), 'month' => userdate($t, "%m"),
         'day' => userdate($t, "%d"), 'area' => $area]);
     echo '<th width="14%"><a href="' . $dayurl . '" title="' . get_string('viewday', 'block_mrbs_rlp') . '">';
-=======
-<<<<<<< HEAD
-    $dayurl = new moodle_url('/blocks/mrbs_rlp/web/day.php', ['year' => userdate($t, "%Y"), 'month' => userdate($t, "%m"),
-        'day' => userdate($t, "%d"), 'area' => $area]);
-    echo '<th width="14%"><a href="' . $dayurl . '" title="' . get_string('viewday', 'block_mrbs_rlp') . '">';
-=======
-    $dayurl = new moodle_url('/blocks/mrbs/web/day.php', array('year' => userdate($t, "%Y"), 'month' => userdate($t, "%m"),
-        'day' => userdate($t, "%d"), 'area' => $area));
-    echo '<th width="14%"><a href="' . $dayurl . '" title="' . get_string('viewday', 'block_mrbs') . '">';
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     echo userdate($t, $dformat) . "</a></th>\n";
 }
 // next line to display times on right side
 if (false != $times_right_side) {
     echo "<th width=\"1%\"><br>"
-<<<<<<< HEAD
     . ($enable_periods ? get_string('period', 'block_mrbs_rlp') : get_string('time'))
-=======
-<<<<<<< HEAD
-    . ($enable_periods ? get_string('period', 'block_mrbs_rlp') : get_string('time'))
-=======
-    . ( $enable_periods ? get_string('period', 'block_mrbs') : get_string('time') )
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     . "</th>";
 }
 
@@ -398,23 +303,10 @@ for ($t = $starttime; $t <= $endtime; $t += $resolution) {
     tdcell("red");
     if ($enable_periods) {
         $time_t_stripped = preg_replace("/^0/", "", $time_t);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         echo '<a href="' . $hiliteurl . '"  title="' . get_string('highlight_line', 'block_mrbs_rlp') . '">';
         echo $periods[$time_t_stripped] . "</a></td>";
     } else {
         echo '<a href="' . $hilite_url . '" title="' . get_string('highlight_line', 'block_mrbs_rlp') . '">';
-<<<<<<< HEAD
-=======
-=======
-        echo '<a href="' . $hiliteurl . '"  title="' . get_string('highlight_line', 'block_mrbs') . '">';
-        echo $periods[$time_t_stripped] . "</a></td>";
-    } else {
-        echo '<a href="' . $hilite_url . '" title="' . get_string('highlight_line', 'block_mrbs') . '">';
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         echo userdate($t, hour_min_format()) . "</a></td>";
     }
 
@@ -496,24 +388,11 @@ for ($t = $starttime; $t <= $endtime; $t += $resolution) {
         if (isset($descrs)) {
             for ($i = 0; $i < count($descrs); $i++) {
                 //if it is booked then show
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 if ($i > 0) {
                     echo'<br>';
                 }
                 $viewentry = new moodle_url('/blocks/mrbs_rlp/web/view_entry.php', ['id' => $ids[$i], 'area' => $area, 'day' => $wday,
                     'month' => $wmonth, 'year' => $wyear]);
-<<<<<<< HEAD
-=======
-=======
-                if ($i > 0)
-                    echo'<br>';
-                $viewentry = new moodle_url('/blocks/mrbs/web/view_entry.php', array('id' => $ids[$i], 'area' => $area, 'day' => $wday,
-                    'month' => $wmonth, 'year' => $wyear));
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                 echo ' <a href="' . $viewentry . '" title="' . $long_descr . '">' . $descrs[$i] . '</a>';
             }
         } else {
@@ -531,26 +410,11 @@ for ($t = $starttime; $t <= $endtime; $t += $resolution) {
         if ($enable_periods) {
             tdcell("red");
             $time_t_stripped = preg_replace("/^0/", "", $time_t);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
             echo '<a href="' . $hiliteurl . '" title="' . get_string('highlight_line', 'block_mrbs_rlp') . '">';
             echo $periods[$time_t_stripped] . "</a></td>";
         } else {
             tdcell("red");
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             echo '<a href="' . $hiliteurl . '" title="' . get_string('highlight_line', 'block_mrbs_rlp') . '">';
-=======
-            echo '<a href="' . $hiliteurl . '" title="' . get_string('highlight_line', 'block_mrbs') . '">';
-            echo $periods[$time_t_stripped] . "</a></td>";
-        } else {
-            tdcell("red");
-<<<<<<< HEAD
-            echo '<a href="' . $hiliteurl . '" title="' . get_string('highlight_line', 'block_mrbs_rlp') . '">';
-=======
-            echo '<a href="' . $hiliteurl . '" title="' . get_string('highlight_line', 'block_mrbs') . '">';
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             echo userdate($t, hour_min_format()) . "</a></td>";
         }
     }

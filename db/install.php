@@ -17,10 +17,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 function xmldb_block_mrbs_rlp_install()
 {
     global $DB;
@@ -66,41 +62,6 @@ function xmldb_block_mrbs_rlp_install()
         assign_capability('block/mrbs_rlp:forcebook', CAP_ALLOW, $mrbs_rlpadminid, $context->id, true);
         assign_capability('block/mrbs_rlp:doublebook', CAP_ALLOW, $mrbs_rlpadminid, $context->id, true);
     }
-<<<<<<< HEAD
-=======
-=======
-function xmldb_block_mrbs_install() {
-    global $CFG;
-
-    // Get system context
-    if ($CFG->version < 2011120100) {
-        $context = get_context_instance(CONTEXT_SYSTEM);
-    } else {
-        $context = context_system::instance();
-    }
-
-    // Create the viewer role
-    $mrbsviewerid = create_role(get_string('mrbsviewer', 'block_mrbs'), 'mrbsviewer', get_string('mrbsviewer_desc', 'block_mrbs'));
-    set_role_contextlevels($mrbsviewerid, array(CONTEXT_SYSTEM));
-    assign_capability('block/mrbs:viewmrbs', CAP_ALLOW, $mrbsviewerid, $context->id, true);
-
-    // Create the editor role
-    $mrbseditorid = create_role(get_string('mrbseditor', 'block_mrbs'), 'mrbseditor', get_string('mrbseditor_desc', 'block_mrbs'));
-    set_role_contextlevels($mrbseditorid, array(CONTEXT_SYSTEM));
-    assign_capability('block/mrbs:viewmrbs', CAP_ALLOW, $mrbseditorid, $context->id, true);
-    assign_capability('block/mrbs:editmrbs', CAP_ALLOW, $mrbseditorid, $context->id, true);
-
-    // Create the admin role
-    $mrbsadminid = create_role(get_string('mrbsadmin', 'block_mrbs'), 'mrbsadmin', get_string('mrbsadmin_desc', 'block_mrbs'));
-    set_role_contextlevels($mrbsadminid, array(CONTEXT_SYSTEM));
-    assign_capability('block/mrbs:viewmrbs', CAP_ALLOW, $mrbsadminid, $context->id, true);
-    assign_capability('block/mrbs:editmrbs', CAP_ALLOW, $mrbsadminid, $context->id, true);
-    assign_capability('block/mrbs:administermrbs', CAP_ALLOW, $mrbsadminid, $context->id, true);
-    assign_capability('block/mrbs:viewalltt', CAP_ALLOW, $mrbsadminid, $context->id, true);
-    assign_capability('block/mrbs:forcebook', CAP_ALLOW, $mrbsadminid, $context->id, true);
-    assign_capability('block/mrbs:doublebook', CAP_ALLOW, $mrbsadminid, $context->id, true);
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
     // Clear any capability caches
     $context->mark_dirty();

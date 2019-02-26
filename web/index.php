@@ -41,18 +41,8 @@ switch ($default_view) {
 }
 
 if (!empty($default_room)) {
-<<<<<<< HEAD
     //	$sql = "select area_id from $tbl_room where id=$default_room";
     $res = $DB->get_record('block_mrbs_rlp_room', ['id' => $default_room]);
-=======
-<<<<<<< HEAD
-    //	$sql = "select area_id from $tbl_room where id=$default_room";
-    $res = $DB->get_record('block_mrbs_rlp_room', ['id' => $default_room]);
-=======
-//	$sql = "select area_id from $tbl_room where id=$default_room";
-    $res = $DB->get_record('block_mrbs_room', array('id' => $default_room));
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     if (!empty($res)) {
         $redirect->params(['area' => $res->area_id, 'room' => $default_room]);
     }

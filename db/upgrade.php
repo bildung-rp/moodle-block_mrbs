@@ -13,36 +13,15 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-<<<<<<< HEAD
 function renameifexists(database_manager $dbman, $tablename)
 {
     global $DB, $CFG;
     $oldname = $tablename;
-=======
-<<<<<<< HEAD
-function renameifexists(database_manager $dbman, $tablename)
-{
-=======
-
-function renameifexists($dbman, $tablename) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
-    global $DB, $CFG;
-    $oldname = $tablename;
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     $newname = $CFG->prefix.$tablename;
     $tbl = $DB->get_records_sql(
         'SELECT table_name FROM information_schema.tables WHERE table_name = ? AND table_schema = ?',
                                 [$oldname, $CFG->dbname]
     );
-<<<<<<< HEAD
-=======
-=======
-    $newname = $CFG->prefix . $tablename;
-
-    $tbl = $DB->get_records_sql('SELECT table_name FROM information_schema.tables WHERE table_name = ? AND table_schema = ?', array($oldname, $CFG->dbname));
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     if (empty($tbl)) {
         // Old table does not exist - nothing to do
         return;
@@ -94,34 +73,15 @@ function block_mrbs_rlp_convert_timestamp($tablename, $fieldname)
         $dbman->add_field($table, $field);
     }
     // Copy & convert the current date from [fieldname] => [fieldname]_conv
-<<<<<<< HEAD
     $DB->execute('UPDATE {'.$tablename.'} SET '.$tempfield.' = UNIX_TIMESTAMP('.$fieldname.')');
-=======
-<<<<<<< HEAD
-    $DB->execute('UPDATE {'.$tablename.'} SET '.$tempfield.' = UNIX_TIMESTAMP('.$fieldname.')');
-=======
-    $DB->execute('UPDATE {' . $tablename . '} SET ' . $tempfield . ' = UNIX_TIMESTAMP(' . $fieldname . ')');
-
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     // Rename [fieldname] => [fieldname]_backup + rename [fieldname]_conv => [fieldname]
     $backupfield = "{$fieldname}_backup";
     $DB->execute('ALTER TABLE {'.$tablename.'} CHANGE '.$fieldname.' '.$backupfield.' TIMESTAMP');
     $dbman->rename_field($table, $field, $fieldname);
     echo "$tablename.$fieldname converted from timestamp to integer (backup data in $tablename.$backupfield)<br/>\n";
 }
-<<<<<<< HEAD
 function xmldb_block_mrbs_rlp_upgrade($oldversion=0)
 {
-=======
-<<<<<<< HEAD
-function xmldb_block_mrbs_rlp_upgrade($oldversion=0)
-{
-=======
-
-function xmldb_block_mrbs_upgrade($oldversion = 0) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     global $DB, $CFG;
     $dbman = $DB->get_manager();
     if ($oldversion < 2011050600) {
@@ -181,10 +141,6 @@ function xmldb_block_mrbs_upgrade($oldversion = 0) {
             upgrade_block_savepoint(true, 2012091200, 'mrbs_rlp');
         }
     }
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     if ($oldversion < 2016101700) {
         // Changing type of field area_name on table block_mrbs_rlp_area to char.
         $table = new xmldb_table('block_mrbs_rlp_area');
@@ -204,11 +160,5 @@ function xmldb_block_mrbs_upgrade($oldversion = 0) {
         // Mrbs savepoint reached.
         upgrade_block_savepoint(true, 2016101700, 'mrbs_rlp');
     }
-<<<<<<< HEAD
-=======
-=======
-
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     return true;
 }

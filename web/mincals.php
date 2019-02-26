@@ -2,10 +2,6 @@
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false)
 {
 
@@ -37,40 +33,6 @@ function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false)
 
         public function __construct($day, $month, $year, $h, $area, $room, $dmy, $usertt)
         {
-<<<<<<< HEAD
-=======
-=======
-function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false) {
-
-// PHP Calendar Class
-//
-// Copyright David Wilkinson 2000. All Rights reserved.
-//
-// This software may be used, modified and distributed freely
-// providing this copyright notice remains intact at the head
-// of the file.
-//
-// This software is freeware. The author accepts no liability for
-// any loss or damages whatsoever incurred directly or indirectly
-// from the use of this script.
-//
-// URL:   http://www.cascade.org.uk/software/php/calendar/
-// Email: davidw@cascade.org.uk
-
-    class Calendar {
-
-        var $month;
-        var $year;
-        var $day;
-        var $h;
-        var $area;
-        var $room;
-        var $dmy;
-        var $usertt;
-
-        public function __construct($day, $month, $year, $h, $area, $room, $dmy, $usertt) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             $this->day = $day;
             $this->month = $month;
             $this->year = $year;
@@ -81,10 +43,6 @@ function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false) {
             $this->usertt = $usertt;
         }
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         public function getCalendarLink($month, $year)
         {
             return "";
@@ -92,29 +50,11 @@ function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false) {
 
         public function getDateLink($day, $month, $year)
         {
-<<<<<<< HEAD
-=======
-=======
-        public function getCalendarLink($month, $year) {
-            return "";
-        }
-
-        public function getDateLink($day, $month, $year) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             $isuser = '';
             if (!empty($this->usertt)) {
                 $isuser = 'user';
             }
-<<<<<<< HEAD
             $returl = new moodle_url('/blocks/mrbs_rlp/web/' . $isuser . $this->dmy . '.php', ['year' => $year, 'month' => $month, 'day' => $day, 'area' => $this->area]);
-=======
-<<<<<<< HEAD
-            $returl = new moodle_url('/blocks/mrbs_rlp/web/' . $isuser . $this->dmy . '.php', ['year' => $year, 'month' => $month, 'day' => $day, 'area' => $this->area]);
-=======
-            $returl = new moodle_url('/blocks/mrbs/web/' . $isuser . $this->dmy . '.php', array('year' => $year, 'month' => $month, 'day' => $day, 'area' => $this->area));
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             if (!empty($this->usertt)) {
                 $returl->param('user', $this->usertt);
             }
@@ -124,17 +64,8 @@ function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false) {
             return $returl;
         }
 
-<<<<<<< HEAD
         public function getDaysInMonth($month, $year)
         {
-=======
-<<<<<<< HEAD
-        public function getDaysInMonth($month, $year)
-        {
-=======
-        public function getDaysInMonth($month, $year) {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             if ($month < 1 || $month > 12) {
                 return 0;
             }
@@ -161,17 +92,8 @@ function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false) {
             return $d;
         }
 
-<<<<<<< HEAD
         public function getFirstDays()
         {
-=======
-<<<<<<< HEAD
-        public function getFirstDays()
-        {
-=======
-        public function getFirstDays() {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             global $weekstarts;
 
             $basetime = mktime(12, 0, 0, 6, 11 + $weekstarts, 2000);
@@ -183,17 +105,8 @@ function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false) {
             return $s;
         }
 
-<<<<<<< HEAD
         public function getHTML()
         {
-=======
-<<<<<<< HEAD
-        public function getHTML()
-        {
-=======
-        public function getHTML() {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
             global $weekstarts;
             global $day;
             global $month;
@@ -251,33 +164,13 @@ function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false) {
 
                         if ($link == "") {
                             $s .= $d;
-<<<<<<< HEAD
                         } elseif ($this->dmy == 'day') {
                             if (($d == $this->day) and ($this->h)) {
-=======
-<<<<<<< HEAD
-                        } elseif ($this->dmy == 'day') {
-                            if (($d == $this->day) and ($this->h)) {
-=======
-                        else if ($this->dmy == 'day') {
-                            if (($d == $this->day) and ( $this->h))
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                                 $s .= "<a href=\"$link\"><font class=\"calendarHighlight\">$d</font></a>";
                             } else {
                                 $s .= "<a href=\"$link\">$d</a>";
-<<<<<<< HEAD
                             }
                         } elseif ($this->dmy == 'week') {
-=======
-<<<<<<< HEAD
-                            }
-                        } elseif ($this->dmy == 'week') {
-=======
-                        }
-                        else if ($this->dmy == 'week') {
->>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
->>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
                             #echo "((".$this->day." < $days_to_highlight) && ($d < $days_to_highlight) && (($day - $daysInMonth) > (-6)) && (".$this->month." == ($month + 1)) && ($first != 0))<br>";
                             if (($this->day <= $d) && ($this->day > $d_week) && ($this->h)) {
                                 $s .= "<a href=\"$link\"><font class=\"calendarHighlight\">$d</font></a>";
