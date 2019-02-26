@@ -16,11 +16,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 global $PAGE, $DB, $USER;
 include "config.inc.php";
 include "functions.php";
 require_once "mrbs_rlp_auth.php";
 include "mrbs_rlp_sql.php";
+<<<<<<< HEAD
+=======
+=======
+include "config.inc.php";
+include "functions.php";
+require_once "mrbs_auth.php";
+include "mrbs_sql.php";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 $id = required_param('id', PARAM_INT);
 $series = optional_param('series', 0, PARAM_INT);
@@ -41,9 +54,21 @@ if (getAuthorised(1) && ($info = mrbs_rlpGetEntryInfo($id))) {
     }
     $roomadmin = false;
     $context = context_system::instance();
+<<<<<<< HEAD
 
     if (has_capability('block/mrbs_rlp:editmrbs_rlpunconfirmed', $context, null, false)) {
         $adminemail = $DB->get_field('block_mrbs_rlp_room', 'room_admin_email', ['id' => $info->room_id]);
+=======
+<<<<<<< HEAD
+
+    if (has_capability('block/mrbs_rlp:editmrbs_rlpunconfirmed', $context, null, false)) {
+        $adminemail = $DB->get_field('block_mrbs_rlp_room', 'room_admin_email', ['id' => $info->room_id]);
+=======
+    
+    if (has_capability('block/mrbs:editmrbsunconfirmed', $context, null, false)) {
+        $adminemail = $DB->get_field('block_mrbs_room', 'room_admin_email', array('id' => $info->room_id));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         if ($adminemail == $USER->email) {
             $roomadmin = true;
         }
@@ -53,7 +78,15 @@ if (getAuthorised(1) && ($info = mrbs_rlpGetEntryInfo($id))) {
     if ($result) {
         // Send a mail to the Administrator
         (MAIL_ADMIN_ON_DELETE) ? $result = notifyAdminOnDelete($mail_previous) : '';
+<<<<<<< HEAD
         $desturl = new moodle_url('/blocks/mrbs_rlp/web/day.php', ['day' => $day, 'month' => $month, 'year' => $year, 'area' => $area]);
+=======
+<<<<<<< HEAD
+        $desturl = new moodle_url('/blocks/mrbs_rlp/web/day.php', ['day' => $day, 'month' => $month, 'year' => $year, 'area' => $area]);
+=======
+        $desturl = new moodle_url('/blocks/mrbs/web/day.php', array('day' => $day, 'month' => $month, 'year' => $year, 'area' => $area));
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
         redirect($desturl);
         exit();
     }

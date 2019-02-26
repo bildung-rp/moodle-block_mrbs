@@ -20,7 +20,15 @@
 ###########################################################################
 //For integration with Moodle
 require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/config.php');
+<<<<<<< HEAD
 $cfg_mrbs_rlp = get_config('block/mrbs_rlp'); //get Moodle config settings for the MRBS block
+=======
+<<<<<<< HEAD
+$cfg_mrbs_rlp = get_config('block/mrbs_rlp'); //get Moodle config settings for the MRBS block
+=======
+$cfg_mrbs = get_config('block/mrbs'); //get Moodle config settings for the MRBS block
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 ###################
 # Database settings
 ###################
@@ -28,8 +36,18 @@ $cfg_mrbs_rlp = get_config('block/mrbs_rlp'); //get Moodle config settings for t
 ################################
 # Site identification information
 #################################
+<<<<<<< HEAD
 $mrbs_rlp_admin = $cfg_mrbs_rlp->admin;  //moodle username of the mrbs_rlp administrator
 $mrbs_rlp_admin_email = $cfg_mrbs_rlp->admin_email; // "admin@MyMoodleSite.com";
+=======
+<<<<<<< HEAD
+$mrbs_rlp_admin = $cfg_mrbs_rlp->admin;  //moodle username of the mrbs_rlp administrator
+$mrbs_rlp_admin_email = $cfg_mrbs_rlp->admin_email; // "admin@MyMoodleSite.com";
+=======
+$mrbs_admin = $cfg_mrbs->admin;  //moodle username of the mrbs administrator
+$mrbs_admin_email = $cfg_mrbs->admin_email; // "admin@MyMoodleSite.com";
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 # This is the text displayed in the upper left corner of every page. Either
 # type the name of your organization, or you can put your logo like this :
 # $mrbs_rlp_company = "<a href=http://www.your_organisation.com/>
@@ -59,6 +77,10 @@ $url_base = $cfg_mrbs_rlp->serverpath;
 $enable_periods = $cfg_mrbs_rlp->enable_periods;
 
 if ($enable_periods == 0) { //if we are not using periods then set the following values, prevents error of unset variables
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
     # Resolution - what blocks can be booked, in seconds.
     # Default is half an hour: 1800 seconds.
     $resolution = $cfg_mrbs_rlp->resolution;
@@ -83,6 +105,35 @@ if ($enable_periods == 0) { //if we are not using periods then set the following
     # with 15-minute steps, set morningstarts=0; eveningends=23;
     # eveningends_minutes=45; and resolution=900.
     $eveningends_minutes = $cfg_mrbs_rlp->eveningends_min;
+<<<<<<< HEAD
+=======
+=======
+# Resolution - what blocks can be booked, in seconds.
+# Default is half an hour: 1800 seconds.
+    $resolution = $cfg_mrbs->resolution;
+
+# Start and end of day, NOTE: These are integer hours only, 0-23, and
+# morningstarts must be < eveningends. See also eveningends_minutes.
+    $morningstarts = $cfg_mrbs->morningstarts;
+    $eveningends = $cfg_mrbs->eveningends;
+
+# Minutes to add to $morningstarts to get to the real start of the day.
+# Be sure to consider the value of $eveningends_minutes if you change
+# this, so that you do not cause a day to finish before the start of
+# the last period.  For example if resolution=3600 (1 hour)
+# morningstarts = 8 and morningstarts_minutes = 30 then for the last
+# period to start at say 4:30pm you would need to set eveningends = 16
+# and eveningends_minutes = 30
+    $morningstarts_minutes = $cfg_mrbs->morningstarts_min;
+
+# Minutes to add to $eveningends hours to get the real end of the day.
+# Examples: To get the last slot on the calendar to be 16:30-17:00, set
+# eveningends=16 and eveningends_minutes=30. To get a full 24 hour display
+# with 15-minute steps, set morningstarts=0; eveningends=23;
+# eveningends_minutes=45; and resolution=900.
+    $eveningends_minutes = $cfg_mrbs->eveningends_min;
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 }
 
 # Define the name or description for your periods in chronological order
@@ -146,7 +197,15 @@ $default_report_days = $cfg_mrbs_rlp->default_report_days;
 $search["count"] = $cfg_mrbs_rlp->search_count;
 
 # Page refresh time (in seconds). Set to 0 to disable
+<<<<<<< HEAD
 //$refresh_rate = $cfg_mrbs_rlp->refresh_rate;
+=======
+<<<<<<< HEAD
+//$refresh_rate = $cfg_mrbs_rlp->refresh_rate;
+=======
+//$refresh_rate = $cfg_mrbs->refresh_rate;
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 # should areas be shown as a list or a drop-down select box?
 $area_list_format = $cfg_mrbs_rlp->area_list_format;
 
@@ -164,11 +223,25 @@ $view_week_number = $cfg_mrbs_rlp->view_week_number;
 $times_right_side = $cfg_mrbs_rlp->times_right_side;
 
 # Control the active cursor in day/week/month views.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 $javascript_cursor = $cfg_mrbs_rlp->javascript_cursor; # Change to false if clients have old browsers
 # incompatible with JavaScript.
 $show_plus_link = $cfg_mrbs_rlp->show_plus_link; # Change to true to always show the (+) link as in
 # MRBS 1.1.
 $highlight_method = $cfg_mrbs_rlp->highlight_method; # One of "bgcolor", "class", "hybrid".
+<<<<<<< HEAD
+=======
+=======
+$javascript_cursor = $cfg_mrbs->javascript_cursor; # Change to false if clients have old browsers
+# incompatible with JavaScript.
+$show_plus_link = $cfg_mrbs->show_plus_link; # Change to true to always show the (+) link as in
+# MRBS 1.1.
+$highlight_method = $cfg_mrbs->highlight_method; # One of "bgcolor", "class", "hybrid".
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 # Define default starting view (month, week or day)
 # Default is day
 $default_view = $cfg_mrbs_rlp->default_view;
@@ -196,6 +269,10 @@ if ($CFG->sessioncookiepath == '/') { //if one is not set in Moodle then use def
 ###############################################
 # Set to TRUE if you want to be notified when entries are booked. Default is
 # FALSE
+<<<<<<< HEAD
+define("MAIL_ADMIN_ON_BOOKINGS", $cfg_mrbs_rlp->mail_admin_on_bookings);
+=======
+<<<<<<< HEAD
 define("MAIL_ADMIN_ON_BOOKINGS", $cfg_mrbs_rlp->mail_admin_on_bookings);
 
 # Set to TRUE if you want AREA ADMIN to be notified when entries are booked.
@@ -205,25 +282,72 @@ define("MAIL_AREA_ADMIN_ON_BOOKINGS", $cfg_mrbs_rlp->mail_area_admin_on_bookings
 # Set to TRUE if you want ROOM ADMIN to be notified when entries are booked.
 # Default is FALSE. Room admin emails are set in room_area admin page.
 define("MAIL_ROOM_ADMIN_ON_BOOKINGS", $cfg_mrbs_rlp->mail_room_admin_on_bookings);
+=======
+define("MAIL_ADMIN_ON_BOOKINGS", $cfg_mrbs->mail_admin_on_bookings);
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
+
+# Set to TRUE if you want AREA ADMIN to be notified when entries are booked.
+# Default is FALSE. Area admin emails are set in room_area admin page.
+define("MAIL_AREA_ADMIN_ON_BOOKINGS", $cfg_mrbs->mail_area_admin_on_bookings);
+
+# Set to TRUE if you want ROOM ADMIN to be notified when entries are booked.
+# Default is FALSE. Room admin emails are set in room_area admin page.
+<<<<<<< HEAD
+define("MAIL_ROOM_ADMIN_ON_BOOKINGS", $cfg_mrbs_rlp->mail_room_admin_on_bookings);
+=======
+define("MAIL_ROOM_ADMIN_ON_BOOKINGS", $cfg_mrbs->mail_room_admin_on_bookings);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 # Set to TRUE if you want ADMIN to be notified when entries are deleted. Email
 # will be sent to mrbs_rlp admin, area admin and room admin as per above settings,
 # as well as to booker if MAIL_BOOKER is TRUE (see below).
+<<<<<<< HEAD
 define("MAIL_ADMIN_ON_DELETE", $cfg_mrbs_rlp->mail_admin_on_delete);
 
 # Set to TRUE if you want to be notified on every change (i.e, on new entries)
 # but also each time they are edited. Default is FALSE (only new entries)
 define("MAIL_ADMIN_ALL", $cfg_mrbs_rlp->mail_admin_all);
+=======
+<<<<<<< HEAD
+define("MAIL_ADMIN_ON_DELETE", $cfg_mrbs_rlp->mail_admin_on_delete);
+
+# Set to TRUE if you want to be notified on every change (i.e, on new entries)
+# but also each time they are edited. Default is FALSE (only new entries)
+define("MAIL_ADMIN_ALL", $cfg_mrbs_rlp->mail_admin_all);
+=======
+define("MAIL_ADMIN_ON_DELETE", $cfg_mrbs->mail_admin_on_delete);
+
+# Set to TRUE if you want to be notified on every change (i.e, on new entries)
+# but also each time they are edited. Default is FALSE (only new entries)
+define("MAIL_ADMIN_ALL", $cfg_mrbs->mail_admin_all);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 # Set to TRUE is you want to show entry details in email, otherwise only a
 # link to view_entry is provided. Irrelevant for deleted entries. Default is
 # FALSE.
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 define("MAIL_DETAILS", $cfg_mrbs_rlp->mail_details);
 
 # Set to TRUE if you want BOOKER to receive a copy of his entries as well any
 # changes (depends of MAIL_ADMIN_ALL, see below). Default is FALSE. To know
 # how to set mrbs_rlp to send emails to users/bookers, see INSTALL.
 define("MAIL_BOOKER", $cfg_mrbs_rlp->mail_booker);
+<<<<<<< HEAD
+=======
+=======
+define("MAIL_DETAILS", $cfg_mrbs->mail_details);
+
+# Set to TRUE if you want BOOKER to receive a copy of his entries as well any
+# changes (depends of MAIL_ADMIN_ALL, see below). Default is FALSE. To know
+# how to set mrbs to send emails to users/bookers, see INSTALL.
+define("MAIL_BOOKER", $cfg_mrbs->mail_booker);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 #****************************
 # Miscellaneous settings
@@ -234,6 +358,7 @@ if (isset($USER->lang)) {
 } else { //use 'en' as default
     define("MAIL_ADMIN_LANG", 'en');
 }
+<<<<<<< HEAD
 # Set the email address of the From field. Default is $mrbs_rlp_admin_email
 define("MAIL_FROM", $cfg_mrbs_rlp->mail_from);
 
@@ -244,6 +369,31 @@ define("MAIL_RECIPIENTS", $cfg_mrbs_rlp->mail_recipients);
 # Set email address of the Carbon Copy field. Default is ''. You can define
 # more than one recipient (see MAIL_RECIPIENTS)
 define("MAIL_CC", $cfg_mrbs_rlp->mail_cc);
+=======
+<<<<<<< HEAD
+# Set the email address of the From field. Default is $mrbs_rlp_admin_email
+define("MAIL_FROM", $cfg_mrbs_rlp->mail_from);
+=======
+# Set the email address of the From field. Default is $mrbs_admin_email
+define("MAIL_FROM", $cfg_mrbs->mail_from);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+
+# Set the recipient email. Default is $mrbs_rlp_admin_email. You can define
+# more than one recipient like this "john@doe.com,scott@tiger.com"
+<<<<<<< HEAD
+define("MAIL_RECIPIENTS", $cfg_mrbs_rlp->mail_recipients);
+
+# Set email address of the Carbon Copy field. Default is ''. You can define
+# more than one recipient (see MAIL_RECIPIENTS)
+define("MAIL_CC", $cfg_mrbs_rlp->mail_cc);
+=======
+define("MAIL_RECIPIENTS", $cfg_mrbs->mail_recipients);
+
+# Set email address of the Carbon Copy field. Default is ''. You can define
+# more than one recipient (see MAIL_RECIPIENTS)
+define("MAIL_CC", $cfg_mrbs->mail_cc);
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 // Users wanting to use a different strings can change set them as a custom language string
 # Set the content of the Subject field for added/changed entries.
@@ -254,6 +404,10 @@ $mail["subject_delete"] = get_string('mail_subject_delete', 'block_mrbs_rlp', $m
 
 # Set the content of the message when a new entry is booked. What you type
 # here will be added at the top of the message body.
+<<<<<<< HEAD
+$mail["new_entry"] = get_string('mail_new_entry', 'block_mrbs_rlp');
+=======
+<<<<<<< HEAD
 $mail["new_entry"] = get_string('mail_new_entry', 'block_mrbs_rlp');
 
 # Set the content of the message when an entry is modified. What you type
@@ -263,6 +417,22 @@ $mail["changed_entry"] = get_string('mail_changed_entry', 'block_mrbs_rlp');
 # Set the content of the message when an entry is deleted. What you type
 # here will be added at the top of the message body.
 $mail["deleted_entry"] = get_string('mail_deleted_entry', 'block_mrbs_rlp');
+=======
+$mail["new_entry"] = get_string('mail_new_entry', 'block_mrbs');
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
+
+# Set the content of the message when an entry is modified. What you type
+# here will be added at the top of the message body.
+$mail["changed_entry"] = get_string('mail_changed_entry', 'block_mrbs');
+
+# Set the content of the message when an entry is deleted. What you type
+# here will be added at the top of the message body.
+<<<<<<< HEAD
+$mail["deleted_entry"] = get_string('mail_deleted_entry', 'block_mrbs_rlp');
+=======
+$mail["deleted_entry"] = get_string('mail_deleted_entry', 'block_mrbs');
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 
 ##########
 # Language
@@ -330,9 +500,21 @@ $typel["I"] = $cfg_mrbs_rlp->entry_type_i;
 $typel["J"] = $cfg_mrbs_rlp->entry_type_j;
 
 //These are here so that unchanged imported bookings can be replaced on new imports
+<<<<<<< HEAD
 if (!empty($cfg_mrbs_rlp->cronfile)) {
     $typel["K"] = get_string('importedbooking', 'block_mrbs_rlp');
     $typel["L"] = get_string('importedbookingmoved', 'block_mrbs_rlp');
+=======
+<<<<<<< HEAD
+if (!empty($cfg_mrbs_rlp->cronfile)) {
+    $typel["K"] = get_string('importedbooking', 'block_mrbs_rlp');
+    $typel["L"] = get_string('importedbookingmoved', 'block_mrbs_rlp');
+=======
+if (!empty($cfg_mrbs->cronfile)) {
+    $typel["K"] = get_string('importedbooking', 'block_mrbs');
+    $typel["L"] = get_string('importedbookingmoved', 'block_mrbs');
+>>>>>>> dd4841aea9b085df546a67ad05e7819b2b70b3e4
+>>>>>>> 1cc615bb4b7d24c455d09a0e2dfaa3f4bb1e92e0
 }
 $typel["U"] = get_string('unconfirmedbooking', 'block_mrbs_rlp');
 //WARNING: DO NOT USE TYPE M, type M is used by import script and will delete other type M bookings
