@@ -17,7 +17,7 @@ function RoomSearch() {
 //check for force book- if ticked we should be able to select any room
     "use strict";
     var hasPeriod, dayInput, day, monthInput, month, yearInput, year, periodInput, period, durationInput, duration, dur_unitsInput,
-            dur_units, mincapInput, mincap, teachingInput, teaching, specialInput, special, computerInput, computer, searchstring,
+            dur_units, mincapInput, mincap, searchstring,
             hourInput, hour, minuteInput, minute, ampmInput, ampm, i, freeRooms, room, j;
 
     hasPeriod = !!document.getElementsByName('period').length;
@@ -58,28 +58,7 @@ function RoomSearch() {
     mincapInput = document.getElementsByName('mincap');
     mincap = mincapInput[0].value;
 
-    teachingInput = document.getElementsByName('teaching');
-    if (teachingInput[0].checked) {
-        teaching = 1;
-    } else {
-        teaching = 0;
-    }
-
-    specialInput = document.getElementsByName('special');
-    if (specialInput[0].checked) {
-        special = 1;
-    } else {
-        special = 0;
-    }
-
-    computerInput = document.getElementsByName('computer');
-    if (computerInput[0].checked) {
-        computer = 1;
-    } else {
-        computer = 0;
-    }
-
-    searchstring = "?day=" + day + "&month=" + month + "&year=" + year + "&duration=" + duration + "&dur_units=" + dur_units + "&mincap=" + mincap + "&teaching=" + teaching + "&special=" + special + "&computer=" + computer;
+    searchstring = "?day=" + day + "&month=" + month + "&year=" + year + "&duration=" + duration + "&dur_units=" + dur_units + "&mincap=" + mincap;
     if (hasPeriod) {
         searchstring += "&period=" + period;
     } else {

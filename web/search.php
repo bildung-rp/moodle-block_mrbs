@@ -44,10 +44,10 @@ if ($advanced) {
     $thisurl->param('advanced', $advanced);
 }
 if ($search_str) {
-    $thisurl->param('searchstr', $search_str);
+    $thisurl->param('search_str', $search_str);
 }
 if ($search_pos) {
-    $thisurl->param('search_pos', $search_pos);
+    $thisurl->param('search_pos', $search_pos);    
 }
 $PAGE->set_url($thisurl);
 require_login();
@@ -55,15 +55,48 @@ require_login();
 print_header_mrbs_rlp($day, $month, $year, $area);
 
 if ($advanced) {
-    echo "<H3>" . get_string('advanced_search', 'block_mrbs_rlp') . "</H3>";
-    echo "<FORM METHOD=GET ACTION=\"search.php\">";
-    echo get_string('search_for', 'block_mrbs_rlp') . " <INPUT TYPE=TEXT SIZE=25 NAME=\"search_str\"><br>";
-    echo get_string('from') . " ";
-    genDateSelector("", $day, $month, $year);
-    echo "<br><INPUT TYPE=SUBMIT VALUE=\"" . get_string('search') . "\">";
-    include "trailer.php";
-    echo "</BODY>";
-    echo "</HTML>";
+?>
+
+<div id="page-content">
+  <div id="region-main-box">
+    <section id="region-main">
+    <div role="main">
+
+    <h2><?= get_string('advanced_search', 'block_mrbs_rlp') ?></h2>
+    <form method="get" action="search.php">
+    
+    <div id="fitem_id_search_str" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_search_str"><?= get_string('search_for', 'block_mrbs_rlp') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input type="text" class="form-control" size="25" name="search_str">
+        </div>
+    </div>    
+    
+    <div id="id_search_from" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_search_from"><?= get_string('from') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <?php genDateSelector("", $day, $month, $year); ?>
+        </div>
+    </div>
+    
+    <div id="id_submit" class="form-group row fitem">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <button type="submit" class="btn btn-success" value="<?= get_string('search') ?>"><?= get_string('search') ?></button>
+        </div>
+    </div>               
+
+    <br>
+    <?php include "trailer.php"; ?>
+    
+    </BODY>
+    </HTML>
+<?php    
     exit;
 }
 
@@ -128,7 +161,7 @@ if ($has_prev || $has_next) {
     // display a "Previous" button if necessary
     if ($has_prev) {
         $pos = max(0, $search_pos - $search["count"]);
-        echo '<A HREF="' . $thisurl->out(true, ['search_pos', $pos]) . '">';
+        echo '<a href="' . $thisurl->out(true, ['search_pos' => $pos]) . '">';
     }
 
     echo "<B>" . get_string('previous') . "</B>";
@@ -143,7 +176,7 @@ if ($has_prev || $has_next) {
     // display a "Previous" button if necessary
     if ($has_next) {
         $pos = max(0, $search_pos + $search["count"]);
-        echo '<a href="' . $pos->out(true, ['search_pos', $pos]) . '">';
+        echo '<a href="' . $thisurl->out(true, ['search_pos' => $pos]) . '">'; 
     }
 
     echo "<B>" . get_string('next') . "</B>";

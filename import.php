@@ -1,5 +1,6 @@
 <?php
 namespace mrbs_rlp\import;
+
 // This file is part of the MRBS block for Moodle
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -165,91 +166,91 @@ if (!empty($cfg_mrbs_rlp->cronfile) && file_exists($cfg_mrbs_rlp->cronfile)) {
     }
 }
 
-class import {
+class import
+{
   
   //==========================================FUNCTIONS==============================================================
-  //looks up the room id from the name
-  static function room_id_lookup($name)
-  {
-      global $DB;
-      if (!$room = $DB->get_record('block_mrbs_rlp_room', ['room_name' => $name])) {
-          $error = "ERROR: failed to return id from database (room $name probably doesn't exist)";
-          echo $error . "\n";
-          return 'error';
-      } else {
-          return $room->id;
-      }
-  }
+    //looks up the room id from the name
+    public static function room_id_lookup($name)
+    {
+        global $DB;
+        if (!$room = $DB->get_record('block_mrbs_rlp_room', ['room_name' => $name])) {
+            $error = "ERROR: failed to return id from database (room $name probably doesn't exist)";
+            echo $error . "\n";
+            return 'error';
+        } else {
+            return $room->id;
+        }
+    }
   
-  /**
-   * Checks if a class already has a timetable entry. If a previous imported entry exists,
-   * and was edited, leave it. If it wasn't edited (flagged by type M), change it's type back to
-   * K (to show it's an imported record), and return true. If there's no record for the class, or
-   * updating the type back to K fails, return false.
-   *
-   * @param $name string name of the booking
-   * @param $time int start time of the booking in unix timestamp format
-   * @return bool does a previous booking exist?
-   */
-  static function is_timetabled($name, $time)
-  {
-      global $DB;
-      if ($DB->get_record('block_mrbs_rlp_entry', ['name' => $name, 'start_time' => $time, 'type' => 'L'])) {
-          return true;
-      } elseif ($record = $DB->get_record('block_mrbs_rlp_entry', [
+    /**
+     * Checks if a class already has a timetable entry. If a previous imported entry exists,
+     * and was edited, leave it. If it wasn't edited (flagged by type M), change it's type back to
+     * K (to show it's an imported record), and return true. If there's no record for the class, or
+     * updating the type back to K fails, return false.
+     *
+     * @param $name string name of the booking
+     * @param $time int start time of the booking in unix timestamp format
+     * @return bool does a previous booking exist?
+     */
+    public static function is_timetabled($name, $time)
+    {
+        global $DB;
+        if ($DB->get_record('block_mrbs_rlp_entry', ['name' => $name, 'start_time' => $time, 'type' => 'L'])) {
+            return true;
+        } elseif ($record = $DB->get_record('block_mrbs_rlp_entry', [
           'name' => $name, 'start_time' => $time, 'type' => 'M'
               ])
       ) {
-          $upd = new stdClass;
-          $upd->id = $record->id;
-          $upd->type = 'K';
-          if ($DB->update_record('block_mrbs_rlp_entry', $upd)) {
-              return true;
-          } else {
-              return false;
-          }
-      } else {
-          return false;
-      }
-  }
+            $upd = new stdClass;
+            $upd->id = $record->id;
+            $upd->type = 'K';
+            if ($DB->update_record('block_mrbs_rlp_entry', $upd)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
   
-  /**
-   * Adds together a date (unixtime) and a time (hh:mm)
-   *
-   * @param $date integer date in seconds since epoch
-   * @param $time string time in hh:mm format
-   * @return integer date/time in seconds since epoch
-   */
-  static function time_to_datetime($date, $time)
-  {
-      global $cfg_mrbs_rlp;
-      list($hours, $mins) = explode(':', $time);
-      $hours = intval($hours);
-      $mins = intval($mins);
-      if ($cfg_mrbs_rlp->enable_periods && $hours == 0 && $mins < count($cfg_mrbs_rlp->periods)) {
-          $hours = 12; // Periods are imported as  P1 - 00:00, P2 - 00:01, P3 - 00:02, etc.
+    /**
+     * Adds together a date (unixtime) and a time (hh:mm)
+     *
+     * @param $date integer date in seconds since epoch
+     * @param $time string time in hh:mm format
+     * @return integer date/time in seconds since epoch
+     */
+    public static function time_to_datetime($date, $time)
+    {
+        global $cfg_mrbs_rlp;
+        list($hours, $mins) = explode(':', $time);
+        $hours = intval($hours);
+        $mins = intval($mins);
+        if ($cfg_mrbs_rlp->enable_periods && $hours == 0 && $mins < count($cfg_mrbs_rlp->periods)) {
+            $hours = 12; // Periods are imported as  P1 - 00:00, P2 - 00:01, P3 - 00:02, etc.
           // but stored internally as P1 - 12:00, P2 - 12:01, P3 - 12:02, etc.
-      }
-      return $date + 60 * $mins + 3600 * $hours;
-  }
+        }
+        return $date + 60 * $mins + 3600 * $hours;
+    }
   
-  /**
-   * Returns a human readable mrbs_rlp time from a unix timestamp.
-   * If periods are enabled then gives the name of the period starting at this time
-   * Will probably break is some idiot has more than 59 periods per day (seems very unlikely though)
-   *
-   * @param $time integer unix timestamp
-   * @return string either the time formatted as hh:mm or the name of the period starting at this time
-   */
-  static function to_hr_time($time)
-  {
-      $cfg_mrbs_rlp = get_config('block/mrbs_rlp');
-      if ($cfg_mrbs_rlp->enable_periods) {
-          $period = intval(date('i', $time));
-          return $cfg_mrbs_rlp->periods[$period];
-      } else {
-          return date('G:i', $time);
-      }
-  }
-
+    /**
+     * Returns a human readable mrbs_rlp time from a unix timestamp.
+     * If periods are enabled then gives the name of the period starting at this time
+     * Will probably break is some idiot has more than 59 periods per day (seems very unlikely though)
+     *
+     * @param $time integer unix timestamp
+     * @return string either the time formatted as hh:mm or the name of the period starting at this time
+     */
+    public static function to_hr_time($time)
+    {
+        $cfg_mrbs_rlp = get_config('block/mrbs_rlp');
+        if ($cfg_mrbs_rlp->enable_periods) {
+            $period = intval(date('i', $time));
+            return $cfg_mrbs_rlp->periods[$period];
+        } else {
+            return date('G:i', $time);
+        }
+    }
 }

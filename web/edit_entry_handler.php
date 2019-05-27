@@ -81,7 +81,7 @@ $context = context_system::instance();
 $PAGE->set_context($context);
 
 $roomadmin = false;
-$editunconfirmed = has_capability('block/mrbs_rlp:editmrbs_rlpunconfirmed', $context, null, false);
+$editunconfirmed = has_capability('block/mrbs_rlp:editmrbs_unconfirmed', $context, null, false);
 if (!getWritable($create_by, getUserName())) {
     if ($editunconfirmed) {
         foreach ($rooms as $key => $room) {
@@ -178,15 +178,20 @@ $units = 1.0;
 switch ($dur_units) {
     case "years":
         $units *= 52;
+        // no break
     case "weeks":
         $units *= 7;
+        // no break
     case "days":
         $units *= 24;
+        // no break
     case "hours":
         $units *= 60;
+        // no break
     case "periods":
     case "minutes":
         $units *= 60;
+        // no break
     case "seconds":
         break;
 }

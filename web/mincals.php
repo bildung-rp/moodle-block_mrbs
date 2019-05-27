@@ -161,12 +161,11 @@ function minicals($year, $month, $day, $area, $room, $dmy, $usertt = false)
                     if ($d > 0 && $d <= $daysInMonth) {
                         $link = $this->getDateLink($d, $this->month, $this->year);
                         $d_week = ($d - 7);
-
                         if ($link == "") {
                             $s .= $d;
                         } elseif ($this->dmy == 'day') {
                             if (($d == $this->day) and ($this->h)) {
-                                $s .= "<a href=\"$link\"><font class=\"calendarHighlight\">$d</font></a>";
+                                $s .= "<a href=\"$link\"><font class=\"font-weight-bold\">$d</font></a>";
                             } else {
                                 $s .= "<a href=\"$link\">$d</a>";
                             }

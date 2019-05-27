@@ -115,119 +115,133 @@ echo '"' . get_string('sat', 'calendar') . '", ';
 echo '"' . get_string('sun', 'calendar') . '"';
 echo ');</script>';
 ?>
-</head><body>
+
+<div id="page-content">
+  <div id="region-main-box">
+    <section id="region-main">
+    <div role="main">
+
     <h2><?php echo get_string('search'); ?></h2>
 
-    <div id="searchform">
-        <form NAME="main" >
-            <table BORDER=0>
+    <form action="" method="post" name="main" >
+    
+    <!-- Date selectors -->
+    <div id="fitem_id_name" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_name"><?= get_string('date') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <?php genDateSelector("", $day, $month, $year, false, true) ?>
+            <script>ChangeOptionDays(document.main, '');</script>
+        </div>
+    </div>    
 
-                <!-- Date selectors -->
-                <tr><td CLASS=CR><b><?php echo get_string('date') ?></b></td>
-                    <td CLASS=CL>
-                        <?php genDateSelector("", $day, $month, $year, false, true) ?>
-                        <script LANGUAGE="JavaScript">ChangeOptionDays(document.main, '');</script>
-                    </td>
-                </tr>
-
-                <!-- Start time/period selectors -->
-                <?php if (!$enable_periods) {
+    <!-- Start time/period selectors -->
+    <?php if (!$enable_periods) {
     ?>
-                    <tr><td CLASS=CR><b><?php echo get_string('time') ?></b></td>
-                        <td CLASS=CL><input NAME="hour" SIZE=2 VALUE="<?php
-                            if (!$twentyfourhour_format && ($start_hour > 12)) {
-                                echo($start_hour - 12);
-                            } else {
-                                echo $start_hour;
-                            } ?>" MAXLENGTH=2 onChange="RoomSearch()">:<input NAME="minute" SIZE=2 VALUE="<?php echo $start_min; ?>" MAXLENGTH=2 onChange="RoomSearch()">
-                                            <?php
-                                            if (!$twentyfourhour_format) {
-                                                $checked = ($start_hour < 12) ? "checked" : "";
-                                                echo "<INPUT NAME=\"ampm\" type=\"radio\" value=\"am\" $checked>" . userdate(mktime(1, 0, 0, 1, 1, 2000), "%p");
-                                                $checked = ($start_hour >= 12) ? "checked" : "";
-                                                echo "<input NAME=\"ampm\" type=\"radio\" value=\"pm\" $checked>" . userdate(mktime(13, 0, 0, 1, 1, 2000), "%p");
-                                            } ?>
-                        </td></tr>
-                <?php
+    
+    <div id="fitem_id_name" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_name"><?= get_string('time') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input type="text" class="form-control" name="hour" size="2" value="<?php
+            if (!$twentyfourhour_format && ($start_hour > 12)) {
+                echo($start_hour - 12);
+            } else {
+                echo $start_hour;
+            } ?>" maxlength=2 onChange="RoomSearch()">:<input type="text" class="form-control" name="minute" size="2" value="<?php echo $start_min; ?>" maxlength="2" onChange="RoomSearch()">
+            <?php
+            if (!$twentyfourhour_format) {
+                $checked = ($start_hour < 12) ? "checked" : "";
+                echo "<input name=\"ampm\" type=\"radio\" value=\"am\" $checked>" . userdate(mktime(1, 0, 0, 1, 1, 2000), "%p");
+                $checked = ($start_hour >= 12) ? "checked" : "";
+                echo "<input name=\"ampm\" type=\"radio\" value=\"pm\" $checked>" . userdate(mktime(13, 0, 0, 1, 1, 2000), "%p");
+            } ?>
+        </div>
+    </div>      
+
+<?php
 } else {
-                                                ?>
-                    <tr><td CLASS=CR><b><?php echo get_string('period', 'block_mrbs_rlp') ?></b></td>
-                        <td CLASS=CL>
-                            <select NAME="period" onChange="RoomSearch()">
-                                <?php
-                                foreach ($periods as $p_num => $p_val) {
-                                    echo "<option VALUE=$p_num";
-                                    if ((isset($period) && $period == $p_num) || $p_num == $start_min) {
-                                        echo " SELECTED";
-                                    }
-                                    echo ">$p_val";
-                                } ?>
-                            </select>
+                ?>
 
-                        </td></tr>
-
-                    <!-- Duration selectors -->
+    <div id="fitem_id_name" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_name"><?= get_string('period', 'block_mrbs_rlp') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <select class="custom-select" name="period" onChange="RoomSearch()">
                 <?php
-                                            } ?>
-                <tr><td CLASS=CR><b><?php echo get_string('duration', 'block_mrbs_rlp'); ?></b></td>
-                    <td CLASS=CL><input NAME="duration" SIZE=7 VALUE="<?php echo $duration; ?>" onChange="RoomSearch()" onKeyUp="RoomSearch()">
-                        <select NAME="dur_units" onChange="RoomSearch()">
-                            <?php
-                            if ($enable_periods) {
-                                $units = ["periods", "days"];
-                            } else {
-                                $units = ["minutes", "hours", "days", "weeks"];
-                            }
+                foreach ($periods as $p_num => $p_val) {
+                    echo "<option value='".$p_num."'";
+                    if ((isset($period) && $period == $p_num) || $p_num == $start_min) {
+                        echo " SELECTED";
+                    }
+                    echo ">$p_val";
+                } ?>
+            </select>
+        </div>
+    </div>  
+    
+    <!-- Duration selectors -->
+<?php
+            } ?>
 
-                            while (list(, $unit) = each($units)) {
-                                echo "<OPTION VALUE=$unit";
-                                if ($dur_units == get_string($unit, 'block_mrbs_rlp')) {
-                                    echo " SELECTED";
-                                }
-                                echo " onChange=\"RoomSearch()\">" . get_string($unit, 'block_mrbs_rlp');
-                            }
-                            ?>
-                        </select>
-                        <input NAME="all_day" TYPE="checkbox" VALUE="yes" id="all_day" <?php if ($all_day) {
-                                echo 'CHECKED ';
-                            } ?>onClick="OnAllDayClick()"> <?php
-                        echo get_string('all_day', 'block_mrbs_rlp');
-                        if ($all_day) {
-                            echo '<body onload = "OnAllDayClick()"></body>';
-                        }
-                        ?>
-                    </td></tr>
+    <div id="fitem_id_name" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_name"><?= get_string('duration', 'block_mrbs_rlp') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+          <input class="form-control" name="duration" size="7" value="<?php echo $duration; ?>" onChange="RoomSearch()" onKeyUp="RoomSearch()">
+          <select class="custom-select" style="line-height:20.5px;" name="dur_units" onChange="RoomSearch()">
+              <?php
+              if ($enable_periods) {
+                  $units = ["periods", "days"];
+              } else {
+                  $units = ["minutes", "hours", "days", "weeks"];
+              }
 
-                <!-- Capacity input-->
-                <tr><td CLASS=CR><b><?php echo get_string('mincapacity', 'block_mrbs_rlp') ?></b></td>
-                    <td CLASS=CL><input NAME="mincap" SIZE="3" onChange="RoomSearch()" onKeyUp="RoomSearch()"></td>
-                </tr>
+              while (list(, $unit) = each($units)) {
+                  echo "<option value='".$unit."'";
+                  if ($dur_units == get_string($unit, 'block_mrbs_rlp')) {
+                      echo " SELECTED";
+                  }
+                  echo " onChange=\"RoomSearch()\">" . get_string($unit, 'block_mrbs_rlp');
+              }
+              ?>
+          </select>
+          <label>&nbsp;<input class="form-check-input" name="all_day" type="checkbox" value="yes" id="all_day" <?php if ($all_day) {
+                  echo 'CHECKED ';
+              } ?>onClick="OnAllDayClick()"> <?php
+          echo get_string('all_day', 'block_mrbs_rlp')."</label>";
+          if ($all_day) {
+              echo '<body onload = "OnAllDayClick()"></body>';
+          }
+          ?>
+        </div>
+    </div> 
+    
+    <div id="fitem_id_name" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_name"><?= get_string('mincapacity', 'block_mrbs_rlp') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input class="form-control" name="mincap" size="3" onChange="RoomSearch()" onKeyUp="RoomSearch()">
+        </div>
+    </div>      
 
-                <!-- Teaching room input-->
-                <tr><td CLASS=CR><b><?php echo get_string('teachingroom', 'block_mrbs_rlp') ?></b></td>
-                    <td CLASS=CL><input TYPE="checkbox" NAME="teaching" onClick="RoomSearch()" CHECKED></td>
-                </tr>
-
-                <!-- Special room input-->
-                <tr><td CLASS=CR><b><?php echo get_string('specialroom', 'block_mrbs_rlp') ?></b></td>
-                    <td CLASS=CL><input TYPE="checkbox" NAME="special" onClick="RoomSearch()" CHECKED></td>
-                </tr>
-
-                <!-- Computer room input-->
-                <tr><td CLASS=CR><b><?php echo get_string('computerroom', 'block_mrbs_rlp') ?></b></td>
-                    <td CLASS=CL><input TYPE="checkbox" NAME="computer" onClick="RoomSearch()"></td>
-                </tr>
-
-            </table>
-        </form>
+    </form>
 
     </div>
+    </section>
+  </div>
+</div>  
 
     <!-- Area to display rooms found -->
     <h2 id="results"></h2>
     
-    <table border="1">
-      <thead>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
         <tr>
           <th><?= get_string('area', 'block_mrbs_rlp') ?></th>
           <th><?= get_string('room', 'block_mrbs_rlp') ?></th>
@@ -239,11 +253,10 @@ echo ');</script>';
     </tbody>
     </table>
 
-    <script LANGUAGE="JavaScript">
+    <script>
         var langRoomsFree = '<?php print_string('roomsfree', 'block_mrbs_rlp'); ?>';
         var langNoRooms = '<?php print_string('noroomsfound', 'block_mrbs_rlp'); ?>';
         window.onload = RoomSearch();
     </script>
 
-
-    <?php include "trailer.php"; ?>
+<?php include "trailer.php"; ?>

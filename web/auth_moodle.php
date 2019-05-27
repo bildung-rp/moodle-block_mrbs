@@ -53,17 +53,17 @@ function authGetUserLevel($user)
     $context = context_system::instance();
 
     // Set Access leve for users via MRBS block and Moodle 1.7 roles
-    if (has_capability('block/mrbs_rlp:administermrbs_rlp', $context)) {
+    if (has_capability('block/mrbs_rlp:administermrbs', $context)) {
         return 2;
     }
     // has_capability('block/mrbs_rlp:editmrbs_rlp', $context)
-    if (has_capability('block/mrbs_rlp:editmrbs_rlp', $context)) {
+    if (has_capability('block/mrbs_rlp:editmrbs', $context)) {
         return 1;
     }
-    if (has_capability('block/mrbs_rlp:editmrbs_rlpunconfirmed', $context, null, false)) {
+    if (has_capability('block/mrbs_rlp:editmrbs_unconfirmed', $context, null, false)) {
         return 1; // Can book rooms, but only as 'unconfirmed' (unless they are the room admin)
     }
-    if (has_capability('block/mrbs_rlp:viewmrbs_rlp', $context)) {
+    if (has_capability('block/mrbs_rlp:viewmrbs', $context)) {
         return 0;
     } else { // Set access level for other users (e.g. people who access url directly)
         return 0;

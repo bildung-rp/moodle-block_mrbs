@@ -30,9 +30,6 @@ $duration = optional_param('duration', 0, PARAM_INT);
 $dur_units = optional_param('dur_units', 0, PARAM_TEXT);
 $currentroom = optional_param('currentroom', 0, PARAM_INT);
 $mincap = optional_param('mincap', 0, PARAM_INT);
-$teaching = optional_param('teaching', false, PARAM_BOOL);
-$special = optional_param('special', false, PARAM_BOOL);
-$computer = optional_param('computer', false, PARAM_BOOL);
 $hour = optional_param('hour', null, PARAM_INT);
 $minute = optional_param('minute', null, PARAM_INT);
 $ampm = optional_param('ampm', null, PARAM_ALPHA);
@@ -132,21 +129,6 @@ $sql .= "OR (e.start_time< ? AND e.end_time>= ?)) ";
 $sql .= "AND e.room_id = r.id ) < 1  AND r.capacity >= ? ";
 
 $params = [$starttime, $endtime, $starttime, $starttime, $endtime, $endtime, $mincap];
-
-
-
-if ($computer) {
-    $sql .= " AND " . $DB->sql_like('r.description', '?', false);
-    $params[] = 'Teaching IT%';
-}
-if ($teaching) {
-    $sql .= " AND " . $DB->sql_like('r.description', '?', false);
-    $params[] = 'Teaching%';
-}
-if ($special) {
-    $sql .= " AND " . $DB->sql_like('r.description', '?', false);
-    $params[] = 'Teaching Specialist%';
-}
 
 $sql .= " ORDER BY a.area_name, r.room_name";
 

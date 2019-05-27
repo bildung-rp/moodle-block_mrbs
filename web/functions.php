@@ -45,7 +45,7 @@ function print_header_mrbs_rlp($day = null, $month = null, $year = null, $area =
 
     $context = context_system::instance();
 
-    require_capability('block/mrbs_rlp:viewmrbs_rlp', $context);
+    require_capability('block/mrbs_rlp:viewmrbs', $context);
 
     // If we dont know the right date then make it up
     if (!$day) {
@@ -126,24 +126,19 @@ function print_header_mrbs_rlp($day = null, $month = null, $year = null, $area =
 
         echo <<<HTML1END
 
-    <table width="100%" class="banner" >
+    <table width="100%" class="banner table" style="background-color:#c0e0ff;border:1px solid #aaa;border-collapse: unset;" cellpadding="0">
       <tr>
-        <td bgcolor="#5b69a6">
-          <table width="100%" border=0>
-            <tr>
-              <td class="banner" bgcolor="#c0e0ff">
-          <font size=4>
-           <a href="$homeurl">$titlestr</a>
-                </font>
-              </td>
-              <td class="banner" bgcolor="#c0e0ff">
+          <td class="banner" style="vertical-align:baseline;padding:0">
+            <font size=4><a href="$homeurl">$titlestr</a></font>
+            </td>
+              <td class="banner" style="vertical-align:baseline;padding:0">
                 <form action="$gotourl" method=get name="form1">
                   <font size=2>
 HTML1END;
 
         genDateSelector("", $day, $month, $year); // Note: The 1st arg must match the last arg in the call to ChangeOptionDays below.
         if (!empty($area)) {
-            echo "<input type=hidden name=area value=$area>\n";
+            echo "<input type=\"hidden\" name=\"area\" value=$area>\n";
         }
 
         echo <<<HTML2END
@@ -153,15 +148,15 @@ HTML1END;
                     ChangeOptionDays(document.form1, ''); // Note: The 2nd arg must match the first in the call to genDateSelector above.
                     // -->
                     </script>
-	    <input type=submit value="$gotostr">
+	    <button type="submit" class="btn btn-default" style="line-height:21.5px;">$gotostr</button>
                   </font>
                 </form>
               </td>
 HTML2END;
         if (!$userview) {
             if (has_capability("block/mrbs_rlp:forcebook", $context)) {
-                echo'<td class="banner" bgcolor="#c0e0ff" align=center>
-                  <a href="edit_entry.php?force=TRUE">' . get_string('forciblybook', 'block_mrbs_rlp') . '</a>
+                echo'<td class="banner" style="vertical-align:baseline;padding:0">
+                  <a href="edit_entry.php?force=TRUE">' . get_string('addentry', 'block_mrbs_rlp') . '</a>
               </td>';
             }
             /*
@@ -170,17 +165,15 @@ HTML2END;
               echo 'onclick="this.target=\'popup\'; return openpopup(\'' . $roomsearchurl . '\', \'popup\', \'toolbar=1,location=0,scrollbars,resizable,width=500,height=400\', 0);">';
               echo $roomsearchstr . '</a></td>';
              */
-            echo '<td class="banner" bgcolor="#c0e0ff" align=center><a href="' . $roomsearchurl . '">' . $roomsearchstr . '</a></td>';
+            echo '<td class="banner" style="vertical-align:baseline;padding:0"><a href="' . $roomsearchurl . '">' . $roomsearchstr . '</a></td>';
         } // !$userview
-
-        echo '<td class="banner" bgcolor="#c0e0ff" align=center><a href="' . $helpurl . '">' . $helpstr . '</a></td>';
 
         if (!$userview) {
             if ($canadmin) {
-                echo '<td class="banner" bgcolor="#c0e0ff" align=center><a href="' . $adminurl . '">' . $adminstr . '</a></td>';
+                echo '<td class="banner" style="vertical-align:baseline;padding:0"><a href="' . $adminurl . '">' . $adminstr . '</a></td>';
             }
-            echo '<td class="banner" bgcolor="#c0e0ff" align=center><a href="' . $reporturl . '">' . $reportstr . '</a></td>';
-            echo '<td class="banner" bgcolor="#c0e0ff" align=center><form method=get action="' . $searchurl . '">';
+            echo '<td class="banner" style="vertical-align:baseline;padding:0"><a href="' . $reporturl . '">' . $reportstr . '</a></td>';
+            echo '<td class="banner text-right" style="vertical-align:baseline;padding:0"><form method=get action="' . $searchurl . '">';
             echo '<font size=2><a href="' . $searchadvurl . '">' . $searchstr . '</a></font>
                   <input type=text   name="search_str" value="' . $search_str . '" size=10>
                   <input type=hidden name=day        value="' . $day . '"        >
@@ -191,8 +184,11 @@ HTML2END;
             }
             echo '</form></td>';
         } // !$userview
+        
+        echo '<td class="banner text-right" style="vertical-align:baseline;padding:0"><a href="' . $helpurl . '">' . $helpstr . '
+              <i class="icon fa fa-question-circle text-info fa-fw" title="'.$helpstr.'" aria-label="'.$helpstr.'"></i></a></td>';
 
-        echo '</tr> </table> </td> </tr> </table>';
+        echo '</tr> </table>';
     }
 }
 
@@ -273,7 +269,7 @@ function genDateSelector($prefix, $day, $month, $year, $updatefreerooms = false,
         $year = date("Y");
     }
 
-    echo "<select name=\"${prefix}day\" ";
+    echo "<select class='custom-select' name=\"${prefix}day\" ";
     if ($updatefreerooms) {
         echo"onChange=\"updateFreeRooms()\"";
     }
@@ -283,11 +279,11 @@ function genDateSelector($prefix, $day, $month, $year, $updatefreerooms = false,
     echo ">";
 
     for ($i = 1; $i <= 31; $i++) {
-        echo "<option " . ($i == $day ? " SELECTED" : "") . ">" . $i . "</OPTION>";
+        echo "<option " . ($i == $day ? " SELECTED" : "") . ">" . $i . "</option>";
     }
 
     echo "</select>
-            <select name=\"${prefix}month\" onchange=\"ChangeOptionDays(this.form,'$prefix'";
+            <select class='custom-select' name=\"${prefix}month\" onchange=\"ChangeOptionDays(this.form,'$prefix'";
     if ($updatefreerooms) {
         echo ",true";
     }
@@ -299,11 +295,11 @@ function genDateSelector($prefix, $day, $month, $year, $updatefreerooms = false,
     for ($i = 1; $i <= 12; $i++) {
         $m = userdate(mktime(0, 0, 0, $i, 1, $year) + date('Z', mktime(0, 0, 0, $i, 1, $year)), '%b', '0');
 
-        print "<OPTION VALUE=\"$i\"" . ($i == $month ? " SELECTED" : "") . ">" . $m;
+        print "<option value=\"$i\"" . ($i == $month ? " SELECTED" : "") . ">" . $m;
     }
 
-    echo "</SELECT>
-              <SELECT NAME=\"${prefix}year\" onchange=\"ChangeOptionDays(this.form,'$prefix'";
+    echo "</select>
+              <select class='custom-select' name=\"${prefix}year\" onchange=\"ChangeOptionDays(this.form,'$prefix'";
     if ($updatefreerooms) {
         echo ",true";
     }
@@ -319,7 +315,7 @@ function genDateSelector($prefix, $day, $month, $year, $updatefreerooms = false,
         print "<OPTION VALUE=\"$i\"" . ($i == $year ? " SELECTED" : "") . ">$i";
     }
 
-    echo "</SELECT>";
+    echo "</select>";
 }
 
 // Error handler - this is used to display serious errors such as database
@@ -446,9 +442,9 @@ function tdcell($colclass)
             "J" => "#CCCCCC", "red" => "#FFF0F0", "white" => "#FFFFFF"];
     }
     if (isset($ecolors[$colclass])) {
-        echo "<td class='" . $colclass . " border' bgcolor='" . $ecolors[$colclass] . "'>";
+        echo "<td class='" . $colclass . "' bgcolor='" . $ecolors[$colclass] . "'>";
     } else {
-        echo "<td class='" . $colclass . " border'>";
+        echo "<td class='" . $colclass . "'>";
     }
 }
 
@@ -456,7 +452,8 @@ function tdcell($colclass)
 function show_colour_key()
 {
     global $typel;
-    echo "<table border=0><tr>\n";
+    echo "<div class='table-responsive-sm'>";
+    echo "<table class='table table-sm'><tr>\n";
     $nct = 0;
     for ($ct = "A"; $ct <= "Z"; $ct++) {
         if (!empty($typel[$ct])) {
@@ -468,7 +465,7 @@ function show_colour_key()
             echo "$typel[$ct]</td>\n";
         }
     }
-    echo "</tr></table>\n";
+    echo "</tr></table></div>\n";
 }
 
 // Round time down to the nearest resolution

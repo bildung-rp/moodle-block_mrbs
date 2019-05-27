@@ -137,12 +137,8 @@ if (!empty($day)) {
         'currentroom' => $currentroom];
 }
 
-if ($area == 'IT') {
-    $sql .= 'description LIKE \'Teaching IT%\' ';
-} else {
-    $sql .= 'r.area_id=:area ';
-    $params['area'] = $area;
-}
+$sql .= 'r.area_id=:area ';
+$params['area'] = $area;
 
 $sql .= " ORDER BY room_name";
 

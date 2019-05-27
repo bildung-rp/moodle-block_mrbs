@@ -26,7 +26,7 @@ $context = context_system::instance();
 
 $PAGE->set_context($context);
 
-if (!has_capability('block/mrbs_rlp:editmrbs_rlp', $context) && !has_capability('block/mrbs_rlp:administermrbs_rlp', $context)) {
+if (!has_capability('block/mrbs_rlp:editmrbs', $context) && !has_capability('block/mrbs_rlp:administermrbs', $context)) {
     redirect($dayurl);
 }
 

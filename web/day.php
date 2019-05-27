@@ -85,7 +85,7 @@ $am7 = mktime($morningstarts, $morningstarts_minutes, 0, $month, $day, $year);
 $pm7 = mktime($eveningends, $eveningends_minutes, 0, $month, $day, $year);
 
 if ($pview != 1) {
-    echo "<table width=\"100%\"><tr><td width=\"40%\">";
+    echo "<table width=\"100%\"><tr class=\"align-top\"><td width=\"40%\">";
 
     //Show all avaliable areas
     echo "<u>" . get_string('areas', 'block_mrbs_rlp') . "</u><br>";
@@ -279,13 +279,13 @@ if (!empty($area)) {
         }
 
         //This is where we start displaying stuff
-        echo "<table cellspacing=0 border=1 width=\"100%\">";
-        echo "<tr><th width=\"1%\">" . ($enable_periods ? get_string('period', 'block_mrbs_rlp') : get_string('time')) . "</th>";
+        echo "<table width=\"100%\" class=\"table table-bordered table-sm\">";
+        echo "<tr><thead class=\"thead-light\"><th width=\"1%\" class=\"text-center align-top\">" . ($enable_periods ? get_string('period', 'block_mrbs_rlp') : get_string('time')) . "</th>";
 
         $room_column_width = (int) (95 / count($rooms));
         $weekurl = new moodle_url('/blocks/mrbs_rlp/web/week.php', ['year' => $year, 'month' => $month, 'day' => $day, 'area' => $area]);
         foreach ($rooms as $room) {
-            echo "<th width=\"$room_column_width%\">
+            echo "<th width=\"$room_column_width%\" class=\"text-center align-top\">
             <a href=\"" . ($weekurl->out(true, ['room' => $room->id])) . "\"
             title=\"" . get_string('viewweek', 'block_mrbs_rlp') . " &#10;&#10;{$room->description}\">"
             . s($room->room_name) . ($room->capacity > 0 ? "($room->capacity)" : "") . "
@@ -294,10 +294,10 @@ if (!empty($area)) {
 
         // next line to display times on right side
         if (false != $times_right_side) {
-            echo "<th width=\"1%\">" . ($enable_periods ? get_string('period', 'block_mrbs_rlp') : get_string('time'))
+            echo "<th class=\"align-top\" width=\"1%\">" . ($enable_periods ? get_string('period', 'block_mrbs_rlp') : get_string('time'))
             . "</th>";
         }
-        echo "</tr>\n";
+        echo "</thead></tr><tbody>\n";
 
         // URL for highlighting a time. Don't use REQUEST_URI or you will get
         // the timetohighlight parameter duplicated each time you click.
@@ -455,8 +455,9 @@ if (!empty($area)) {
             echo "</tr>\n";
         }
     }
-    echo "</table>\n";
+    echo "</tbody></table>\n";
     (isset($output)) ? print $output : '';
+    echo "<hr />";
     show_colour_key();
 }
 unset($room);

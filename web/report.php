@@ -35,7 +35,7 @@ $To_year = optional_param('To_year', 0, PARAM_INT);
 
 $submitform = optional_param('submitform', false, PARAM_TEXT);
 
-$typematch = optional_param('typematch', "", PARAM_ALPHA);
+$typematch = optional_param_array('typematch', "", PARAM_ALPHA);
 
 // followup what the most appropriate default values should be - ab
 $areamatch = optional_param('areamatch', '', PARAM_TEXT);
@@ -427,112 +427,217 @@ if ($submitform) {
 // $display: d=duration, e=start date/time and end date/time.
 // Upper part: The form.
 if ($pview != 1) {
-    ?>
-    <h1><?php echo get_string('report_on', 'block_mrbs_rlp'); ?></h1>
+    ?>    
+<div id="page-content">
+  <div id="region-main-box">
+    <section id="region-main">
+    <div role="main">
+    
+    <h2><?php echo get_string('report_on', 'block_mrbs_rlp'); ?></h2>    
+    
     <form method="get" action="report.php">
-        <table>
-            <tr><td class="CR"><?php echo get_string('report_start', 'block_mrbs_rlp'); ?></td>
-                <td class="CL"> <font size="-1">
-                    <?php genDateSelector("From_", $From_day, $From_month, $From_year); ?>
-                    </font></td></tr>
-            <tr><td class="CR"><?php echo get_string('report_end', 'block_mrbs_rlp'); ?></td>
-                <td class="CL"> <font size="-1">
-                    <?php genDateSelector("To_", $To_day, $To_month, $To_year); ?>
-                    </font></td></tr>
-            <tr><td class="CR"><?php echo get_string('match_area', 'block_mrbs_rlp'); ?></td>
-                <td class="CL"><input type="text" name="areamatch" size="18"
-                                      value="<?php echo $areamatch_default; ?>">
-                </td></tr>
-            <tr><td class="CR"><?php echo get_string('match_room', 'block_mrbs_rlp'); ?></td>
-                <td class="CL"><input type="text" name="roommatch" size="18"
-                                      value="<?php echo $roommatch_default; ?>">
-                </td></tr>
-            <tr><td CLASS=CR><?php echo get_string('match_type', 'block_mrbs_rlp') ?></td>
-                <td CLASS=CL valign=top><table><tr><td>
-                                <select name="typematch[]" multiple="yes">
-                                    <?php
-                                    foreach ($typel as $key => $val) {
-                                        if (!empty($val)) {
-                                            echo "<option value=\"$key\"" .
-                                            (is_array($typematch_default) && in_array($key, $typematch_default) ? " selected" : "") .
-                                            ">$val\n";
-                                        }
-                                    } ?></select></td><td><?php echo get_string('ctrl_click_type', 'block_mrbs_rlp') ?></td></tr></table>
-                </td></tr>
-            <tr><td class="CR"><?php echo get_string('match_entry', 'block_mrbs_rlp'); ?></td>
-                <td class="CL"><input type="text" name="namematch" size="18"
-                                      value="<?php echo $namematch_default; ?>">
-                </td></tr>
-            <tr><td class="CR"><?php echo get_string('match_descr', 'block_mrbs_rlp'); ?></td>
-                <td class="CL"><input type="text" name="descrmatch" size="18"
-                                      value="<?php echo $descrmatch_default; ?>">
-                </td></tr>
-            <tr><td class="CR"><?php echo get_string('createdby', 'block_mrbs_rlp'); ?></td>
-                <td class="CL"><input type="text" name="creatormatch" size="18"
-                                      value="<?php echo $creatormatch_default; ?>">
-                </td></tr>
-            <tr><td class="CR"><?php echo get_string('include', 'block_mrbs_rlp'); ?></td>
-                <td class="CL">
-                    <input type="radio" name="summarize" value="1"<?php
-                    if ($summarize == 1) {
-                        echo " checked";
-                    }
-    echo ">" . get_string('report_only', 'block_mrbs_rlp'); ?>
-                           <input type="radio" name="summarize" value="2"<?php
-                           if ($summarize == 2) {
-                               echo " checked";
-                           }
-    echo ">" . get_string('summary_only', 'block_mrbs_rlp'); ?>
-                           <input type="radio" name="summarize" value="3"<?php
-                           if ($summarize == 3) {
-                               echo " checked";
-                           }
-    echo ">" . get_string('report_and_summary', 'block_mrbs_rlp'); ?>
-                </td></tr>
-            <tr><td class="CR"><?php echo get_string('sort_rep', 'block_mrbs_rlp'); ?></td>
-                <td class="CL">
-                    <input type="radio" name="sortby" value="r"<?php
-                    if ($sortby == "r") {
-                        echo " checked";
-                    }
-    echo ">" . get_string('room', 'block_mrbs_rlp'); ?>
-                           <input type="radio" name="sortby" value="s"<?php
-                           if ($sortby == "s") {
-                               echo " checked";
-                           }
-    echo ">" . get_string('sort_rep_time', 'block_mrbs_rlp'); ?>
-                </td></tr>
-            <tr><td class="CR"><?php echo get_string('rep_dsp', 'block_mrbs_rlp'); ?></td>
-                <td class="CL">
-                    <input type="radio" name="display" value="d"<?php
-                    if ($display == "d") {
-                        echo " checked";
-                    }
-    echo ">" . get_string('rep_dsp_dur', 'block_mrbs_rlp'); ?>
-                           <input type="radio" name="display" value="e"<?php
-                           if ($display == "e") {
-                               echo " checked";
-                           }
-    echo ">" . get_string('rep_dsp_end', 'block_mrbs_rlp'); ?>
-                </td></tr>
-            <tr><td class="CR"><?php echo get_string('summarize_by', 'block_mrbs_rlp'); ?></td>
-                <td class="CL">
-                    <input type="radio" name="sumby" value="d"<?php
-                    if ($sumby == "d") {
-                        echo " checked";
-                    }
-    echo ">" . get_string('sum_by_descrip', 'block_mrbs_rlp'); ?>
-                           <input type="radio" name="sumby" value="c"<?php
-                           if ($sumby == "c") {
-                               echo " checked";
-                           }
-    echo ">" . get_string('sum_by_creator', 'block_mrbs_rlp'); ?>
-                </td></tr>
-            <tr><td>&nbsp;</td><td><?php print_string('help_wildcard', 'block_mrbs_rlp'); ?></td></tr>
-            <tr><td colspan="2" align="center"><input name="submitform" type="submit" value="<?php echo get_string('submitquery', 'block_mrbs_rlp') ?>">
-                </td></tr>
-        </table>
+    
+      <div id="fitem_id_report_start" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_report_start"><?php echo get_string('report_start', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+              <?php genDateSelector("From_", $From_day, $From_month, $From_year); ?>
+          </div>          
+      </div>   
+      
+      <div id="fitem_id_report_end" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_report_end"><?php echo get_string('report_end', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+              <?php genDateSelector("To_", $To_day, $To_month, $To_year); ?>
+          </div>          
+      </div>       
+      
+      <div id="fitem_id_match_area" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_match_area"><?php echo get_string('match_area', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+              <input type="text" class="form-control" name="areamatch" size="18" id="id_areamatch" value="<?php echo $areamatch_default; ?>">
+          </div>          
+      </div>   
+      
+      <div id="fitem_id_roommatch" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_roommatch"><?php echo get_string('match_room', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+              <input type="text" class="form-control" name="roommatch" size="18" id="id_roommatch" value="<?php echo $roommatch_default; ?>">
+          </div>          
+      </div>      
+      
+      <div id="fitem_id_match_type" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_match_type"><?php echo get_string('match_type', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+              <select class="custom-select" name="typematch[]" multiple="yes">
+                 <?php
+                  foreach ($typel as $key => $val) {
+                      if (!empty($val)) {
+                          echo "<option value=\"$key\"" .
+                          (is_array($typematch_default) && in_array($key, $typematch_default) ? " selected" : "") .
+                          ">$val\n";
+                      }
+                  } ?>
+                </select>
+                <em><?php echo get_string('ctrl_click_type', 'block_mrbs_rlp') ?></em>
+          </div>          
+      </div>  
+      
+      <div id="fitem_id_match_entry" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_match_entry"><?php echo get_string('match_entry', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+              <input type="text" class="form-control" id="id_match_entry" name="namematch" size="18" value="<?php echo $namematch_default; ?>">
+          </div>          
+      </div>    
+      
+      <div id="fitem_id_match_descr" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_match_descr"><?php echo get_string('match_descr', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+              <input type="text" class="form-control" id="id_match_descr" name="descrmatch" size="18" value="<?php echo $descrmatch_default; ?>">
+          </div>          
+      </div>  
+      
+      <div id="fitem_id_createdby" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_createdby"><?php echo get_string('createdby', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+              <input type="text" class="form-control" id="id_createdby" name="createdby" size="18" value="<?php echo $creatormatch_default; ?>">
+          </div>          
+      </div>     
+      
+      <div id="fitem_id_include" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_include"><?php echo get_string('include', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+                <div class="form-check form-check-inline">
+                <input type="radio" id="summarize1" class='form-check-input' name="summarize" value="1"
+                <?php
+                  if ($summarize == 1) {
+                      echo " checked";
+                  } ?>
+                  "><label for='summarize1'><?= get_string('report_only', 'block_mrbs_rlp'); ?></label>
+                </div>                  
+                
+                <div class="form-check form-check-inline">                  
+                  <input type="radio" id="summarize2" class='form-check-input' name="summarize" value="2"
+                  <?php
+                  if ($summarize == 2) {
+                      echo " checked";
+                  } ?>
+                  "><label for='summarize2'><?= get_string('summary_only', 'block_mrbs_rlp'); ?></label>
+                </div>
+                
+                <div class="form-check form-check-inline">
+                  <input type="radio" id="summarize3" class='form-check-input' name="summarize" value="3"                  
+                  <?php
+                  if ($summarize == 3) {
+                      echo " checked";
+                  } ?>
+                  "><label for='summarize3'><?= get_string('report_and_summary', 'block_mrbs_rlp') ?></label>
+                </div>
+                                   
+            </div>
+          </div>          
+      </div>                 
+      
+      <div id="fitem_id_sort_rep" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_sort_rep"><?php echo get_string('sort_rep', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <div class="form-check form-check-inline">
+            <input id="sortby1" class='form-check-input' type="radio" name="sortby" value="r"<?php
+              if ($sortby == "r") {
+                  echo " checked";
+              }
+    echo "><label for='sortby1'>" . get_string('room', 'block_mrbs_rlp'); ?></label>
+            </div>
+            <div class="form-check form-check-inline">
+            <input id="sortby2" class='form-check-input' type="radio" name="sortby" value="s"<?php
+               if ($sortby == "s") {
+                   echo " checked";
+               }
+    echo "><label for='sortby2'>" . get_string('sort_rep_time', 'block_mrbs_rlp'); ?></label>
+            </div>
+          </div>          
+      </div>    
+      
+      <div id="fitem_id_rep_dsp" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_rep_dsp"><?php echo get_string('rep_dsp', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <div class="form-check form-check-inline">
+               <input id="display1" class='form-check-input' type="radio" name="display" value="d"<?php
+                if ($display == "d") {
+                    echo " checked";
+                }
+    echo "><label for='display1'>" . get_string('rep_dsp_dur', 'block_mrbs_rlp'); ?></label>
+            </div>                
+                
+            <div class="form-check form-check-inline">                
+               <input id="display2" class='form-check-input' type="radio" name="display" value="e"<?php
+               if ($display == "e") {
+                   echo " checked";
+               }
+    echo "><label for='display2'>" . get_string('rep_dsp_end', 'block_mrbs_rlp'); ?></label>
+            </div>                
+          </div>          
+      </div>    
+      
+      <div id="fitem_id_summarize_by" class="form-group row fitem">         
+          <div class="col-md-3">
+              <label class="col-form-label d-inline" for="id_summarize_by"><?php echo get_string('summarize_by', 'block_mrbs_rlp') ?></label>
+          </div>
+          <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <div class="form-check form-check-inline">
+              <input id="sumby1" class='form-check-input' type="radio" name="sumby" value="d"<?php
+                if ($sumby == "d") {
+                    echo " checked";
+                }
+    echo "><label for='sumby1'>" . get_string('sum_by_descrip', 'block_mrbs_rlp'); ?></label>
+              </div>
+              
+              <div class="form-check form-check-inline">
+              <input id="sumby2" class='form-check-input' type="radio" name="sumby" value="c"<?php
+                 if ($sumby == "c") {
+                     echo " checked";
+                 }
+    echo "><label for='sumby2'>" . get_string('sum_by_creator', 'block_mrbs_rlp'); ?></label>
+              </div>
+          </div>          
+      </div>                                             
+
+          <em><?= get_string('help_wildcard', 'block_mrbs_rlp'); ?></em>
+          <br /><hr />
+            
+          <div id='fitem_id_last_change' class='form-group row fitem'>
+            <div class='col-md-3'></div>         
+              <div class='col-md-9 felement' data-fieldtype="button"> 
+                <button class="btn btn-success" type="submit" name="submitform" value="<?= get_string('submitquery', 'block_mrbs_rlp') ?>"><?= get_string('submitquery', 'block_mrbs_rlp') ?></button>
+            </div>
+          </div>  
     </form>
+    
+    </div>
+    </section>
+    </div> 
+</div>   
 
     <?php
 }

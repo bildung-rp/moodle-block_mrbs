@@ -106,7 +106,7 @@ for ($j = 0; $j <= ($num_of_days - 1); $j++) {
 
 if ($pview != 1) {
     // Table with areas, rooms, minicals.
-    echo "<table width=\"100%\"><tr>";
+    echo "<table width=\"100%\"><tr class=\"align-top\">";
     $this_area_name = "";
     $this_room_name = "";
 
@@ -483,6 +483,7 @@ for ($t = $starttime; $t <= $endtime; $t += $resolution) {
 }
 echo "</table>";
 
+echo "<hr />";
 show_colour_key();
 
 include "trailer.php";

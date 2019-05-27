@@ -33,7 +33,7 @@ $context = context_system::instance();
 if ($record = $DB->get_record('block_mrbs_rlp_entry', ['id' => $id])) {
     if (strtolower($record->create_by) == strtolower($USER->username)) {
         $redirect = true;
-        if (has_capability('block/mrbs_rlp:editmrbs_rlpunconfirmed', $context, null, false)) {
+        if (has_capability('block/mrbs_rlp:editmrbs_unconfirmed', $context, null, false)) {
             if ($USER->email != $DB->get_field('block_mrbs_rlp_room', 'room_admin_email', ['id' => $record->room_id])) {
                 if ($record->type != 'U') {
                     $redirect = false;  // Do not redirect to edit screen if the booking is confirmed
@@ -193,7 +193,7 @@ $enable_periods ? toPeriodString($start_period, $duration, $dur_units) : toTimeS
 $repeat_key = "rep_type_" . $rep_type;
 
 $roomadmin = false;
-if (has_capability('block/mrbs_rlp:editmrbs_rlpunconfirmed', $context, null, false)) {
+if (has_capability('block/mrbs_rlp:editmrbs_unconfirmed', $context, null, false)) {
     $adminemail = $DB->get_field('block_mrbs_rlp_room', 'room_admin_email', ['id' => $booking->room_id]);
     if ($adminemail == $USER->email) {
         $roomadmin = true;

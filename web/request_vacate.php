@@ -31,7 +31,7 @@ $url = new moodle_url('/blocks/mrbs_rlp/web/edit_entry.php', ['id' => $id]);
 $messagelang->href = $url->out();
 $message = "$USER->firstname $USER->lastname requests that you move $description from room $room_name, $start_date. Please contact them to discuss this.\n\n[Give a reason]";
 $context = context_system::instance();
-if (has_capability('block/mrbs_rlp:editmrbs_rlp', $context) or has_capability('block/mrbs_rlp:administermrbs_rlp', $context)) {
+if (has_capability('block/mrbs_rlp:editmrbs', $context) or has_capability('block/mrbs_rlp:administermrbs', $context)) {
     echo '<br><br><a href=# onClick="requestVacate.style.visibility=\'visible\';">' . get_string('requestvacate', 'block_mrbs_rlp') . '</a>
         <form id="editing" method="post" action="request_vacate_send.php">
         <div id="request_vacate">

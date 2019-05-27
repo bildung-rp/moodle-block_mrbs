@@ -83,8 +83,6 @@ print_header_mrbs_rlp($day, $month, $year, isset($area) ? $area : "");
 
 echo $OUTPUT->heading(get_string('editroomarea', 'block_mrbs_rlp'), 2);
 
-echo '<table>';
-
 if ($room > 0) {
     $valid_email = true;
     if (!empty($room_admin_email)) {
@@ -121,27 +119,77 @@ if ($room > 0) {
         $DB->update_record('block_mrbs_rlp_room', $updroom);
     }
 
-    $dbroom = $DB->get_record('block_mrbs_rlp_room', ['id' => $room], '*', MUST_EXIST);
-    echo '<h3 ALIGN=CENTER>' . get_string('editroom', 'block_mrbs_rlp') . '</h3>';
-    echo '<form action="' . $thisurl->out_omit_querystring() . '" method="post">';
-    echo '<input type="hidden" name="room" value="' . $dbroom->id . '">';
-    echo '<input type="hidden" name="sesskey" value="' . sesskey() . '">';
-    echo '<CENTER><TABLE>';
-    echo '<TR><TD>' . get_string('name') . ': </TD><TD><input type="text" name="room_name" value="' . s($dbroom->room_name) . '" maxlength="255"></TD></TR>';
-    echo '<TR><TD>' . get_string('description') . '</TD><TD><input type="text" name="description" value="' . s($dbroom->description) . '" maxlength="255"></TD></TR>';
-    echo '<TR><TD>' . get_string('capacity', 'block_mrbs_rlp') . ':   </TD><TD><input type="text" name="capacity" value="' . $dbroom->capacity . '"></TD></TR>';
-    echo '<TR><TD>' . get_string('room_admin_email', 'block_mrbs_rlp') . ': </TD><TD><input type="text" name="room_admin_email" maxlength="75" value="' . s($dbroom->room_admin_email) . '"></TD>';
+    $dbroom = $DB->get_record('block_mrbs_rlp_room', ['id' => $room], '*', MUST_EXIST); ?>    
+    <form action="<?= $thisurl->out_omit_querystring() ?>" method="post">
+    <input type="hidden" name="room" value="<?= $dbroom->id ?>">
+    <input type="hidden" name="sesskey" value="<?= sesskey() ?>">
+    
+    <div id="fitem_id_room_name" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_room_name"><?= get_string('name') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input type="text" class="form-control" name="room_name" id="id_room_name" value="<?= s($dbroom->room_name) ?>" maxlength="255" size="20">
+        </div>
+    </div>    
+    
+    <div id="fitem_id_room_name" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_room_name"><?= get_string('description') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input type="text" class="form-control" name="description" id="id_description" value="<?= s($dbroom->description) ?>" maxlength="255" size="20">
+        </div>
+    </div>     
+    
+    <div id="fitem_id_capacity" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_capacity"><?= get_string('capacity', 'block_mrbs_rlp') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input type="text" class="form-control" name="capacity" id="id_capacity" value="<?= $dbroom->capacity ?>" size="20">
+        </div>
+    </div>    
+    
+    <div id="fitem_id_room_admin_email" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_room_admin_email"><?= get_string('room_admin_email', 'block_mrbs_rlp') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input type="text" class="form-control" name="room_admin_email" id="id_room_admin_email" value="<?= s($dbroom->room_admin_email) ?>" maxlength="255" size="20">
+        </div>
+    </div>             
+    
+    <?php
     if (!$valid_email) {
-        echo("<TD>&nbsp;</TD><TD><STRONG>" . get_string('emailmustbereal') . "<STRONG></TD>");
-    }
-    echo '<TR><TD>' . get_string('booking_users', 'block_mrbs_rlp') . ': ' . $OUTPUT->help_icon('booking_users', 'block_mrbs_rlp') . '</TD><TD><textarea name="booking_users" cols="25" rows="3">' . s($dbroom->booking_users) . '</textarea></TD>';
+        echo "<STRONG>" . get_string('emailmustbereal') . "<STRONG>";
+    } ?>
+    
+    <div id="fitem_id_booking_users" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_booking_users"><?= get_string('booking_users', 'block_mrbs_rlp') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <textarea class="form-control" name="booking_users" id="id_booking_users" cols="25" rows="3"><?= s($dbroom->booking_users) ?></textarea>
+        </div>
+    </div>     
+    
+    <?php
     if (!$valid_email2) {
-        echo("<TD>&nbsp;</TD><TD><STRONG>" . get_string('emailmustbereal') . "<STRONG></TD>");
-    }
-    echo '</TR></TABLE>';
-    echo '<input type="submit" name="change_room" value="' . get_string('savechanges') . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo '<input type="submit" name="change_done" value="' . get_string('backadmin', 'block_mrbs_rlp') . '">';
-    echo '</CENTER></form>';
+        echo "<STRONG>" . get_string('emailmustbereal') . "<STRONG>";
+    } ?>
+    
+    <div id='fitem_id_last_change' class='form-group row fitem'>
+      <div class='col-md-3'></div>         
+      <div class='col-md-9 felement' data-fieldtype="button"> 
+            <button class="btn btn-success" type="submit" name="change_room" value="1"><?= get_string('savechanges') ?></button>
+            <button class="btn btn-info" type="submit" name="change_done" value="1"><?= get_string('backadmin', 'block_mrbs_rlp') ?></button>
+      </div>
+    </div>    
+
+    </form>
+    
+    <?php
 }
 
 if ($area) {
@@ -165,23 +213,43 @@ if ($area) {
         $DB->update_record('block_mrbs_rlp_area', $updarea);
     }
 
-    $dbarea = $DB->get_record('block_mrbs_rlp_area', ['id' => $area], '*', MUST_EXIST);
-
-    echo '<h3 ALIGN=CENTER>' . get_string('editarea', 'block_mrbs_rlp') . '</h3>';
-    echo '<form action="' . $thisurl->out_omit_querystring() . '" method="post">';
-    echo '<input type="hidden" name="area" value="' . $dbarea->id . '">';
-    echo '<input type="hidden" name="sesskey" value="' . sesskey() . '">';
-    echo '<CENTER><TABLE>';
-    echo '<TR><TD>' . get_string('name') . ':       </TD><TD><input type="text" name="area_name" value="' . s($dbarea->area_name) . '" maxlength="255"></TD></TR>';
-    echo '<TR><TD>' . get_string('area_admin_email', 'block_mrbs_rlp') . ':       </TD><TD><input type="text" name="area_admin_email" maxlength="255" value="' . s($dbarea->area_admin_email) . '"></TD>';
+    $dbarea = $DB->get_record('block_mrbs_rlp_area', ['id' => $area], '*', MUST_EXIST); ?>
+    
+    <form action="<?= $thisurl->out_omit_querystring() ?>" method="post">
+    <input type="hidden" name="area" value="<?= $dbarea->id ?>">
+    <input type="hidden" name="sesskey" value="<?= sesskey() ?>">
+    
+    <div id="fitem_id_area_name" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_area_name"><?= get_string('name') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input type="text" class="form-control" name="area_name" id="id_area_name" value="<?= s($dbarea->area_name) ?>" maxlength="255" size="20">
+        </div>
+    </div>    
+    
+    <div id="fitem_id_area_admin_email" class="form-group row fitem">
+        <div class="col-md-3">
+            <label class="col-form-label d-inline" for="id_area_admin_email"><?= get_string('area_admin_email', 'block_mrbs_rlp') ?></label>
+        </div>
+        <div class="col-md-9 form-inline felement" data-fieldtype="text">
+            <input type="text" class="form-control" name="area_admin_email" id="id_area_admin_email" value="<?= s($dbarea->area_admin_email) ?>" maxlength="255" size="20">
+        </div>
+    </div>             
+    
+    <?php
     if (!$valid_email) {
-        echo "<TD>&nbsp;</TD><TD><STRONG>" . get_string('emailmustbereal') . "</STRONG></TD>";
-    }
-    echo '</TR></TABLE>';
-    echo '<input type=submit name="change_area" value="' . get_string('savechanges') . '">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-    echo '<input type=submit name="change_done" value="' . get_string('backadmin', 'block_mrbs_rlp') . '">';
-    echo '</CENTER></form>';
+        echo "<STRONG>" . get_string('emailmustbereal') . "<STRONG>";
+    } ?>
+    
+    <div id='fitem_id_last_change' class='form-group row fitem'>
+      <div class='col-md-3'></div>         
+      <div class='col-md-9 felement' data-fieldtype="button"> 
+            <button class="btn btn-success" type="submit" name="change_area" value="<?= get_string('savechanges') ?>"><?= get_string('savechanges') ?></button>
+            <button class="btn btn-info" type="submit" name="change_done" value="1"><?= get_string('backadmin', 'block_mrbs_rlp') ?></button>
+      </div>
+    </div>  
+    <?php
 }
-echo '</TABLE>';
 
 include "trailer.php";

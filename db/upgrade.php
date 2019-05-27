@@ -159,6 +159,8 @@ function xmldb_block_mrbs_rlp_upgrade($oldversion=0)
         $dbman->change_field_type($table, $field);
         // Mrbs savepoint reached.
         upgrade_block_savepoint(true, 2016101700, 'mrbs_rlp');
-    }
+    }    
+    
+    
     return true;
 }

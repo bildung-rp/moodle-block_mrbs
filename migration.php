@@ -16,9 +16,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file 
+ * This file
  *
  */
 //TODO:maybe set it up like tutorlink etc so that it can take uploaded files directly?
 require_once(dirname(dirname(dirname(__FILE__))) . '/config.php');
-

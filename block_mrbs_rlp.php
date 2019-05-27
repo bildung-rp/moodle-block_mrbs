@@ -45,7 +45,7 @@ class block_mrbs_rlp extends block_base
 
         $context = context_system::instance();
 
-        if (has_capability('block/mrbs_rlp:viewmrbs_rlp', $context) or has_capability('block/mrbs_rlp:editmrbs_rlp', $context) or has_capability('block/mrbs_rlp:administermrbs_rlp', $context)) {
+        if (has_capability('block/mrbs_rlp:viewmrbs', $context) or has_capability('block/mrbs_rlp:editmrbs', $context) or has_capability('block/mrbs_rlp:administermrbs', $context)) {
             if (isset($CFG->block_mrbs_rlp_serverpath)) {
                 $serverpath = $CFG->block_mrbs_rlp_serverpath;
             } else {
