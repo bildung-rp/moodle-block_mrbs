@@ -56,12 +56,26 @@ $ADMIN->add('modmrbsfolder', $settings);
 $ADMIN->add('modmrbsfolder', new admin_externalpage('mrbsmigration',
     get_string('libraries', 'mrbs_rlp'), new moodle_url('/blocks/mrbs_rlp/migration.php')));
     */
+    
+$custom_periods = <<<EOD
+1. Std.
+2. Std.
+3. Std.
+4. Std.
+5. Std.
+6. Std.
+7. Std.
+8. Std.
+9. Std.
+10.Std.
+11.Std.
+12.Std.
+EOD;
 
 if (isset($cfg_mrbs_rlp->enable_periods)) {
     if ($cfg_mrbs_rlp->enable_periods == 0) {
 
         // Resolution
-
         unset($options);
         $strunits = get_string('resolution_units', 'block_mrbs_rlp');
         $options = ['900' => '15' . $strunits, '1800' => '30' . $strunits, '2700' => '45' . $strunits, '3600' => '60' . $strunits, '4500' => '75' . $strunits, '5400' => '90' . $strunits, '6300' => '105' . $strunits, '7200' => '120' . $strunits];
@@ -90,7 +104,7 @@ if (isset($cfg_mrbs_rlp->enable_periods)) {
         $settings->add(new admin_setting_configselect('eveningends_min', get_string('config_eveningends_min', 'block_mrbs_rlp'), get_string('config_eveningends_min2', 'block_mrbs_rlp'), 0, $options));
         $settings->settings->eveningends_min->plugin = 'block/mrbs_rlp';
     } else {  //Use Custom Periods
-        $settings->add(new admin_setting_configtextarea('periods', get_string('config_periods', 'block_mrbs_rlp'), get_string('config_periods2', 'block_mrbs_rlp'), ''));
+        $settings->add(new admin_setting_configtextarea('periods', get_string('config_periods', 'block_mrbs_rlp'), get_string('config_periods2', 'block_mrbs_rlp'), $custom_periods));
         $settings->settings->periods->plugin = 'block/mrbs_rlp';
     }
 }
@@ -99,7 +113,7 @@ if (isset($cfg_mrbs_rlp->enable_periods)) {
 //Start of Week
 unset($options);
 $options = [0 => get_string('sunday', 'calendar'), 1 => get_string('monday', 'calendar'), 2 => get_string('tuesday', 'calendar'), 3 => get_string('wednesday', 'calendar'), 4 => get_string('thursday', 'calendar'), 5 => get_string('friday', 'calendar'), 6 => get_string('saturday', 'calendar')];
-$settings->add(new admin_setting_configselect('weekstarts', get_string('config_weekstarts', 'block_mrbs_rlp'), get_string('config_weekstarts2', 'block_mrbs_rlp'), 0, $options));
+$settings->add(new admin_setting_configselect('weekstarts', get_string('config_weekstarts', 'block_mrbs_rlp'), get_string('config_weekstarts2', 'block_mrbs_rlp'), 1, $options));
 $settings->settings->weekstarts->plugin = 'block/mrbs_rlp';
 //Length of week
 $settings->add(new admin_setting_configtext('weeklength', get_string('config_weeklength', 'block_mrbs_rlp'), get_string('config_weeklength2', 'block_mrbs_rlp'), 7, PARAM_INT));
@@ -184,35 +198,47 @@ $settings->settings->default_room->plugin = 'block/mrbs_rlp';
   $settings->add(new admin_setting_configtext('', get_string('config_', 'block_mrbs_rlp'), get_string('config_2', 'block_mrbs_rlp'), 0, PARAM_INT));
   $settings->settings->->plugin='block/mrbs_rlp';
  */
+ 
+/* Default Settings for the Categories */
+$type_a = "Hausaufgaben";
+$type_b = "Klassenarbeiten";
+$type_c = "EDV-Unterricht";
+$type_d = "Fachunterricht";
+$type_e = "Extern";
+$type_f = "Projektunterricht";
+$type_g = "Differenzierung";
+$type_h = "AG";
+$type_i = get_string('internal', 'block_mrbs_rlp');
+$type_j = "Vertretung";
 
-$settings->add(new admin_setting_configtext('entry_type_a', get_string('config_entry_type', 'block_mrbs_rlp', 'A'), get_string('config_entry_type2', 'block_mrbs_rlp', 'A'), null, PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_a', get_string('config_entry_type', 'block_mrbs_rlp', 'A'), get_string('config_entry_type2', 'block_mrbs_rlp', 'A'), $type_a, PARAM_TEXT));
 $settings->settings->entry_type_a->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_b', get_string('config_entry_type', 'block_mrbs_rlp', 'B'), get_string('config_entry_type2', 'block_mrbs_rlp', 'B'), null, PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_b', get_string('config_entry_type', 'block_mrbs_rlp', 'B'), get_string('config_entry_type2', 'block_mrbs_rlp', 'B'), $type_b, PARAM_TEXT));
 $settings->settings->entry_type_b->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_c', get_string('config_entry_type', 'block_mrbs_rlp', 'C'), get_string('config_entry_type2', 'block_mrbs_rlp', 'C'), null, PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_c', get_string('config_entry_type', 'block_mrbs_rlp', 'C'), get_string('config_entry_type2', 'block_mrbs_rlp', 'C'), $type_c, PARAM_TEXT));
 $settings->settings->entry_type_c->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_d', get_string('config_entry_type', 'block_mrbs_rlp', 'D'), get_string('config_entry_type2', 'block_mrbs_rlp', 'D'), null, PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_d', get_string('config_entry_type', 'block_mrbs_rlp', 'D'), get_string('config_entry_type2', 'block_mrbs_rlp', 'D'), $type_d, PARAM_TEXT));
 $settings->settings->entry_type_d->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_e', get_string('config_entry_type', 'block_mrbs_rlp', 'E'), get_string('config_entry_type2', 'block_mrbs_rlp', 'E'), get_string('external', 'block_mrbs_rlp'), PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_e', get_string('config_entry_type', 'block_mrbs_rlp', 'E'), get_string('config_entry_type2', 'block_mrbs_rlp', 'E'), $type_e, PARAM_TEXT));
 $settings->settings->entry_type_e->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_f', get_string('config_entry_type', 'block_mrbs_rlp', 'F'), get_string('config_entry_type2', 'block_mrbs_rlp', 'F'), null, PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_f', get_string('config_entry_type', 'block_mrbs_rlp', 'F'), get_string('config_entry_type2', 'block_mrbs_rlp', 'F'), $type_f, PARAM_TEXT));
 $settings->settings->entry_type_f->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_g', get_string('config_entry_type', 'block_mrbs_rlp', 'G'), get_string('config_entry_type2', 'block_mrbs_rlp', 'G'), null, PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_g', get_string('config_entry_type', 'block_mrbs_rlp', 'G'), get_string('config_entry_type2', 'block_mrbs_rlp', 'G'), $type_g, PARAM_TEXT));
 $settings->settings->entry_type_g->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_h', get_string('config_entry_type', 'block_mrbs_rlp', 'H'), get_string('config_entry_type2', 'block_mrbs_rlp', 'H'), null, PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_h', get_string('config_entry_type', 'block_mrbs_rlp', 'H'), get_string('config_entry_type2', 'block_mrbs_rlp', 'H'), $type_h, PARAM_TEXT));
 $settings->settings->entry_type_h->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_i', get_string('config_entry_type', 'block_mrbs_rlp', 'I'), get_string('config_entry_type2', 'block_mrbs_rlp', 'I'), get_string('internal', 'block_mrbs_rlp'), PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_i', get_string('config_entry_type', 'block_mrbs_rlp', 'I'), get_string('config_entry_type2', 'block_mrbs_rlp', 'I'), $type_i, PARAM_TEXT));
 $settings->settings->entry_type_i->plugin = 'block/mrbs_rlp';
 
-$settings->add(new admin_setting_configtext('entry_type_j', get_string('config_entry_type', 'block_mrbs_rlp', 'J'), get_string('config_entry_type2', 'block_mrbs_rlp', 'J'), null, PARAM_TEXT));
+$settings->add(new admin_setting_configtext('entry_type_j', get_string('config_entry_type', 'block_mrbs_rlp', 'J'), get_string('config_entry_type2', 'block_mrbs_rlp', 'J'), $type_j, PARAM_TEXT));
 $settings->settings->entry_type_j->plugin = 'block/mrbs_rlp';
 
 $options = ['0' => get_string('no'), '1' => get_string('yes')];
