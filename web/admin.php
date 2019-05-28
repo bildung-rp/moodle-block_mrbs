@@ -149,7 +149,7 @@ if (isset($area_name)) {
 
                 <div class="form-group">
                     <label for="name"><?= get_string('name') ?></label>
-                    <input type="text" class="form-control" id="name" placeholder="<?= get_string('name') ?>">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="<?= get_string('name') ?>">
                 </div>         
 
                 <button type="submit" class="btn btn-default"><?= get_string('addarea', 'block_mrbs_rlp') ?></button></form>
@@ -165,12 +165,12 @@ if (isset($area_name)) {
 
                     <div class="form-group">
                         <label for="name"><?= get_string('name') ?></label>
-                        <input type="text" class="form-control" id="name" placeholder="<?= get_string('name') ?>">
+                        <input type="text" name="name" class="form-control" id="name" placeholder="<?= get_string('name') ?>">
                     </div>    
 
                     <div class="form-group">
                         <label for="description"><?= get_string('description') ?></label>
-                        <input type="text" class="form-control" id="description" placeholder="<?= get_string('description') ?>">
+                        <input type="text" name="description" class="form-control" id="description" placeholder="<?= get_string('description') ?>">
                     </div>   
 
                     <div class="form-group">
@@ -188,12 +188,38 @@ if (isset($area_name)) {
 </div>
 
 <?php
-$entries = $DB->get_records('block_mrbs_rlp_entry');
 $id = 1;
 $delurl = new moodle_url('/blocks/mrbs_rlp/web/admin.php', ['delete' => true, 'sesskey' => sesskey()]);
+$delallurl = new moodle_url('/blocks/mrbs_rlp/web/admin.php', ['delete_all' => true, 'sesskey' => sesskey()]);
+
+$cnt_areas = $DB->count_records('block_mrbs_rlp_area');
+$cnt_entries = $DB->count_records('block_mrbs_rlp_entry');
+$cnt_rooms = $DB->count_records('block_mrbs_rlp_room');
+
+$migrateurl = new moodle_url('/blocks/mrbs_rlp/web/admin.php', ['migrate' => true, 'sesskey' => sesskey()]);
+$cnt_old_entries = $DB->count_records('block_mrbs_entry');
+$cnt_old_rooms = $DB->count_records('block_mrbs_room');
+$cnt_old_areas = $DB->count_records('block_mrbs_area');
+
+if($cnt_old_entries >= 1 || $cnt_old_rooms >= 1 || $cnt_old_areas >= 1) {
 ?>
 <hr />
-<br /><p><strong>Anzahl Einträge (gesamt):</strong>&nbsp;<?= count($entries) ?></p>
+<p><strong>Migration aus der alten MRBS Installation</strong> 
+<br />Anzahl Bereiche (MRBS):&nbsp;<?= $cnt_old_entries ?> 
+<br />Anzahl Ressourcen (MRBS):&nbsp;<?= $cnt_old_rooms ?>
+<br />Anzahl Einträge (MRBS):&nbsp;<?= $cnt_old_areas ?>
+</p>
+<button type="button" class="btn btn-warning" 
+        onclick="if (confirm('Migration starten?')) {
+                    document.location = '<?= $migrateurl ?>';
+                }" />Migration starten?</button>&nbsp;<em><strong>Warnung:</strong> Alle bisherigen Einträge werden überschrieben!</em>
+<?php
+ }
+?>
+<hr />
+<p><strong>Anzahl Bereiche (MRBS RLP):</strong>&nbsp;<?= $cnt_areas ?><br />
+<strong>Anzahl Ressourcen (MRBS RLP):</strong>&nbsp;<?= $cnt_rooms ?><br />
+<strong>Anzahl Einträge (MRBS RLP):</strong>&nbsp;<?= $cnt_entries ?></p>
 
 <button type="button" class="btn btn-danger" 
         onclick="if (confirm('<?= get_string('deleteseries', 'block_mrbs_rlp') ?>?')) {
@@ -201,10 +227,50 @@ $delurl = new moodle_url('/blocks/mrbs_rlp/web/admin.php', ['delete' => true, 's
                 }" />
 <?= get_string('deleteseries', 'block_mrbs_rlp') ?>?</button>  <em><strong>Warnung:</strong> Dadurch gehen alle Einträge verloren!</em>
 
+<br /><br />
+<button type="button" class="btn btn-danger" 
+        onclick="if (confirm('Komplett zurücksetzen?')) {
+                    document.location = '<?= $delallurl ?>';
+                }" />MRBS RLP komplett zurücksetzen?</button>  <em><strong>Warnung:</strong> Dadurch gehen alle Einträge/Bereiche/Ressourcen verloren!</em>
+
+
 <?php
 $chkdelete = optional_param('delete', false, PARAM_BOOL);
 if ($chkdelete === 1 || $chkdelete === true) {
     $DB->delete_records('block_mrbs_rlp_entry');
+}
+
+$chkdelete_all = optional_param('delete_all', false, PARAM_BOOL);
+if ($chkdelete_all === 1 || $chkdelete_all === true) {
+    $DB->delete_records('block_mrbs_rlp_entry');
+    $DB->delete_records('block_mrbs_rlp_area');
+    $DB->delete_records('block_mrbs_rlp_room');
+}
+
+// Kopiert die Daten vom alten MRBS zum MRBS RLP (mit ID)
+$migrate = optional_param('migrate', false, PARAM_BOOL);
+if ($migrate === 1 || $migrate === true) {
+
+  $old_entries = $DB->get_records('block_mrbs_entry');
+  $old_rooms = $DB->get_records('block_mrbs_room');
+  $old_areas = $DB->get_records('block_mrbs_area');
+  $old_repeats = $DB->get_records('block_mrbs_repeat'); 
+  
+  try {
+       $transaction = $DB->start_delegated_transaction();
+       $ins_entry = $DB->insert_records('block_mrbs_rlp_entry', $old_entries);       
+       $ins_area = $DB->insert_records('block_mrbs_rlp_area', $old_areas);                                                                           
+       $ins_room = $DB->insert_records('block_mrbs_rlp_room', $old_rooms);       
+       $ins_repeat = $DB->insert_records('block_mrbs_rlp_repeat', $old_repeats);      
+   
+       // Assuming the both inserts work, we get to the following line.
+       $transaction->allow_commit();
+   
+  } catch(Exception $e) {
+       $transaction->rollback($e);
+       throw new moodle_exception('Migration failed!');
+  }
+
 }
 
 //echo '<br />'.get_string('browserlang','block_mrbs_rlp').' '.$HTTP_ACCEPT_LANGUAGE.' '.get_string('postbrowserlang','block_mrbs_rlp');

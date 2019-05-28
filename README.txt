@@ -1,4 +1,4 @@
-﻿== Fork by https://github.com/arborrow/moodle-block_mrbs_rlp (Version 1.3.0) ==
+﻿== Fork by https://github.com/arborrow/moodle-block_mrbs (Version 1.3.0) ==
 
 This is the Moodle 3.5 version of this block, it will not work in Moodle 3.2 (or below) - please download earlier versions from here: http://moodle.org/mod/data/view.php?d=13&rid=734
 
