@@ -1,6 +1,6 @@
 ﻿== Fork by https://github.com/arborrow/moodle-block_mrbs (Version 1.3.0) ==
 
-This is the Moodle 3.5 version of this block, it will not work in Moodle 3.2 (or below) - please download earlier versions from here: http://moodle.org/mod/data/view.php?d=13&rid=734
+This is the Moodle 3.6 version of this block, it will not work in Moodle 3.2 (or below) - please download earlier versions from here: http://moodle.org/mod/data/view.php?d=13&rid=734
 
 * MRBS Block - Bugs, Feature Requests, and Improvements *
 
@@ -18,6 +18,7 @@ While those contributing code make every effort to provide the best code that th
 Hence, use this block at your own risk.
 
 * Changes *
+2019-06-18 (V1.4.2) - Layout Changes and the Install Routine
 2019-01-17 (V1.4.1) - German Language fixes
 2019-01-14 (V1.4.1) - Fix repeat entry handling + cookie debugging warning (https://github.com/arborrow/moodle-block_mrbs_rlp/commit/992bf9990db08ff1e0f2b322e9a983f744290643)
 2019-01-14 (V1.4.1) - Roomsearch now on the same Page (not popup)
