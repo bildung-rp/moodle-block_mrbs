@@ -191,23 +191,64 @@ if (isset($area_name)) {
 $id = 1;
 $delurl = new moodle_url('/blocks/mrbs_rlp/web/admin.php', ['delete' => true, 'sesskey' => sesskey()]);
 $delallurl = new moodle_url('/blocks/mrbs_rlp/web/admin.php', ['delete_all' => true, 'sesskey' => sesskey()]);
-
-$cnt_areas = $DB->count_records('block_mrbs_rlp_area');
-$cnt_entries = $DB->count_records('block_mrbs_rlp_entry');
-$cnt_rooms = $DB->count_records('block_mrbs_rlp_room');
-
 $migrateurl = new moodle_url('/blocks/mrbs_rlp/web/admin.php', ['migrate' => true, 'sesskey' => sesskey()]);
-$cnt_old_entries = $DB->count_records('block_mrbs_entry');
-$cnt_old_rooms = $DB->count_records('block_mrbs_room');
-$cnt_old_areas = $DB->count_records('block_mrbs_area');
 
-if($cnt_old_entries >= 1 || $cnt_old_rooms >= 1 || $cnt_old_areas >= 1) {
+$old_mrbs_area = "block_mrbs_area";
+$old_mrbs_entry = "block_mrbs_entry";
+$old_mrbs_repeat = "block_mrbs_repeat";
+$old_mrbs_room = "block_mrbs_room";
+
+$mrbs_area = "block_mrbs_rlp_area";
+$mrbs_entry = "block_mrbs_rlp_entry";
+$mrbs_repeat = "block_mrbs_rlp_repeat";
+$mrbs_room = "block_mrbs_rlp_room";
+
+$cnt_old_areas = 0;
+$cnt_old_entries = 0;
+$cnt_old_repeats = 0;
+$cnt_old_rooms = 0;
+
+$cnt_areas = 0;
+$cnt_entries = 0;
+$cnt_repeats = 0;
+$cnt_rooms = 0;
+
+$dbman = $DB->get_manager();
+
+if($dbman->table_exists($old_mrbs_area)) {
+	$cnt_old_areas = $DB->count_records($old_mrbs_area);
+}
+if($dbman->table_exists($old_mrbs_entry)) {
+	$cnt_old_entries = $DB->count_records($old_mrbs_entry);
+}
+if($dbman->table_exists($old_mrbs_repeat)) {
+	$cnt_old_repeats = $DB->count_records($old_mrbs_repeat);
+}
+if($dbman->table_exists($old_mrbs_room)) {
+	$cnt_old_rooms = $DB->count_records($old_mrbs_room);
+}
+
+if($dbman->table_exists($mrbs_area)) {
+	$cnt_areas = $DB->count_records($mrbs_area);
+}
+if($dbman->table_exists($mrbs_entry)) {
+	$cnt_entries = $DB->count_records($mrbs_entry);
+}
+if($dbman->table_exists($mrbs_repeat)) {
+	$cnt_repeats = $DB->count_records($mrbs_repeat);
+}
+if($dbman->table_exists($mrbs_room)) {
+	$cnt_rooms = $DB->count_records($mrbs_room);
+}
+
+if($cnt_old_entries >= 1 || $cnt_old_rooms >= 1 || $cnt_old_areas >= 1 || $cnt_old_repeats >= 1) {
 ?>
 <hr />
 <p><strong>Migration aus der alten MRBS Installation</strong> 
 <br />Anzahl Bereiche (MRBS):&nbsp;<?= $cnt_old_entries ?> 
 <br />Anzahl Ressourcen (MRBS):&nbsp;<?= $cnt_old_rooms ?>
 <br />Anzahl Einträge (MRBS):&nbsp;<?= $cnt_old_areas ?>
+<br />Anzahl Wiederholungen (MRBS):&nbsp;<?= $cnt_old_repeats ?>
 </p>
 <button type="button" class="btn btn-warning" 
         onclick="if (confirm('Migration starten?')) {
@@ -215,6 +256,8 @@ if($cnt_old_entries >= 1 || $cnt_old_rooms >= 1 || $cnt_old_areas >= 1) {
                 }" />Migration starten?</button>&nbsp;<em><strong>Warnung:</strong> Alle bisherigen Einträge werden überschrieben!</em>
 <?php
  }
+
+if($cnt_entries >= 1 || $cnt_rooms >= 1 || $cnt_areas >= 1 || $cnt_repeats >= 1) {
 ?>
 <hr />
 <p><strong>Anzahl Bereiche (MRBS RLP):</strong>&nbsp;<?= $cnt_areas ?><br />
@@ -233,8 +276,9 @@ if($cnt_old_entries >= 1 || $cnt_old_rooms >= 1 || $cnt_old_areas >= 1) {
                     document.location = '<?= $delallurl ?>';
                 }" />MRBS RLP komplett zurücksetzen?</button>  <em><strong>Warnung:</strong> Dadurch gehen alle Einträge/Bereiche/Ressourcen verloren!</em>
 
-
 <?php
+}
+
 $chkdelete = optional_param('delete', false, PARAM_BOOL);
 if ($chkdelete === 1 || $chkdelete === true) {
     $DB->delete_records('block_mrbs_rlp_entry');

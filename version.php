@@ -18,7 +18,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin = new stdClass();
-$plugin->version = 2019071800;
+$plugin->version = 2019071900;
 $plugin->requires = 2018051700; // Moodle 3.5+
 $plugin->cron = 300;
 $plugin->component = 'block_mrbs_rlp';

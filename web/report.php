@@ -634,10 +634,7 @@ if ($pview != 1) {
           </div>  
     </form>
     
-    </div>
-    </section>
-    </div> 
-</div>   
+  
 
     <?php
 }
@@ -744,3 +741,8 @@ if ($submitform) {
 }
 
 include "trailer.php";
+?>
+    </div>
+    </section>
+    </div> 
+</div> 

@@ -123,12 +123,14 @@ function print_header_mrbs_rlp($day = null, $month = null, $year = null, $area =
 
         $level = authGetUserLevel($USER->id);
         $canadmin = $level >= 2;
+        
+        $currentPage = basename($_SERVER['PHP_SELF']);
 
         echo <<<HTML1END
 
-    <table width="100%" class="banner table" style="background-color:#c0e0ff;border:1px solid #aaa;border-collapse: unset;" cellpadding="0">
+    <table width="100%" class="banner table" cellpadding="0">
       <tr>
-          <td class="banner" style="vertical-align:baseline;padding:0">
+          <td class="banner title">
             <font size=4><a href="$homeurl">$titlestr</a></font>
             </td>
               <td class="banner" style="vertical-align:baseline;padding:0">
@@ -156,7 +158,9 @@ HTML2END;
         if (!$userview) {
             if (has_capability("block/mrbs_rlp:forcebook", $context)) {
                 echo'<td class="banner" style="vertical-align:baseline;padding:0">
-                  <a href="edit_entry.php?force=TRUE">' . get_string('addentry', 'block_mrbs_rlp') . '</a>
+                  <a ';
+                  if($currentPage == 'edit_entry.php') echo 'class="active"'; 
+                echo 'href="edit_entry.php?force=TRUE">' . get_string('addentry', 'block_mrbs_rlp') . '</a>
               </td>';
             }
             /*
@@ -165,16 +169,24 @@ HTML2END;
               echo 'onclick="this.target=\'popup\'; return openpopup(\'' . $roomsearchurl . '\', \'popup\', \'toolbar=1,location=0,scrollbars,resizable,width=500,height=400\', 0);">';
               echo $roomsearchstr . '</a></td>';
              */
-            echo '<td class="banner" style="vertical-align:baseline;padding:0"><a href="' . $roomsearchurl . '">' . $roomsearchstr . '</a></td>';
+            echo '<td class="banner" style="vertical-align:baseline;padding:0"><a ';
+              if($currentPage == 'roomsearch.php') echo 'class="active"'; 
+            echo 'href="' . $roomsearchurl . '">' . $roomsearchstr . '</a></td>';
         } // !$userview
 
         if (!$userview) {
             if ($canadmin) {
-                echo '<td class="banner" style="vertical-align:baseline;padding:0"><a href="' . $adminurl . '">' . $adminstr . '</a></td>';
+                echo '<td class="banner" style="vertical-align:baseline;padding:0"><a ';
+                if($currentPage == 'admin.php') echo 'class="active"';
+                echo 'href="' . $adminurl . '">' . $adminstr . '</a></td>';
             }
-            echo '<td class="banner" style="vertical-align:baseline;padding:0"><a href="' . $reporturl . '">' . $reportstr . '</a></td>';
+            echo '<td class="banner" style="vertical-align:baseline;padding:0"><a ';
+                  if($currentPage == 'report.php') echo 'class="active"';
+            echo 'href="' . $reporturl . '">' . $reportstr . '</a></td>';
             echo '<td class="banner text-right" style="vertical-align:baseline;padding:0"><form method=get action="' . $searchurl . '">';
-            echo '<font size=2><a href="' . $searchadvurl . '">' . $searchstr . '</a></font>
+            echo '<font size=2><a ';
+            if($currentPage == 'search.php') echo 'class="active"';
+            echo 'href="' . $searchadvurl . '">' . $searchstr . '</a></font>
                   <input type=text   name="search_str" value="' . $search_str . '" size=10>
                   <input type=hidden name=day        value="' . $day . '"        >
                   <input type=hidden name=month      value="' . $month . '"        >
