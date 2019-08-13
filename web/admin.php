@@ -126,7 +126,7 @@ if (isset($area_name)) {
                         if (!empty($dbroom->description)) {
                             echo s($dbroom->description) . ", ";
                         }
-                        echo get_string('capacity', 'block_mrbs') . ": " . $dbroom->capacity . ")</small>";
+                        echo get_string('capacity', 'block_mrbs_rlp') . ": " . $dbroom->capacity . ")</small>";
 
                         echo '<span class"badge badge-primary badge-pill">
         <a href="' . $editroomurl . '">' . get_string('edit') . '</a>&nbsp;|&nbsp;
@@ -174,8 +174,8 @@ if (isset($area_name)) {
                     </div>   
 
                     <div class="form-group">
-                        <label for="capacity"><?php echo get_string('capacity', 'block_mrbs') ?></label>
-                        <input class="form-control" min="0" step="1" type="number" name="capacity" placeholder="<?= get_string('capacity', 'block_mrbs') ?>" maxlength="5" size="5" pattern="\d+">
+                        <label for="capacity"><?php echo get_string('capacity', 'block_mrbs_rlp') ?></label>
+                        <input class="form-control" min="0" step="1" type="number" name="capacity" placeholder="<?= get_string('capacity', 'block_mrbs_rlp') ?>" maxlength="5" size="5" pattern="\d+">
                     </div>    
 
                     <button type="submit" class="btn btn-default"><?= get_string('addroom', 'block_mrbs_rlp') ?></button></form>

@@ -36,7 +36,7 @@ $period = optional_param('period', 0, PARAM_INT);
 $all_day = optional_param('all_day', false, PARAM_BOOL);
 
 //If we dont know the right date then make it up
-if (($day == 0) or ($month == 0) or ($year == 0)) {
+if (($day == 0) or ( $month == 0) or ( $year == 0)) {
     $day = date("d");
     $month = date("m");
     $year = date("Y");
@@ -244,9 +244,8 @@ $PAGE->requires->js('/blocks/mrbs_rlp/web/updatefreerooms.js', true);
 
 print_header_mrbs_rlp($day, $month, $year, $area);
 ?>
-<script language="javascript">
-window.onload = updateFreeRooms();
-
+<script>
+    window.addEventListener("load", updateFreeRooms(), false);
 <?php
 echo 'var currentroom=' . $room_id . ';';
 if (has_capability("block/mrbs_rlp:forcebook", $context)) {
@@ -278,8 +277,8 @@ if (has_capability("block/mrbs_rlp:forcebook", $context)) {
                 alert("<?php echo get_string('you_have_not_entered', 'block_mrbs_rlp') . '\n' . get_string('valid_time_of_day', 'block_mrbs_rlp') ?>");
                 return false;
             }
-<?php
-} ?>
+    <?php }
+?>
 
         // check form element exist before trying to access it
         if (document.forms["main"].id)
@@ -321,11 +320,11 @@ if (has_capability("block/mrbs_rlp:forcebook", $context)) {
         form = document.forms["main"];
         if (allday.checked) { // If checking the box...
 <?php if (!$enable_periods) {
-        ?>
+    ?>
                 form.hour.value = "00";
                 form.minute.value = "00";
-<?php
-    } ?>
+    <?php }
+?>
             if (form.dur_units.value != "days") { // Don't change it if the user already did.
                 form.duration.value = "1";
                 form.dur_units.value = "days";
@@ -336,484 +335,517 @@ if (has_capability("block/mrbs_rlp:forcebook", $context)) {
 </script>
 
 <div id="page-content">
-  <div id="region-main-box">
-    <section id="region-main">
-    <div role="main">
-    
-      <h2><?php echo $id ? ($edit_type == "series" ? get_string('editseries', 'block_mrbs_rlp') : get_string('editentry', 'block_mrbs_rlp')) : get_string('addentry', 'block_mrbs_rlp'); ?></h2>
+    <div id="region-main-box">
+        <section id="region-main">
+            <div role="main">
 
-<form name="main" action="edit_entry_handler.php" method="get">
-    <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>">
-    <div id="fcontainer clearfix">
+                <h2><?php echo $id ? ($edit_type == "series" ? get_string('editseries', 'block_mrbs_rlp') : get_string('editentry', 'block_mrbs_rlp')) : get_string('addentry', 'block_mrbs_rlp'); ?></h2>
 
-        <?php if ($edit_type != 'series' && $rep_id) {
-        ?>
-            <b><?php
-                        $editseriesurl = new moodle_url('/blocks/mrbs_rlp/web/edit_entry.php', ['id' => $id, 'edit_type' => 'series']);
-        echo get_string('editingserieswarning', 'block_mrbs_rlp');
-        echo html_writer::link($editseriesurl, get_string('editseries', 'block_mrbs_rlp')); ?>
-                    </b>
-        <?php
-    } ?>
+                <form name="main" action="edit_entry_handler.php" method="get">
+                    <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>">
+                    <div id="fcontainer clearfix">
 
-      <div id="fitem_id_name" class="form-group row fitem">
-          <div class="col-md-3">
-              <label class="col-form-label d-inline" for="id_name"><?php echo get_string('namebooker', 'block_mrbs_rlp') ?></label>
-          </div>
-          <div class="col-md-9 form-inline felement" data-fieldtype="text">
-              <input type="text" class="form-control" name="name" id="id_name" value="<?php echo htmlspecialchars($name, ENT_NOQUOTES) ?>" size="20" autocomplete="name">
-              <div class="form-control-feedback invalid-feedback" id="id_error_name"></div>
-          </div>
-      </div>
-         
-      <div id="fitem_id_description" class="form-group row fitem">         
-          <div class="col-md-3">
-              <label class="col-form-label d-inline" for="id_description"><?php echo get_string('fulldescription', 'block_mrbs_rlp') ?></label>
-          </div>
-          <div class="col-md-9 form-inline felement" data-fieldtype="text">
-              <textarea class="form-control" name="description" id="id_description" rows="8" cols="40"><?php
-                    echo htmlspecialchars($description);
-                    ?></textarea>
-              <div class="form-control-feedback invalid-feedback" id="id_error_description"></div>
-          </div>          
-      </div>    
-      
-      <div id="fitem_id_date" class="form-group row fitem">         
-          <div class="col-md-3">
-              <label class="col-form-label d-inline" for="id_date"><?php echo get_string('date') ?></label>
-          </div>
-          <div class="col-md-9 form-inline felement" data-fieldtype="date_time_selector">
-            <?php genDateSelector("", $start_day, $start_month, $start_year, true) ?>
-                <script language="javascript">ChangeOptionDays(document.main, '');</script>
-          </div>
-      </div>  
-
-        <?php if (!$enable_periods) {
+                        <?php if ($edit_type != 'series' && $rep_id) {
+                            ?>
+                            <b><?php
+                                $editseriesurl = new moodle_url('/blocks/mrbs_rlp/web/edit_entry.php', ['id' => $id, 'edit_type' => 'series']);
+                                echo get_string('editingserieswarning', 'block_mrbs_rlp');
+                                echo html_writer::link($editseriesurl, get_string('editseries', 'block_mrbs_rlp'));
+                                ?>
+                            </b>
+                            <?php }
                         ?>
-      <div id="fitem_id_time" class="form-group row fitem">         
-          <div class="col-md-3">
-              <label class="col-form-label d-inline" for="id_time"><?php echo get_string('time') ?></label>
-          </div>
-          <div class="col-md-9 form-inline felement" data-fieldtype="text">
-            <input name="hour" class="form-control" size=2 value="<?php
-              if (!$twentyfourhour_format && ($start_hour > 12)) {
-                  echo($start_hour - 12);
-              } else {
-                  echo $start_hour;
-              } ?>" maxlength=2 onchange="updateFreeRooms()">:<input class="form-control" name="minute" size=2 value="<?php echo $start_min; ?>" maxlength=2 onchange="updateFreeRooms()">
-              <?php
-              if (!$twentyfourhour_format) {
-                  $checked = ($start_hour < 12) ? "checked" : "";
-                  echo "<input name=\"ampm\" type=\"radio\" value=\"am\" $checked>" . userdate(mktime(1, 0, 0, 1, 1, 2000), "%p");
-                  $checked = ($start_hour >= 12) ? "checked" : "";
-                  echo "<input name=\"ampm\" type=\"radio\" value=\"pm\" $checked>" . userdate(mktime(13, 0, 0, 1, 1, 2000), "%p");
-              } ?>
-          </div>
-      </div>         
-                         
 
-        <?php
-                    } else {
-                        ?>
-                        
-        <div id="fitem_id_period" class="form-group row fitem">         
-          <div class="col-md-3">
-              <label class="col-form-label d-inline" for="id_period"><?php echo get_string('period', 'block_mrbs_rlp') ?></label>
-          </div>
-          <div class="col-md-9 form-inline felement" data-fieldtype="text">
-              <select class="custom-select" name="period" id="id_period" onchange="updateFreeRooms()">
-                  <?php
-                  foreach ($periods as $p_num => $p_val) {
-                      echo "<option value=$p_num";
-                      if ((isset($period) && $period == $p_num) || $p_num == $start_min) {
-                          echo " selected";
-                      }
-                      echo ">$p_val";
-                  } ?>
-              </select>
-          </div>
-       </div>
-       
-      <div id="fitem_id_duration" class="form-group row fitem">         
-        <div class="col-md-3">
-            <label class="col-form-label d-inline" for="id_duration"><?php echo get_string('duration', 'block_mrbs_rlp'); ?></label>
-        </div>
-        <div class="col-md-9 form-inline felement" data-fieldtype="text">
-          <input class="form-control" style="line-height:24.4px;" name="duration" id="id_duration" size="7" value="<?php echo $duration; ?>" onchange="updateFreeRooms()">
-                <select class="custom-select" name="dur_units" onchange="updateFreeRooms()">
-                    <?php
-                    if ($enable_periods) {
-                        $units = ["periods", "days"];
-                    } else {
-                        $units = ["minutes", "hours", "days", "weeks"];
-                    }
+                        <div id="fitem_id_name" class="form-group row fitem">
+                            <div class="col-md-3">
+                                <label class="col-form-label d-inline" for="id_name"><?php echo get_string('namebooker', 'block_mrbs_rlp') ?></label>
+                            </div>
+                            <div class="col-md-9 form-inline felement" data-fieldtype="text">
+                                <input type="text" class="form-control" name="name" id="id_name" value="<?php echo htmlspecialchars($name, ENT_NOQUOTES) ?>" size="20" autocomplete="name">
+                                <div class="form-control-feedback invalid-feedback" id="id_error_name"></div>
+                            </div>
+                        </div>
 
-                        while (list(, $unit) = each($units)) {
-                            echo "<option value=$unit";
-                            if ($dur_units == get_string($unit, 'block_mrbs_rlp')) {
-                                echo " selected";
-                            }
-                            echo " onchange=\"updateFreeRooms()\">" . get_string($unit, 'block_mrbs_rlp');
-                        } ?>
-                </select>
-                <label>&nbsp;<input class="form-check-input" name="all_day" type="checkbox" value="yes" id="all_day" <?php if ($all_day) {
-                            echo 'checked ';
-                        } ?>onclick="OnAllDayClick()"> <?php
-                echo get_string('all_day', 'block_mrbs_rlp');
-                        if ($all_day) {
-                            echo '<body onload = "OnAllDayClick()"></body>';
-                        } ?>      
-                </label>
-                  
-        </div>
-      </div>      
-                       
-        <?php
-                    }
-        
-        // Determine the area id of the room in question first
-        $area_id = $DB->get_field('block_mrbs_rlp_room', 'area_id', ['id' => $room_id], MUST_EXIST);
-        // determine if there is more than one area
-        $areas = $DB->get_records('block_mrbs_rlp_area', null, 'area_name');
-        // if there is more than one area then give the option
-        // to choose areas.
+                        <div id="fitem_id_description" class="form-group row fitem">         
+                            <div class="col-md-3">
+                                <label class="col-form-label d-inline" for="id_description"><?php echo get_string('fulldescription', 'block_mrbs_rlp') ?></label>
+                            </div>
+                            <div class="col-md-9 form-inline felement" data-fieldtype="text">
+                                <textarea class="form-control" name="description" id="id_description" rows="8" cols="40"><?php
+                                    echo htmlspecialchars($description);
+                                    ?></textarea>
+                                <div class="form-control-feedback invalid-feedback" id="id_error_description"></div>
+                            </div>          
+                        </div>    
 
-        if (count($areas) > 1) {
-            ?>
-            <div id='fitem_id_areas' class='form-group row fitem'>
-              <div class='col-md-3'>
-                <label class='col-form-label d-inline' for='id_areas'><?php echo get_string('areas', 'block_mrbs_rlp'); ?></label>
-              </div>
-              <div class='col-md-9 form-inline felement' data-fieldtype="text">
-                <select class="custom-select" name="areas" onchange="updateFreeRooms()">
-                    <?php
-                    // get list of areas
-                    foreach ($areas as $dbarea) {
-                        $selected = "";
-                        if ($dbarea->id == $area_id) {
-                            $selected = "selected";
-                        }
-                        print "<option $selected value='". $dbarea->id . "'>" . $dbarea->area_name . "</option>";
-                    } ?>
-                </select>
-              </div>
-          </div>
-            
-            <?php
-        } // if $num_areas
-        ?>    
-        
-        
-        <div id='fitem_id_rooms' class='form-group row fitem'>
-        <div class='col-md-3'>
-          <label class='col-form-label d-inline' for='id_rooms'><?php echo get_string('rooms', 'block_mrbs_rlp'); ?></label>
-        </div>
-        <div class='col-md-9 form-inline felement' data-fieldtype="text">
-          <select class="custom-select" name="rooms[]" multiple="yes">
-            <?php
-            // select the rooms in the area determined above
-            //$sql = "select id, room_name from $tbl_room where area_id=$area_id order by room_name";
-            $rooms = $DB->get_records('block_mrbs_rlp_room', ['area_id' => $area_id], 'room_name');
-            
-            $i = 0;
-            foreach ($rooms as $dbroom) {
-                if (!allowed_to_book($USER, $dbroom)) {
-                    continue;
-                }
-                $selected = "";
-                if ($dbroom->id == $room_id) {
-                    $selected = "selected";
-                }
-                echo "<option $selected value=\"" . $dbroom->id . "\">" . s($dbroom->room_name) . " (" . s($dbroom->description) . " Capacity:$dbroom->capacity)";
-                // store room names for emails
-                $room_names[$i] = $dbroom->room_name;
-                $i++;
-            }
-            ?> 
-          </select>
-          <label><?php echo get_string('ctrl_click', 'block_mrbs_rlp') ?></label>
-        </div>
-      </div>    
-      
-      <div id='fitem_id_rooms' class='form-group row fitem'>
-        <div class='col-md-3'>
-          <label class='col-form-label d-inline' for='id_rooms'><?php echo get_string('dontshowoccupied', 'block_mrbs_rlp') ?></label>
-        </div>   
-        
-        <div class='col-md-9 form-inline felement' data-fieldtype="text">
-            <input name="nooccupied" id="nooccupied" type="checkbox" checked="checked" onclick="updateFreeRooms()" />
-        </div>
-      </div>  
-      
-      <div id='fitem_id_type' class='form-group row fitem'>
-        <div class='col-md-3'>
-          <label class='col-form-label d-inline' for='id_type'><?php echo get_string('type', 'block_mrbs_rlp') ?></label>
-        </div>   
-        
-        <div class='col-md-9 form-inline felement' data-fieldtype="text">
-            <select class='custom-select' id="id_type" name="type">
-                    <?php
-//if this is an imported booking, forcably mark it as edited so that changes are not overridden on next import
-                    if (($type == 'K') or ($type == 'L')) {
-                        echo '<option value="L" selected >' . $typel['L'] . '</option>\n';
-                    } else {
-                        $unconfirmed = false;
-                        $unconfirmedonly = false;
-                        if (has_capability('block/mrbs_rlp:editmrbs_unconfirmed', $context, null, false)) {
-                            $unconfirmed = true;
-                        }
-                        if (authGetUserLevel(getUserName()) < 2 && $unconfirmed) {
-                            if ($USER->email != $rooms[$room_id]->room_admin_email) {
-                                $type = 'U';
-                                $unconfirmedonly = true;
-                            }
-                        }
-                        if (!$unconfirmedonly) {
-                            for ($c = "A"; $c <= "J"; $c++) {
-                                if (!empty($typel[$c])) {
-                                    echo "<option value=$c" . ($type == $c ? " selected" : "") . ">$typel[$c]\n";
-                                }
-                            }
-                        }
-                        if ($unconfirmed) {
-                            echo '<option value="U" ' . ($type == 'U' ? 'selected="selected"' : '') . ' >' . $typel['U'] . '</option>\n';
-                        }
-                    }
-                    ?></select>
-        </div>
-      </div>         
-      
-                <?php
-                if (has_capability("block/mrbs_rlp:forcebook", $context)) {
-                    ?>
+                        <div id="fitem_id_date" class="form-group row fitem">         
+                            <div class="col-md-3">
+                                <label class="col-form-label d-inline" for="id_date"><?php echo get_string('date') ?></label>
+                            </div>
+                            <div class="col-md-9 form-inline felement" data-fieldtype="date_time_selector">
+<?php genDateSelector("", $start_day, $start_month, $start_year, true) ?>
+                                <script language="javascript">ChangeOptionDays(document.main, '');</script>
+                            </div>
+                        </div>  
 
-        <div id='fitem_id_forciblybook2' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_forciblybook2'><?php echo get_string('forciblybook2', 'block_mrbs_rlp') ?></label>
-          </div>   
-          
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">
-             <input id="mrbs_rlpforcebook" class="form-check-input" type="checkbox" name="forcebook" value="true"
-             <?php
-                if ($force) {
-                    echo ' checked="checked"';
-                }
-                    echo ' onclick="document.getElementById(\'nooccupied\').checked=!this.checked; updateFreeRooms();">'; ?>
-          </div>        
-        </div>
-        
-        <?php
-                }
-             
-         if ($edit_type == "series") {
-             ?>
-         
-        <div id='fitem_id_radiorepeat' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_radiorepeat'><?php echo get_string('rep_type', 'block_mrbs_rlp') ?></label>
-          </div>   
-          
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">    
-          <?php
-          for ($i = 0; $i < 7; $i++) {
-              echo '<div class="form-check form-check-inline">';
-              echo "<input class='form-check-input' id=\"radiorepeat" . $i . "\" name=\"rep_type\" type=\"radio\" value=\"" . $i . "\"";
+                        <?php if (!$enable_periods) {
+                            ?>
+                            <div id="fitem_id_time" class="form-group row fitem">         
+                                <div class="col-md-3">
+                                    <label class="col-form-label d-inline" for="id_time"><?php echo get_string('time') ?></label>
+                                </div>
+                                <div class="col-md-9 form-inline felement" data-fieldtype="text">
+                                    <input name="hour" class="form-control" size=2 value="<?php
+                                    if (!$twentyfourhour_format && ($start_hour > 12)) {
+                                        echo($start_hour - 12);
+                                    } else {
+                                        echo $start_hour;
+                                    }
+                                    ?>" maxlength=2 onchange="updateFreeRooms()">:<input class="form-control" name="minute" size=2 value="<?php echo $start_min; ?>" maxlength=2 onchange="updateFreeRooms()">
+                                           <?php
+                                           if (!$twentyfourhour_format) {
+                                               $checked = ($start_hour < 12) ? "checked" : "";
+                                               echo "<input name=\"ampm\" type=\"radio\" value=\"am\" $checked>" . userdate(mktime(1, 0, 0, 1, 1, 2000), "%p");
+                                               $checked = ($start_hour >= 12) ? "checked" : "";
+                                               echo "<input name=\"ampm\" type=\"radio\" value=\"pm\" $checked>" . userdate(mktime(13, 0, 0, 1, 1, 2000), "%p");
+                                           }
+                                           ?>
+                                </div>
+                            </div>         
 
-              if ($i == $rep_type) {
-                  echo " checked";
-              }
 
-              echo '><label class="form-check-label" for="radiorepeat' . $i . '">' . get_string('rep_type_' . $i, 'block_mrbs_rlp') . "</label>";
-              echo '</div>';
-          } ?>                  
-          </div>
-        </div>   
-        
-        
-        <div id='fitem_id_rep_end_date' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_rep_end_date'><?php echo get_string('rep_end_date', 'block_mrbs_rlp') ?></label>
-          </div>   
-          
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">   
-                  <?php genDateSelector("rep_end_", $rep_end_day, $rep_end_month, $rep_end_year) ?>
-          </div>        
-        </div>    
-        
-        <div id='fitem_id_rep_rep_day' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_rep_rep_day'><?php echo get_string('rep_rep_day', 'block_mrbs_rlp') ?>
-            <em><?php echo get_string('rep_for_weekly', 'block_mrbs_rlp') ?></em></label>
-          </div>   
-          
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">   
-               
-                    <?php
-// Display day name checkboxes according to language and preferred weekday start.
-                    for ($i = 0; $i < 7; $i++) {
-                        echo '<div class="form-check form-check-inline">';
-                        $wday = ($i + $weekstarts) % 7;
-                        echo "<input class='form-check-input' id=\"chkrepeatday" . $i . "\" name=\"rep_day[$wday]\" type=checkbox";
-                        if ($rep_day[$wday]) {
-                            echo " checked";
-                        }
-                        echo '><label for="chkrepeatday' . $i . '">' . day_name($wday) . "</label>\n";
-                        echo '</div>';
-                    } ?>
-          </div>        
-        </div> 
-
-            <?php
-         } else {
-             $key = "rep_type_" . (isset($rep_type) ? $rep_type : "0"); ?>  
-        
-        <div id='fitem_id_rep_type' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_rep_type'><?php echo get_string('rep_type', 'block_mrbs_rlp') ?>
-            <em><?php echo get_string('rep_for_weekly', 'block_mrbs_rlp') ?></em></label>
-          </div>           
-                 
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">  
-             <?php echo get_string($key, 'block_mrbs_rlp') ?>
-          </div>
-        </div>       
-         
-            <?php
-            if (isset($rep_type) && ($rep_type != 0)) {
-                $opt = "";
-                if ($rep_type == 2) {
-                    // Display day names according to language and preferred weekday start.
-                    for ($i = 0; $i < 7; $i++) {
-                        $wday = ($i + $weekstarts) % 7;
-                        if ($rep_opt[$wday]) {
-                            $opt .= day_name($wday) . " ";
-                        }
-                    }
-                }
-                if ($opt) {
-                    ?>
-        <div id='fitem_id_rep_rep_day' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_rep_rep_day'><?php echo get_string('rep_rep_day', 'block_mrbs_rlp') ?></label>
-          </div>           
-                 
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">  
-             <?php echo $opt ?>
-          </div>
-        </div>                      
-
-                    <?php
-                } ?>
-                 <div id='fitem_id_rep_end_date' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_rep_end_date'><?php echo get_string('rep_end_date', 'block_mrbs_rlp') ?></label>
-          </div>           
-                 
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">  
-             <?php echo $rep_end_date ?>
-          </div>
-        </div>         
-                <?php
-            }
-         }
-        /* we display the rep_num_weeks box only if:
-          - this is a new entry ($id is not set)
-          xor
-          - we are editing an existing repeating entry ($rep_type is set and
-          $rep_type != 0 and $edit_type == "series" )
-         */
-        if ((($id == 0)) xor (isset($rep_type) && ($rep_type != 0) && ("series" == $edit_type))) {
-            ?>
-         <div id='fitem_id_rep_num_weeks' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_rep_num_weeks'><?php echo get_string('rep_num_weeks', 'block_mrbs_rlp') ?>&nbsp;<em><?php echo get_string('rep_for_nweekly', 'block_mrbs_rlp') ?></em></label>
-          </div>           
-                 
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">  
-             <input type="text" class="form-control" name="rep_num_weeks" value="<?php echo $rep_num_weeks ?>">
-          </div>
-        </div>          
-        <?php
-        } ?>
-
-        <?php if ($id != 0) {
-            ?>
-
-         <div id='fitem_id_rep_num_weeks' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_rep_num_weeks'><?php echo get_string('roomchange', 'block_mrbs_rlp') ?></label>
-          </div>           
-                 
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">  
-             <input type="checkbox" class='form-check-input' checked="checked" name="roomchange" id="mrbs_rlproomchange" />
-          </div>
-        </div>  
-        
-         <div id='fitem_id_createdby' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='idcreatedby'><?php echo get_string('createdby', 'block_mrbs_rlp') ?></label>
-          </div>           
-                 
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">  
-             <?php echo $create_by_user->firstname . ' ' . $create_by_user->lastname ?>
-          </div>
-        </div>           
-   
-         <div id='fitem_id_last_change' class='form-group row fitem'>
-          <div class='col-md-3'>
-            <label class='col-form-label d-inline' for='id_last_change'><?php echo get_string('last_change', 'block_mrbs_rlp') ?></label>
-          </div>           
-                 
-          <div class='col-md-9 form-inline felement' data-fieldtype="text">  
-             <?php echo $last_change ?>
-          </div>
-        </div>                      
-                                              
-        <?php
-        } ?>
-        
-         <div id='fitem_id_last_change' class='form-group row fitem'>
-          <div class='col-md-3'>    
-          </div>           
-                 
-          <div class='col-md-9 felement' data-fieldtype="button">  
-             <button type="button" class="btn btn-primary" name="save_button" onclick="validate_and_submit()"><?php echo get_string('savechanges') ?></button>
-             
-            <?php
-                if ($id) { //always be able to delete entry and if part of a series then add option to delete entire series.
-                    $delurl = new moodle_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id, 'series' => 0, 'sesskey' => sesskey()]); ?>           
-                    <button type="button" class="btn btn-danger" onclick="if(confirm('<?= get_string('confirmdel', 'block_mrbs_rlp') ?>')){document.location='<?= $delurl ?>';}" /><?= get_string('deleteentry', 'block_mrbs_rlp') ?></button>
-                    <?php
-                    if ($rep_id) {
-                        $delurl = new moodle_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id, 'series' => 1, 'sesskey' => sesskey(),
-                            'day' => $day, 'month' => $month, 'year' => $year]); ?>    
-                        <button type="button" class="btn btn-warning" onclick="if(confirm('<?= get_string('confirmdel', 'block_mrbs_rlp') ?>')){document.location='<?= $delurl ?>';}" /><?= get_string('deleteseries', 'block_mrbs_rlp') ?></button>    
-                    <?php
-                    }
-                }
-                ?>             
-          </div>
-        </div>       
-
-</div>
-
-    <input type=hidden name="returl" value="<?php echo $HTTP_REFERER ?>">
-    <input type=hidden name="room_id" value="<?php echo $room_id ?>">
-    <input type=hidden name="create_by" value="<?php echo $create_by ?>">
-    <input type=hidden name="rep_id"    value="<?php echo $rep_id ?>">
-    <input type=hidden name="edit_type" value="<?php echo $edit_type ?>">
     <?php
-    if (isset($id)) {
-        echo "<input type='hidden' name='id' value='" . $id . "'>\n";
-    }
+} else {
     ?>
 
-</form>
+                            <div id="fitem_id_period" class="form-group row fitem">         
+                                <div class="col-md-3">
+                                    <label class="col-form-label d-inline" for="id_period"><?php echo get_string('period', 'block_mrbs_rlp') ?></label>
+                                </div>
+                                <div class="col-md-9 form-inline felement" data-fieldtype="text">
+                                    <select class="custom-select" name="period" id="id_period" onchange="updateFreeRooms()">
+                                        <?php
+                                        foreach ($periods as $p_num => $p_val) {
+                                            echo "<option value=$p_num";
+                                            if ((isset($period) && $period == $p_num) || $p_num == $start_min) {
+                                                echo " selected";
+                                            }
+                                            echo ">$p_val";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
 
-    </section>
+                            <div id="fitem_id_duration" class="form-group row fitem">         
+                                <div class="col-md-3">
+                                    <label class="col-form-label d-inline" for="id_duration"><?php echo get_string('duration', 'block_mrbs_rlp'); ?></label>
+                                </div>
+                                <div class="col-md-9 form-inline felement" data-fieldtype="text">
+                                    <input class="form-control" style="line-height:24.4px;" name="duration" id="id_duration" size="7" value="<?php echo $duration; ?>" onchange="updateFreeRooms()">
+                                    <select class="custom-select" name="dur_units" onchange="updateFreeRooms()">
+                                        <?php
+                                        if ($enable_periods) {
+                                            $units = ["periods", "days"];
+                                        } else {
+                                            $units = ["minutes", "hours", "days", "weeks"];
+                                        }
+
+                                        while (list(, $unit) = each($units)) {
+                                            echo "<option value=$unit";
+                                            if ($dur_units == get_string($unit, 'block_mrbs_rlp')) {
+                                                echo " selected";
+                                            }
+                                            echo " onchange=\"updateFreeRooms()\">" . get_string($unit, 'block_mrbs_rlp');
+                                        }
+                                        ?>
+                                    </select>
+                                    <label>&nbsp;<input class="form-check-input" name="all_day" type="checkbox" value="yes" id="all_day" <?php
+                                                        if ($all_day) {
+                                                            echo 'checked ';
+                                                        }
+                                                        ?>onclick="OnAllDayClick()"> <?php
+                                                        echo get_string('all_day', 'block_mrbs_rlp');
+                                                        if ($all_day) {
+                                                            echo '<body onload = "OnAllDayClick()"></body>';
+                                                        }
+                                                        ?>      
+                                    </label>
+
+                                </div>
+                            </div>      
+
+                            <?php
+                        }
+
+                        // Determine the area id of the room in question first
+                        $area_id = $DB->get_field('block_mrbs_rlp_room', 'area_id', ['id' => $room_id], MUST_EXIST);
+                        // determine if there is more than one area
+                        $areas = $DB->get_records('block_mrbs_rlp_area', null, 'area_name');
+                        // if there is more than one area then give the option
+                        // to choose areas.
+
+                        if (count($areas) > 1) {
+                            ?>
+                            <div id='fitem_id_areas' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_areas'><?php echo get_string('areas', 'block_mrbs_rlp'); ?></label>
+                                </div>
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">
+                                    <select class="custom-select" name="areas" onchange="updateFreeRooms()">
+                                        <?php
+                                        // get list of areas
+                                        foreach ($areas as $dbarea) {
+                                            $selected = "";
+                                            if ($dbarea->id == $area_id) {
+                                                $selected = "selected";
+                                            }
+                                            print "<option $selected value='" . $dbarea->id . "'>" . $dbarea->area_name . "</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+
+    <?php
+} // if $num_areas
+?>    
+
+
+                        <div id='fitem_id_rooms' class='form-group row fitem'>
+                            <div class='col-md-3'>
+                                <label class='col-form-label d-inline' for='id_rooms'><?php echo get_string('rooms', 'block_mrbs_rlp'); ?></label>
+                            </div>
+                            <div class='col-md-9 form-inline felement' data-fieldtype="text">
+                                <select class="custom-select" name="rooms[]" multiple="yes">
+                                    <?php
+                                    // select the rooms in the area determined above
+                                    //$sql = "select id, room_name from $tbl_room where area_id=$area_id order by room_name";
+                                    $rooms = $DB->get_records('block_mrbs_rlp_room', ['area_id' => $area_id], 'room_name');
+
+                                    $i = 0;
+                                    foreach ($rooms as $dbroom) {
+                                        if (!allowed_to_book($USER, $dbroom)) {
+                                            continue;
+                                        }
+                                        $selected = "";
+                                        if ($dbroom->id == $room_id) {
+                                            $selected = "selected";
+                                        }
+                                        echo "<option $selected value=\"" . $dbroom->id . "\">" . s($dbroom->room_name) . " (" . s($dbroom->description) . " Capacity:$dbroom->capacity)";
+                                        // store room names for emails
+                                        $room_names[$i] = $dbroom->room_name;
+                                        $i++;
+                                    }
+                                    ?> 
+                                </select>
+                                <label><?php echo get_string('ctrl_click', 'block_mrbs_rlp') ?></label>
+                            </div>
+                        </div>    
+
+                        <div id='fitem_id_rooms' class='form-group row fitem'>
+                            <div class='col-md-3'>
+                                <label class='col-form-label d-inline' for='id_rooms'><?php echo get_string('dontshowoccupied', 'block_mrbs_rlp') ?></label>
+                            </div>   
+
+                            <div class='col-md-9 form-inline felement' data-fieldtype="text">
+                                <input name="nooccupied" id="nooccupied" type="checkbox" checked="checked" onclick="updateFreeRooms()" />
+                            </div>
+                        </div>  
+
+                        <div id='fitem_id_type' class='form-group row fitem'>
+                            <div class='col-md-3'>
+                                <label class='col-form-label d-inline' for='id_type'><?php echo get_string('type', 'block_mrbs_rlp') ?></label>
+                            </div>   
+
+                            <div class='col-md-9 form-inline felement' data-fieldtype="text">
+                                <select class='custom-select' id="id_type" name="type">
+                                    <?php
+//if this is an imported booking, forcably mark it as edited so that changes are not overridden on next import
+                                    if (($type == 'K') or ( $type == 'L')) {
+                                        echo '<option value="L" selected >' . $typel['L'] . '</option>\n';
+                                    } else {
+                                        $unconfirmed = false;
+                                        $unconfirmedonly = false;
+                                        if (has_capability('block/mrbs_rlp:editmrbs_unconfirmed', $context, null, false)) {
+                                            $unconfirmed = true;
+                                        }
+                                        if (authGetUserLevel(getUserName()) < 2 && $unconfirmed) {
+                                            if ($USER->email != $rooms[$room_id]->room_admin_email) {
+                                                $type = 'U';
+                                                $unconfirmedonly = true;
+                                            }
+                                        }
+                                        if (!$unconfirmedonly) {
+                                            for ($c = "A"; $c <= "J"; $c++) {
+                                                if (!empty($typel[$c])) {
+                                                    echo "<option value=$c" . ($type == $c ? " selected" : "") . ">$typel[$c]\n";
+                                                }
+                                            }
+                                        }
+                                        if ($unconfirmed) {
+                                            echo '<option value="U" ' . ($type == 'U' ? 'selected="selected"' : '') . ' >' . $typel['U'] . '</option>\n';
+                                        }
+                                    }
+                                    ?></select>
+                            </div>
+                        </div>         
+
+<?php
+if (has_capability("block/mrbs_rlp:forcebook", $context)) {
+    ?>
+
+                            <div id='fitem_id_forciblybook2' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_forciblybook2'><?php echo get_string('forciblybook2', 'block_mrbs_rlp') ?></label>
+                                </div>   
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">
+                                    <input id="mrbs_rlpforcebook" class="form-check-input" type="checkbox" name="forcebook" value="true"
+                            <?php
+                            if ($force) {
+                                echo ' checked="checked"';
+                            }
+                            echo ' onclick="document.getElementById(\'nooccupied\').checked=!this.checked; updateFreeRooms();">';
+                            ?>
+                                </div>        
+                            </div>
+
+    <?php
+}
+
+if ($edit_type == "series") {
+    ?>
+
+                            <div id='fitem_id_radiorepeat' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_radiorepeat'><?php echo get_string('rep_type', 'block_mrbs_rlp') ?></label>
+                                </div>   
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">    
+                                    <?php
+                                    for ($i = 0; $i < 7; $i++) {
+                                        echo '<div class="form-check form-check-inline">';
+                                        echo "<input class='form-check-input' id=\"radiorepeat" . $i . "\" name=\"rep_type\" type=\"radio\" value=\"" . $i . "\"";
+
+                                        if ($i == $rep_type) {
+                                            echo " checked";
+                                        }
+
+                                        echo '><label class="form-check-label" for="radiorepeat' . $i . '">' . get_string('rep_type_' . $i, 'block_mrbs_rlp') . "</label>";
+                                        echo '</div>';
+                                    }
+                                    ?>                  
+                                </div>
+                            </div>   
+
+
+                            <div id='fitem_id_rep_end_date' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_rep_end_date'><?php echo get_string('rep_end_date', 'block_mrbs_rlp') ?></label>
+                                </div>   
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">   
+                                    <?php genDateSelector("rep_end_", $rep_end_day, $rep_end_month, $rep_end_year) ?>
+                                </div>        
+                            </div>    
+
+                            <div id='fitem_id_rep_rep_day' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_rep_rep_day'><?php echo get_string('rep_rep_day', 'block_mrbs_rlp') ?>
+                                        <em><?php echo get_string('rep_for_weekly', 'block_mrbs_rlp') ?></em></label>
+                                </div>   
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">   
+
+                                    <?php
+// Display day name checkboxes according to language and preferred weekday start.
+                                    for ($i = 0; $i < 7; $i++) {
+                                        echo '<div class="form-check form-check-inline">';
+                                        $wday = ($i + $weekstarts) % 7;
+                                        echo "<input class='form-check-input' id=\"chkrepeatday" . $i . "\" name=\"rep_day[$wday]\" type=checkbox";
+                                        if ($rep_day[$wday]) {
+                                            echo " checked";
+                                        }
+                                        echo '><label for="chkrepeatday' . $i . '">' . day_name($wday) . "</label>\n";
+                                        echo '</div>';
+                                    }
+                                    ?>
+                                </div>        
+                            </div> 
+
+    <?php
+} else {
+    $key = "rep_type_" . (isset($rep_type) ? $rep_type : "0");
+    ?>  
+
+                            <div id='fitem_id_rep_type' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_rep_type'><?php echo get_string('rep_type', 'block_mrbs_rlp') ?>
+                                        <em><?php echo get_string('rep_for_weekly', 'block_mrbs_rlp') ?></em></label>
+                                </div>           
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">  
+                            <?php echo get_string($key, 'block_mrbs_rlp') ?>
+                                </div>
+                            </div>       
+
+                            <?php
+                            if (isset($rep_type) && ($rep_type != 0)) {
+                                $opt = "";
+                                if ($rep_type == 2) {
+                                    // Display day names according to language and preferred weekday start.
+                                    for ($i = 0; $i < 7; $i++) {
+                                        $wday = ($i + $weekstarts) % 7;
+                                        if ($rep_opt[$wday]) {
+                                            $opt .= day_name($wday) . " ";
+                                        }
+                                    }
+                                }
+                                if ($opt) {
+                                    ?>
+                                    <div id='fitem_id_rep_rep_day' class='form-group row fitem'>
+                                        <div class='col-md-3'>
+                                            <label class='col-form-label d-inline' for='id_rep_rep_day'><?php echo get_string('rep_rep_day', 'block_mrbs_rlp') ?></label>
+                                        </div>           
+
+                                        <div class='col-md-9 form-inline felement' data-fieldtype="text">  
+            <?php echo $opt ?>
+                                        </div>
+                                    </div>                      
+
+                                    <?php }
+                                ?>
+                                <div id='fitem_id_rep_end_date' class='form-group row fitem'>
+                                    <div class='col-md-3'>
+                                        <label class='col-form-label d-inline' for='id_rep_end_date'><?php echo get_string('rep_end_date', 'block_mrbs_rlp') ?></label>
+                                    </div>           
+
+                                    <div class='col-md-9 form-inline felement' data-fieldtype="text">  
+                                <?php echo $rep_end_date ?>
+                                    </div>
+                                </div>         
+        <?php
+    }
+}
+/* we display the rep_num_weeks box only if:
+  - this is a new entry ($id is not set)
+  xor
+  - we are editing an existing repeating entry ($rep_type is set and
+  $rep_type != 0 and $edit_type == "series" )
+ */
+if ((($id == 0)) xor ( isset($rep_type) && ($rep_type != 0) && ("series" == $edit_type))) {
+    ?>
+                            <div id='fitem_id_rep_num_weeks' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_rep_num_weeks'><?php echo get_string('rep_num_weeks', 'block_mrbs_rlp') ?>&nbsp;<em><?php echo get_string('rep_for_nweekly', 'block_mrbs_rlp') ?></em></label>
+                                </div>           
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">  
+                                    <input type="text" class="form-control" name="rep_num_weeks" value="<?php echo $rep_num_weeks ?>">
+                                </div>
+                            </div>          
+    <?php }
+?>
+
+<?php if ($id != 0) {
+    ?>
+
+                            <div id='fitem_id_rep_num_weeks' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_rep_num_weeks'><?php echo get_string('roomchange', 'block_mrbs_rlp') ?></label>
+                                </div>           
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">  
+                                    <input type="checkbox" class='form-check-input' checked="checked" name="roomchange" id="mrbs_rlproomchange" />
+                                </div>
+                            </div>  
+
+                            <div id='fitem_id_createdby' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='idcreatedby'><?php echo get_string('createdby', 'block_mrbs_rlp') ?></label>
+                                </div>           
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">  
+                            <?php echo $create_by_user->firstname . ' ' . $create_by_user->lastname ?>
+                                </div>
+                            </div>           
+
+                            <div id='fitem_id_last_change' class='form-group row fitem'>
+                                <div class='col-md-3'>
+                                    <label class='col-form-label d-inline' for='id_last_change'><?php echo get_string('last_change', 'block_mrbs_rlp') ?></label>
+                                </div>           
+
+                                <div class='col-md-9 form-inline felement' data-fieldtype="text">  
+                                    <?php echo $last_change ?>
+                                </div>
+                            </div>                      
+
+                                    <?php }
+                                ?>
+
+                        <div id='fitem_id_last_change' class='form-group row fitem'>
+                            <div class='col-md-3'>    
+                            </div>           
+
+                            <div class='col-md-9 felement' data-fieldtype="button">  
+                                <button type="button" class="btn btn-primary" name="save_button" onclick="validate_and_submit()"><?php echo get_string('savechanges') ?></button>
+
+                                <?php
+                                if ($id) { //always be able to delete entry and if part of a series then add option to delete entire series.
+                                    $delurl = new moodle_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id, 'series' => 0, 'sesskey' => sesskey()]);
+                                    ?>           
+                                    <button type="button" class="btn btn-danger" onclick="if (confirm('<?= get_string('confirmdel', 'block_mrbs_rlp') ?>')) {
+                                    document.location = '<?= $delurl ?>';
+                                }" /><?= get_string('deleteentry', 'block_mrbs_rlp') ?></button>
+    <?php
+    if ($rep_id) {
+        $delurl = new moodle_url('/blocks/mrbs_rlp/web/del_entry.php', ['id' => $id, 'series' => 1, 'sesskey' => sesskey(),
+            'day' => $day, 'month' => $month, 'year' => $year]);
+        ?>    
+                                        <button type="button" class="btn btn-warning" onclick="if (confirm('<?= get_string('confirmdel', 'block_mrbs_rlp') ?>')) {
+                                            document.location = '<?= $delurl ?>';
+                                        }" /><?= get_string('deleteseries', 'block_mrbs_rlp') ?></button>    
+                            <?php
+                        }
+                    }
+                    ?>             
+                            </div>
+                        </div>       
+
+                    </div>
+
+                    <input type=hidden name="returl" value="<?php echo $HTTP_REFERER ?>">
+                    <input type=hidden name="room_id" value="<?php echo $room_id ?>">
+                    <input type=hidden name="create_by" value="<?php echo $create_by ?>">
+                    <input type=hidden name="rep_id"    value="<?php echo $rep_id ?>">
+                    <input type=hidden name="edit_type" value="<?php echo $edit_type ?>">
+<?php
+if (isset($id)) {
+    echo "<input type='hidden' name='id' value='" . $id . "'>\n";
+}
+?>
+
+                </form>
+
+        </section>
     </div>
-  </div>
-    
-    
+</div>
+
+
+<script>
+    window.addEventListener("load", updateFreeRooms(), false);
+</script>
 
 <?php include "trailer.php" ?>
+
+
+
+
+
+
+
+
+
+
+
